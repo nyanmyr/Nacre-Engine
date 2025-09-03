@@ -61,7 +61,7 @@ else()
 
 endif()
 
-target_sources("${CMAKE_PROJECT_NAME}" PRIVATE ${MY_SOURCES} "src/main.cpp")
+target_sources("${CMAKE_PROJECT_NAME}" PRIVATE ${MY_SOURCES} "src/Main.cpp"  "src/Engine/Headers/EntityManager.h" "src/Engine/Headers/Components.h" "src/Engine/EntityManager.cpp" "src/Engine/Headers/ComponentArray.h"   "src/Engine/Headers/Systems.h" "src/Engine/Systems.cpp")
 
 
 if(MSVC) # If using the VS compiler...

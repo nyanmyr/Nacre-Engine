@@ -1,4 +1,17 @@
 (iteration, major update version, minor update version) iteration type
 
-(0.0.0) prototype
-- 
+(0.0.1) prototype - Sept. 3, 2025
+- added skeleton of ECS architecture
+	- entity manager
+	- components
+	- component array
+- added delta time (used type aliasing)
+- added system loops
+- completed ECS skeleton
+- made EntityManager into a singleton
+- seperated header files
+	- components
+	- entity manager
+	- component array
+	- systems
+- moved engine files to engine folder

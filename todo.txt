@@ -1,2 +1,2 @@
 To-do:
--
+- make an entity class
