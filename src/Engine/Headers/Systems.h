@@ -3,16 +3,15 @@
 
 #include "ComponentArray.h"
 #include "Components.h"
+#include "ComponentManager.h"
 
 using DeltaTime = float;
 
-void MovementSystem(ComponentArray<Position>& positions,
-	ComponentArray<Velocity>& velocities,
+void InputSystem(ComponentManager& cm,
+	Entity player);
+void MovementSystem(ComponentManager& cm,
 	DeltaTime dt);
 void RenderSystem(RenderWindow& window,
-	ComponentArray<Position>& positions,
-	ComponentArray<ShapeComponent>& shapes);
-void InputSystem(ComponentArray<Velocity>& velocities,
-	Entity player);
+	ComponentManager& cm);
 
 #endif

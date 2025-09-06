@@ -15,3 +15,12 @@
 	- component array
 	- systems
 - moved engine files to engine folder
+
+(0.0.2) prototype
+- added component manager
+- moved components to component manager
+- completed ECS architecture
+- made component manager singleton
+- deleted unused resources (template artifacts)
+- rearranged systems
+- updated README.md

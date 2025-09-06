@@ -21,7 +21,6 @@ private:
 
 	EntityManager(const EntityManager&) = delete;
 	EntityManager& operator=(const EntityManager&) = delete;
-
 public:
 	static EntityManager& getInstance();
 

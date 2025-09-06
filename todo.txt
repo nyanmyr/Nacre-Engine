@@ -1,2 +1,6 @@
 To-do:
 - make an entity class
+- import only what's used
+
+Done:
+- make component manager a singleton

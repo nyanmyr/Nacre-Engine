@@ -4,8 +4,14 @@
 #include "EntityManager.h"
 #include <unordered_map>
 
+struct IComponentArray
+{
+	virtual ~IComponentArray() = default;
+	virtual void entityDestroyed(Entity entity) = 0;
+};
+
 template<typename T>
-class ComponentArray
+class ComponentArray : public IComponentArray
 {
 private:
 	unordered_map<Entity, T> components;
@@ -34,6 +40,14 @@ public:
 	unordered_map<Entity, T>& getAll()
 	{
 		return components;
+	}
+
+	void entityDestroyed(Entity entity) override
+	{
+		if (components.find(entity) != components.end())
+		{
+			components.erase(entity);
+		}
 	}
 };
 

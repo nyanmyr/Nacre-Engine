@@ -1,9 +1,9 @@
 #include <iostream>
-#include <SFML/Graphics.hpp>
 #include "Engine/Headers/Components.h"
 #include "Engine/Headers/EntityManager.h"
 #include "Engine/Headers/ComponentArray.h"
 #include "Engine/Headers/Systems.h"
+#include "Engine/Headers/ComponentManager.h"
 
 using namespace std;
 using namespace sf;
@@ -11,42 +11,85 @@ using namespace sf;
 const int SCREEN_WIDTH = 800;
 const int SCREEN_HEIGHT = 600;
 
-EntityManager& entityManager = EntityManager::getInstance();
+EntityManager& em = EntityManager::getInstance();
+ComponentManager& cm = ComponentManager::getInstance();
+
+//class Player
+//{
+//public:
+//	Player(
+//		ComponentArray<Position>& positions,
+//		ComponentArray<Velocity>& velocities,
+//		ComponentArray<ShapeComponent>& shapes,
+//		struct Position position,
+//		struct Velocity velocity,
+//		struct ShapeComponent shape
+//	)
+//	{
+//		playerID = entityManager.createEntity();
+//		positions.insertData
+//		(
+//			playerID,
+//			position
+//		);
+//		velocities.insertData
+//		(
+//			playerID,
+//			velocity
+//		);
+//		shapes.insertData
+//		(
+//			playerID,
+//			shape
+//		);
+//		shapes.getData(playerID).rect.setFillColor(Color::Green);
+//	}
+//
+//	Entity getEntityID()
+//	{
+//		return playerID;
+//	}
+//
+//private:
+//	Entity playerID;
+//	Position position;
+//	Velocity velocity;
+//	ShapeComponent shape;
+//};
 
 int main()
 {
 	RenderWindow window(VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), "SFML Basics");
 	window.setFramerateLimit(60);
 
-	ComponentArray<Position> positions;
-	ComponentArray<Velocity> velocities;
-	ComponentArray<ShapeComponent> shapes;
+	cm.registerComponent<Position>();
+	cm.registerComponent<Velocity>();
+	cm.registerComponent<ShapeComponent>();
 
-	Entity player = entityManager.createEntity();
-	positions.insertData
+	Entity player = em.createEntity();
+	cm.addComponent
 	(
-		player, 
-		{
+		player,
+		Position{
 			0.0f,
 			0.0f
 		}
 	);
-	velocities.insertData
+	cm.addComponent
 	(
 		player,
-		{
+		Velocity{
 			0.0f,
 			0.0f
 		}
 	);
-	shapes.insertData
+	cm.addComponent
 	(
 		player,
-		{
+		ShapeComponent{
 			RectangleShape(Vector2f(50.0f,50.0f))
 		}
 	);
-	shapes.getData(player).rect.setFillColor(Color::Green);
 
 	Clock clock;
 
@@ -65,14 +108,14 @@ int main()
 		}
 
 		// input systems
-		InputSystem(velocities, player);
+		InputSystem(cm, player);
 
 		// update systems
-		MovementSystem(positions, velocities, dt);
+		MovementSystem(cm, dt);
 
 		window.clear();
 		// render systems
-		RenderSystem(window, positions, shapes);
+		RenderSystem(window, cm);
 		window.display();
 	}
 

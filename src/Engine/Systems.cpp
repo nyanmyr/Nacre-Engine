@@ -2,41 +2,10 @@
 
 const float PLAYER_MOVE_SPEED = 200.0f;
 
-void MovementSystem(ComponentArray<Position>& positions,
-	ComponentArray<Velocity>& velocities,
-	DeltaTime dt)
-{
-	for (auto& [entity, vel] : velocities.getAll())
-	{
-		if (positions.hasData(entity))
-		{
-			Position& pos = positions.getData(entity);
-			pos.x += (vel.dx * dt);
-			pos.y += (vel.dy * dt);
-		}
-	}
-}
-
-void RenderSystem(RenderWindow& window,
-	ComponentArray<Position>& positions,
-	ComponentArray<ShapeComponent>& shapes)
-{
-
-	for (auto& [entity, shape] : shapes.getAll())
-	{
-		if (positions.hasData(entity))
-		{
-			Position pos = positions.getData(entity);
-			shape.rect.setPosition(pos.x, pos.y);
-			window.draw(shape.rect);
-		}
-	}
-}
-
-void InputSystem(ComponentArray<Velocity>& velocities,
+void InputSystem(ComponentManager& cm,
 	Entity player)
 {
-	Velocity& vel = velocities.getData(player);
+	Velocity& vel = cm.getComponent<Velocity>(player);
 	vel.dx = 0.0f;
 	vel.dy = 0.0f;
 
@@ -55,5 +24,38 @@ void InputSystem(ComponentArray<Velocity>& velocities,
 	if (Keyboard::isKeyPressed(Keyboard::S))
 	{
 		vel.dy = PLAYER_MOVE_SPEED;
+	}
+}
+
+void MovementSystem(ComponentManager& cm,
+	DeltaTime dt)
+{
+	auto& velocities = cm.getComponentArray<Velocity>()->getAll();
+
+	for (auto& [entity, vel] : velocities)
+	{
+		if (cm.getComponentArray<Position>()->hasData(entity))
+		{
+			Position& pos = cm.getComponent<Position>(entity);
+			pos.x += (vel.dx * dt);
+			pos.y += (vel.dy * dt);
+		}
+	}
+}
+
+void RenderSystem(RenderWindow& window,
+	ComponentManager& cm)
+{
+
+	auto& shapes = cm.getComponentArray<ShapeComponent>()->getAll();
+
+	for (auto& [entity, shape] : shapes)
+	{
+		if (cm.getComponentArray<ShapeComponent>()->hasData(entity))
+		{
+			Position pos = cm.getComponent<Position>(entity);
+			shape.rect.setPosition(pos.x, pos.y);
+			window.draw(shape.rect);
+		}
 	}
 }
