@@ -52,7 +52,7 @@ public:
 	{
 		for (auto const& pair : componentsArray)
 		{
-			pair.second->entityDestroyed(entity);
+			pair.second->destroyComponents(entity);
 		}
 	}
 

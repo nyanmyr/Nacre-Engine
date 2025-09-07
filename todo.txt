@@ -1,5 +1,5 @@
 To-do:
-- make an entity class
+- make collision component work
 - import only what's used
 
 Done:

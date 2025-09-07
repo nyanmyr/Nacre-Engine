@@ -22,7 +22,7 @@ set(CMAKE_INTERPROCEDURAL_OPTIMIZATION TRUE) #link time optimization
 set(BUILD_SHARED_LIBS OFF CACHE BOOL "Build SFML as static libraries" FORCE)
 
 #for imgui-sfml
-set(IMGUI_DIR "${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/imgui-docking/imgui")
+#set(IMGUI_DIR "${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/imgui-docking/imgui")
 
 if(MSVC) 
 add_compile_options(/arch:AVX2) #make sure SIMD optimizations take place
@@ -61,8 +61,26 @@ else()
 
 endif()
 
-target_sources("${CMAKE_PROJECT_NAME}" PRIVATE ${MY_SOURCES} "src/Main.cpp"  "src/Engine/Headers/EntityManager.h" "src/Engine/Headers/Components.h" "src/Engine/EntityManager.cpp" "src/Engine/Headers/ComponentArray.h"   "src/Engine/Headers/Systems.h" "src/Engine/Systems.cpp")
+set(ENGINE_SOURCES
+    src/Engine/EntityManager.cpp
+    src/Engine/Systems.cpp
+    src/Engine/Initialize.cpp
+)
 
+set(ENGINE_HEADERS
+    src/Engine/Headers/EntityManager.hpp
+    src/Engine/Headers/Components.hpp
+    src/Engine/Headers/ComponentArray.hpp
+    src/Engine/Headers/Systems.hpp
+    src/Engine/Headers/Initialize.hpp
+)
+
+target_sources("${CMAKE_PROJECT_NAME}" PRIVATE
+    ${MY_SOURCES}
+    src/Main.cpp
+    ${ENGINE_SOURCES}
+    ${ENGINE_HEADERS}
+)
 
 if(MSVC) # If using the VS compiler...
 

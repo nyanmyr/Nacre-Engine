@@ -1,13 +1,14 @@
 #ifndef COMPONENT_ARRAY_H
 #define COMPONENT_ARRAY_H
 
-#include "EntityManager.h"
+#include "EntityManager.hpp"
+
 #include <unordered_map>
 
 struct IComponentArray
 {
 	virtual ~IComponentArray() = default;
-	virtual void entityDestroyed(Entity entity) = 0;
+	virtual void destroyComponents(Entity entity) = 0;
 };
 
 template<typename T>
@@ -17,6 +18,7 @@ private:
 	unordered_map<Entity, T> components;
 
 public:
+
 	void insertData(Entity entity, T component)
 	{
 		components[entity] = component;
@@ -42,7 +44,7 @@ public:
 		return components;
 	}
 
-	void entityDestroyed(Entity entity) override
+	void destroyComponents(Entity entity) override
 	{
 		if (components.find(entity) != components.end())
 		{

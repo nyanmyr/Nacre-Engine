@@ -8,7 +8,7 @@
 using namespace std;
 
 using Entity = uint32_t;
-const Entity MAX_ENTITIES = 1000;
+const Entity MAX_ENTITIES = 10;
 
 class EntityManager
 {

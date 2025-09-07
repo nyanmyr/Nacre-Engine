@@ -1,9 +1,10 @@
 #include <iostream>
-#include "Engine/Headers/Components.h"
-#include "Engine/Headers/EntityManager.h"
-#include "Engine/Headers/ComponentArray.h"
-#include "Engine/Headers/Systems.h"
-#include "Engine/Headers/ComponentManager.h"
+#include "Engine/Headers/Components.hpp"
+#include "Engine/Headers/EntityManager.hpp"
+#include "Engine/Headers/ComponentArray.hpp"
+#include "Engine/Headers/Systems.hpp"
+#include "Engine/Headers/ComponentManager.hpp"
+#include "Engine/Headers/Initialize.hpp"
 
 using namespace std;
 using namespace sf;
@@ -14,84 +15,19 @@ const int SCREEN_HEIGHT = 600;
 EntityManager& em = EntityManager::getInstance();
 ComponentManager& cm = ComponentManager::getInstance();
 
-//class Player
-//{
-//public:
-//	Player(
-//		ComponentArray<Position>& positions,
-//		ComponentArray<Velocity>& velocities,
-//		ComponentArray<ShapeComponent>& shapes,
-//		struct Position position,
-//		struct Velocity velocity,
-//		struct ShapeComponent shape
-//	)
-//	{
-//		playerID = entityManager.createEntity();
-//		positions.insertData
-//		(
-//			playerID,
-//			position
-//		);
-//		velocities.insertData
-//		(
-//			playerID,
-//			velocity
-//		);
-//		shapes.insertData
-//		(
-//			playerID,
-//			shape
-//		);
-//		shapes.getData(playerID).rect.setFillColor(Color::Green);
-//	}
-//
-//	Entity getEntityID()
-//	{
-//		return playerID;
-//	}
-//
-//private:
-//	Entity playerID;
-//	Position position;
-//	Velocity velocity;
-//	ShapeComponent shape;
-//};
-
 int main()
 {
-	RenderWindow window(VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), "SFML Basics");
+	RenderWindow window(VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), "Nacre Engine", Style::Close);
 	window.setFramerateLimit(60);
 
-	cm.registerComponent<Position>();
-	cm.registerComponent<Velocity>();
-	cm.registerComponent<ShapeComponent>();
-
-	Entity player = em.createEntity();
-	cm.addComponent
-	(
-		player,
-		Position{
-			0.0f,
-			0.0f
-		}
-	);
-	cm.addComponent
-	(
-		player,
-		Velocity{
-			0.0f,
-			0.0f
-		}
-	);
-	cm.addComponent
-	(
-		player,
-		ShapeComponent{
-			RectangleShape(Vector2f(50.0f,50.0f))
-		}
-	);
+	RegisterComponents();
+	Initialize();
 
 	Clock clock;
+	Clock FPSClock;
+
+	int frameCount = 0;
+	int fps = 0;
 
 	while (window.isOpen())
 	{
@@ -107,15 +43,28 @@ int main()
 
 		}
 
-		// input systems
-		InputSystem(cm, player);
+		frameCount++;
+		if (FPSClock.getElapsedTime().asSeconds() >= 1)
+		{
+			fps = frameCount;
+			cout << "FPS: " << fps << "\n";
+			frameCount = 0;
+			FPSClock.restart();
+		}
+
+		SpawnerSystem(dt);
 
 		// update systems
-		MovementSystem(cm, dt);
+		MovementSystem(dt);
+
+		// input systems
+		PlayerInputSystem(GetPlayerID());
+
+		HandleLifetimeSystem(dt);
 
 		window.clear();
 		// render systems
-		RenderSystem(window, cm);
+		RenderSystem(window);
 		window.display();
 	}
 

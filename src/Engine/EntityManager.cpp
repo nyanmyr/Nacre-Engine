@@ -1,12 +1,13 @@
-#include "Headers/EntityManager.h"
+#include "Headers/EntityManager.hpp"
 
 EntityManager::EntityManager()
 {
-	alive.resize(MAX_ENTITIES, false);
-	for (Entity entity = 0; entity < MAX_ENTITIES; ++entity)
-	{
-		availableEntities.push(entity);
-	}
+    alive.resize(MAX_ENTITIES, false);
+
+    for (Entity entity = 0; entity < MAX_ENTITIES; ++entity)
+    {
+        availableEntities.push(entity);
+    }
 }
 
 EntityManager& EntityManager::getInstance()
@@ -33,7 +34,7 @@ void EntityManager::destroyEntity(Entity entity)
 {
 	if (!alive[entity])
 	{
-		return;
+		throw runtime_error("entity is already dead.");
 	}
 
 	alive[entity] = false;

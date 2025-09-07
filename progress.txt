@@ -16,7 +16,7 @@
 	- systems
 - moved engine files to engine folder
 
-(0.0.2) prototype
+(0.0.2) prototype - Sept. 6, 2025
 - added component manager
 - moved components to component manager
 - completed ECS architecture
@@ -24,3 +24,15 @@
 - deleted unused resources (template artifacts)
 - rearranged systems
 - updated README.md
+
+(0.0.3) prototype - Sept. 6 - 7, 2025
+- changed header files to .hpp
+- ditched player class
+- added fps counter
+- added lifetime component and system handler
+- renamed window and changed style to close
+- added spawning system
+- adjusted render system to use zindex component
+- added cm and em to Systems.cpp
+- renamed components
+- moved initialization out of Main.cpp
