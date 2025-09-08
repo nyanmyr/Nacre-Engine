@@ -5,6 +5,7 @@
 #include "Engine/Headers/Systems.hpp"
 #include "Engine/Headers/ComponentManager.hpp"
 #include "Engine/Headers/Initialize.hpp"
+#include "Engine/Headers/GameStateManager.hpp"
 
 using namespace std;
 using namespace sf;
@@ -12,13 +13,15 @@ using namespace sf;
 const int SCREEN_WIDTH = 800;
 const int SCREEN_HEIGHT = 600;
 
+const int MAX_FPS = 60;
+
 EntityManager& em = EntityManager::getInstance();
 ComponentManager& cm = ComponentManager::getInstance();
 
 int main()
 {
 	RenderWindow window(VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), "Nacre Engine", Style::Close);
-	window.setFramerateLimit(60);
+	window.setFramerateLimit(MAX_FPS);
 
 	RegisterComponents();
 	Initialize();
@@ -52,13 +55,15 @@ int main()
 			FPSClock.restart();
 		}
 
+		// update systems
 		SpawnerSystem(dt);
 
-		// update systems
 		MovementSystem(dt);
 
+		KeyboardInputSystem(window);
+
 		// input systems
-		PlayerInputSystem(GetPlayerID());
+		//PlayerInputSystem(GetPlayerID());
 
 		HandleLifetimeSystem(dt);
 

@@ -1,6 +1,5 @@
 To-do:
-- make collision component work
-- import only what's used
+- refactor everything (ECS has become unwieldy and coupling has worsened)
 
 Done:
 - make component manager a singleton

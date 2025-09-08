@@ -28,7 +28,7 @@ if(MSVC)
 add_compile_options(/arch:AVX2) #make sure SIMD optimizations take place
 endif()
 
-project(mygame)
+project(NacreEngine)
 
 
 
@@ -65,6 +65,7 @@ set(ENGINE_SOURCES
     src/Engine/EntityManager.cpp
     src/Engine/Systems.cpp
     src/Engine/Initialize.cpp
+    src/Engine/GameStateManager.cpp
 )
 
 set(ENGINE_HEADERS
@@ -73,6 +74,7 @@ set(ENGINE_HEADERS
     src/Engine/Headers/ComponentArray.hpp
     src/Engine/Headers/Systems.hpp
     src/Engine/Headers/Initialize.hpp
+    src/Engine/Headers/GameStateManager.hpp
 )
 
 target_sources("${CMAKE_PROJECT_NAME}" PRIVATE
