@@ -1,5 +1,9 @@
 To-do:
 - refactor everything (ECS has become unwieldy and coupling has worsened)
+- make a Game.cpp file and run SFML there
+- remove initialize
+- make Nacre.cpp (put global variables there)
+- rework Systems.hpp and .cpp
 
 Done:
 - make component manager a singleton
