@@ -36,3 +36,14 @@
 - added cm and em to Systems.cpp
 - renamed components
 - moved initialization out of Main.cpp
+
+(0.0.4) prototype - Sept. 9, 2025
+- jumbled everything back to Main.cpp (despaghettification in process)
+- removed game state
+- set systems order to
+	- input
+	- update
+	- render
+- refactored everything
+- turned todo.txt into todo.md
+- added notes

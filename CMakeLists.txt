@@ -63,18 +63,11 @@ endif()
 
 set(ENGINE_SOURCES
     src/Engine/EntityManager.cpp
-    src/Engine/Systems.cpp
-    src/Engine/Initialize.cpp
-    src/Engine/GameStateManager.cpp
 )
 
 set(ENGINE_HEADERS
     src/Engine/Headers/EntityManager.hpp
-    src/Engine/Headers/Components.hpp
     src/Engine/Headers/ComponentArray.hpp
-    src/Engine/Headers/Systems.hpp
-    src/Engine/Headers/Initialize.hpp
-    src/Engine/Headers/GameStateManager.hpp
 )
 
 target_sources("${CMAKE_PROJECT_NAME}" PRIVATE
