@@ -1,5 +1,5 @@
-#ifndef COMPONENTS_MANAGER_H
-#define COMPONENTS_MANAGER_H
+#ifndef COMPONENTS_MANAGER_HPP
+#define COMPONENTS_MANAGER_HPP
 
 #include <unordered_map>
 #include <memory>

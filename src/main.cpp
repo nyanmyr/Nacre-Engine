@@ -297,6 +297,7 @@ void RenderSystem(RenderWindow& window)
 	//cout << "line indexes:" << lineOrder.size() << "\n";
 	//cout << "indexes:" << order.size() << "\n";
 
+	// render lines
 	if (!lineOrder.empty())
 	{
 		map<int, map<Entity, vector<CLineSegment>>>::iterator lineIter;
@@ -325,6 +326,7 @@ void RenderSystem(RenderWindow& window)
 		}
 	}
 
+	// render shapes
 	if (!shapeOrder.empty())
 	{
 		map<int, map<Entity, vector<CShape>>>::iterator iter;

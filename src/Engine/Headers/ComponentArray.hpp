@@ -1,5 +1,5 @@
-#ifndef COMPONENT_ARRAY_H
-#define COMPONENT_ARRAY_H
+#ifndef COMPONENT_ARRAY_HPP
+#define COMPONENT_ARRAY_HPP
 
 #include "EntityManager.hpp"
 

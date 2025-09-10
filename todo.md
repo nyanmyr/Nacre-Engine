@@ -1,5 +1,5 @@
 # To-do:
-- rework rendering system
+- investigate why component array is dependent of component manager
 - make a Game.cpp file and run SFML there
 - break up engine into headers again (but with a centralized core).
 
@@ -23,6 +23,27 @@
 
 ### Phase 5: Lighting
 - candle 2d
+
+# Engine Roles
+### Main (Launcher)
+	- launches game
+### Game
+	- game related global variables
+	- systems flow
+	- system implementations
+	- component
+### Engine
+	- entity manager
+	- component manager
+	- component array
+
+## Specified Roles
+### Nacre
+	- central hub for engine
+	- stores all dependencies and inclusions
+### Game
+	- imports Nacre to use the engine
+
 
 # Done:
 - make component manager a singleton

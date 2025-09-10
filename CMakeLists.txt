@@ -62,20 +62,24 @@ else()
 endif()
 
 set(ENGINE_SOURCES
+	src/Engine/Nacre.cpp
     src/Engine/EntityManager.cpp
 )
 
 set(ENGINE_HEADERS
+	src/Engine/Headers/Nacre.hpp
     src/Engine/Headers/EntityManager.hpp
     src/Engine/Headers/ComponentArray.hpp
+	src/Engine/Headers/Components.hpp
 )
 
 target_sources("${CMAKE_PROJECT_NAME}" PRIVATE
     ${MY_SOURCES}
     src/Main.cpp
+	src/Game.cpp
     ${ENGINE_SOURCES}
     ${ENGINE_HEADERS}
-)
+ )
 
 if(MSVC) # If using the VS compiler...
 

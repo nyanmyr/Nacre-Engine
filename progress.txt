@@ -47,3 +47,9 @@
 - refactored everything
 - turned todo.txt into todo.md
 - added notes
+
+(0.0.5) prototype - Sept. 10, 2025
+- added Game.cpp (non-functional)
+- added Nacre (engine) files
+- changed _H definitions to _HPP
+- made engine roles
