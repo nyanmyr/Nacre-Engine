@@ -1,13 +1,10 @@
 #ifndef ENTITY_MANAGER_HPP
 #define ENTITY_MANAGER_HPP
 
-#include <iostream>
-#include <vector>
-#include <queue>
+#include "Dependencies.hpp"
 
 using namespace std;
 
-using Entity = uint32_t;
 const Entity MAX_ENTITIES = 10;
 
 class EntityManager
