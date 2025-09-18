@@ -1,11 +1,7 @@
 #ifndef COMPONENTS_MANAGER_HPP
 #define COMPONENTS_MANAGER_HPP
 
-#include <unordered_map>
-#include <memory>
-#include <stdexcept>
-
-using namespace std;
+#include "ComponentArray.hpp"
 
 class ComponentManager
 {

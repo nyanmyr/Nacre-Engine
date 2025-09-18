@@ -1,15 +1,8 @@
 #ifndef COMPONENT_ARRAY_HPP
 #define COMPONENT_ARRAY_HPP
 
-#include "EntityManager.hpp"
-
-#include <unordered_map>
-
-struct IComponentArray
-{
-	virtual ~IComponentArray() = default;
-	virtual void destroyComponents(Entity entity) = 0;
-};
+#include "Dependencies.hpp"
+#include "IComponentArray.hpp"
 
 template<typename T>
 class ComponentArray : public IComponentArray

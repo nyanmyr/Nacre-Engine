@@ -53,3 +53,9 @@
 - added Nacre (engine) files
 - changed _H definitions to _HPP
 - made engine roles
+
+
+(0.0.6) minor update - Sept. 18, 2025
+- moved game into Game.cpp (Main.cpp is now a launcher)
+- removed Nacre.cpp
+- moved IComponentArray to seperate header file
