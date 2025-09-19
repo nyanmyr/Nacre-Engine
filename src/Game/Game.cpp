@@ -11,21 +11,26 @@ void Game() {
 	RenderWindow window(VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), "Nacre Engine", sf::Style::Close);
 	window.setFramerateLimit(MAX_FPS);
 
-	// register components
+	// components registration
 	cm.registerComponent<CPosition>();
-	cm.registerComponent<CLineSegment>();
-	cm.registerComponent<CVelocity>();
 	cm.registerComponent<CShape>();
-	cm.registerComponent<CLifeTime>();
-	cm.registerComponent<CZIndex>();
 
-	// entity initialization
+	// entity instantiation
+	Entity player = em.createEntity();
+	cm.addComponent(
+		player,
+		CPosition{
+		(SCREEN_WIDTH / 2) - 50, (SCREEN_HEIGHT / 2) - 50
+		}
+	);
+	cm.addComponent(
+		player,
+		CShape{
+		RectangleShape(Vector2f(100.f, 100.f))
+		}
+	);
 
 	Clock clock;
-	Clock FPSClock;
-
-	int frameCount = 0;
-	int fps = 0;
 
 	while (window.isOpen())
 	{
@@ -41,26 +46,7 @@ void Game() {
 
 		}
 
-		frameCount++;
-		if (FPSClock.getElapsedTime().asSeconds() >= 1)
-		{
-			fps = frameCount;
-			cout << "FPS: " << fps << "\n";
-			frameCount = 0;
-			FPSClock.restart();
-		}
-
-		// input systems
-		//PlayerInputSystem(GetPlayerID());
-
-		// update systems
-		//SpawnerSystem(dt);
-
-		MovementSystem(dt);
-
-		KeyboardInputSystem(window);
-
-		HandleLifetimeSystem(dt);
+		// systems
 
 		window.clear();
 		// render systems

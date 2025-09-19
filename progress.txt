@@ -66,3 +66,10 @@
 - added Systems.hpp
 - added game manager
 - finalized engine architecture
+
+(0.0.9) update - Sept. 19, 2025
+- created experimentation branch
+- removed fps timer
+- stripped main branch to core engine (bare minimum components and system)
+	- components kept: position, shape
+	- system kept: render system
