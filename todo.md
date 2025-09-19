@@ -1,4 +1,5 @@
 # To-do:
+- update diagram
 - investigate why component array is dependent of component manager
 - make a Game.cpp file and run SFML there
 - break up engine into headers again (but with a centralized core).

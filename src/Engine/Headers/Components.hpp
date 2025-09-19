@@ -1,7 +1,7 @@
 #ifndef COMPONENTS_HPP
 #define COMPONENTS_HPP
 
-#include "Nacre.hpp"
+#include "Dependencies.hpp"
 
 struct CPosition
 {

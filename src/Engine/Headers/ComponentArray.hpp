@@ -3,8 +3,6 @@
 
 #include "EntityManager.hpp"
 
-#include <unordered_map>
-
 struct IComponentArray
 {
 	virtual ~IComponentArray() = default;

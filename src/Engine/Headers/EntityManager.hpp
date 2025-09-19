@@ -3,10 +3,6 @@
 
 #include "Dependencies.hpp"
 
-using namespace std;
-
-const Entity MAX_ENTITIES = 10;
-
 class EntityManager
 {
 private:

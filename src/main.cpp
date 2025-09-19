@@ -2,52 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include <cstdlib>
 
-#include "Engine/Headers/ComponentArray.hpp"
-#include "Engine/Headers/EntityManager.hpp"
-#include "Engine/Headers/ComponentManager.hpp"
-
-using namespace std;
-using namespace sf;
-
-using DeltaTime = float;
-
-//  components
-#pragma region Components
-struct CPosition
-{
-	float x, y;
-};
-
-struct CLineSegment
-{
-	vector<Vector2f> points;
-};
-
-struct CVelocity
-{
-	float dx, dy;
-};
-
-struct CShape
-{
-	RectangleShape rect;
-};
-
-struct CCollision
-{
-	bool canCollide;
-};
-
-struct CLifeTime
-{
-	float lifeTime, deathTime;
-};
-
-struct CZIndex
-{
-	int index;
-};
-#pragma endregion
+#include "Engine/Headers/Nacre.hpp"
 
 #pragma region Systems Declarations
 
@@ -75,7 +30,7 @@ ComponentManager& cm = ComponentManager::getInstance();
 
 int main()
 {
-	RenderWindow window(VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), "Nacre Engine", Style::Close);
+	RenderWindow window(VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), "Nacre Engine", sf::Style::Close);
 	window.setFramerateLimit(MAX_FPS);
 
 	// register components

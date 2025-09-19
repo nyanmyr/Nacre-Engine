@@ -53,3 +53,10 @@
 - added Nacre (engine) files
 - changed _H definitions to _HPP
 - made engine roles
+
+(0.0.6) prototype - Sept. 11, 2025
+- added dependencies.hpp
+
+(0.0.7) prototype - Sept. 11, 2025
+- moved main dependencies to dependencies.hpp
+- removed unused Nacre.cpp

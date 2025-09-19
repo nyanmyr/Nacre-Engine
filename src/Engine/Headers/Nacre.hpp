@@ -4,10 +4,6 @@
 #include "EntityManager.hpp"
 #include "ComponentManager.hpp"
 #include "ComponentArray.hpp"
-
-using sf::Vector2f;
-using sf::RectangleShape;
-
-using DeltaTime = float;
+#include "Components.hpp"
 
 #endif

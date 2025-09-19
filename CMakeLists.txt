@@ -62,7 +62,6 @@ else()
 endif()
 
 set(ENGINE_SOURCES
-	src/Engine/Nacre.cpp
     src/Engine/EntityManager.cpp
 )
 
