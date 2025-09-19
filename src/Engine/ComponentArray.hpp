@@ -1,7 +1,5 @@
 #ifndef COMPONENT_ARRAY_HPP
-#define COMPONENT_ARRAY_HPP
-
-#include "EntityManager.hpp"
+#define COMPONENT_ARRAY_HP
 
 struct IComponentArray
 {

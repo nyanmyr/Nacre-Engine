@@ -54,9 +54,15 @@
 - changed _H definitions to _HPP
 - made engine roles
 
-(0.0.6) prototype - Sept. 11, 2025
+(0.0.6) prototype - Sept. 18, 2025
 - added dependencies.hpp
 
-(0.0.7) prototype - Sept. 11, 2025
+(0.0.7) prototype - Sept. 18, 2025
 - moved main dependencies to dependencies.hpp
 - removed unused Nacre.cpp
+
+(0.0.8) update - Sept. 19, 2025
+- made the engine header only
+- added Systems.hpp
+- added game manager
+- finalized engine architecture

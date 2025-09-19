@@ -1,7 +1,6 @@
 #ifndef COMPONENTS_MANAGER_HPP
 #define COMPONENTS_MANAGER_HPP
 
-#include "Dependencies.hpp"
 #include "ComponentArray.hpp"
 
 class ComponentManager

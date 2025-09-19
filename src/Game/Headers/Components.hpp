@@ -1,8 +1,6 @@
 #ifndef COMPONENTS_HPP
 #define COMPONENTS_HPP
 
-#include "Dependencies.hpp"
-
 struct CPosition
 {
 	float x, y;

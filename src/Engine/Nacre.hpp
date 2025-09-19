@@ -3,7 +3,5 @@
 
 #include "EntityManager.hpp"
 #include "ComponentManager.hpp"
-#include "ComponentArray.hpp"
-#include "Components.hpp"
 
 #endif
