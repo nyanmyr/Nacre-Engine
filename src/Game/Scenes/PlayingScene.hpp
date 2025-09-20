@@ -1,0 +1,59 @@
+#ifndef PLAYING_SCENE_HPP
+#define PLAYING_SCENE_HPP
+
+void PlayingScene(RenderWindow& window) {
+
+	// entity instantiation
+	Entity player = em.createEntity();
+	cm.addComponent(
+		player,
+		CPosition{
+		((float)window.getSize().x / 2) - 50, ((float)window.getSize().y / 2) - 50
+		}
+	);
+	cm.addComponent(
+		player,
+		CShape{
+		RectangleShape(Vector2f(100.f, 100.f))
+		}
+	);
+	cm.getComponent<CShape>(player).rect.setFillColor(Color::Red);
+
+	Clock clock;
+
+	while (window.isOpen())
+	{
+		DeltaTime dt = clock.restart().asSeconds();
+
+		Event event;
+		while (window.pollEvent(event))
+		{
+			if (event.type == Event::Closed)
+			{
+				window.close();
+			}
+
+			if (event.type == Event::KeyReleased)
+			{
+				if (event.key.code == Keyboard::Space)
+				{
+					// on exit
+					cm.entityDestroyed(player);
+					em.destroyEntity(player);
+
+					playScene(window, MENU);
+					window.close();
+				}
+			}
+		}
+
+		// systems
+
+		window.clear();
+		// render systems
+		RenderSystem(window);
+		window.display();
+	}
+}
+
+#endif

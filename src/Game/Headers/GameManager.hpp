@@ -5,4 +5,6 @@
 #include "Components.hpp"
 #include "Systems.hpp"
 
+#include "Scenes.hpp"
+
 #endif

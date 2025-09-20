@@ -65,10 +65,16 @@ set(GAME_SOURCES
     src/Game/Game.cpp
 )
 
+set(GAME_SCENES
+	src/Game/Scenes/MenuScene.hpp
+	src/Game/Scenes/PlayingScene.hpp
+)
+
 set(GAME_HEADERS
 	src/Game/Headers/Components.hpp
     src/Game/Headers/Game.hpp
 	src/Game/Headers/GameManager.hpp
+	src/Game/Headers/SceneManager.hpp
 	src/Game/Headers/Systems.hpp
 )
 
@@ -83,9 +89,10 @@ set(ENGINE_HEADERS
 target_sources("${CMAKE_PROJECT_NAME}" PRIVATE
     ${MY_SOURCES}
     src/Main.cpp
-    ${ENGINE_SOURCES}
-    ${ENGINE_HEADERS}
+    ${GAME_SOURCES}
+	${GAME_SCENES}
     ${GAME_HEADERS}
+    ${ENGINE_HEADERS}
  )
 
 if(MSVC) # If using the VS compiler...
