@@ -15,43 +15,5 @@ void Game() {
 	cm.registerComponent<CPosition>();
 	cm.registerComponent<CShape>();
 
-	// entity instantiation
-	Entity player = em.createEntity();
-	cm.addComponent(
-		player,
-		CPosition{
-		(SCREEN_WIDTH / 2) - 50, (SCREEN_HEIGHT / 2) - 50
-		}
-	);
-	cm.addComponent(
-		player,
-		CShape{
-		RectangleShape(Vector2f(100.f, 100.f))
-		}
-	);
-
-	Clock clock;
-
-	while (window.isOpen())
-	{
-		DeltaTime dt = clock.restart().asSeconds();
-
-		Event event;
-		while (window.pollEvent(event))
-		{
-			if (event.type == Event::Closed)
-			{
-				window.close();
-			}
-
-		}
-
-		// systems
-
-		window.clear();
-		// render systems
-		RenderSystem(window);
-		window.display();
-	}
-
+	playScene(window, Scene::MENU);
 }
