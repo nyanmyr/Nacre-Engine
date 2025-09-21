@@ -6,6 +6,7 @@
 #include <queue>
 #include <unordered_map>
 #include <memory>
+#include <string>
 
 #include <SFML/Graphics.hpp>
 
@@ -18,17 +19,10 @@ using std::make_shared;
 using std::static_pointer_cast;
 using std::cout;
 using std::map;
+using std::string;
 
-using sf::Vector2f;
-using sf::RectangleShape;
-using sf::RenderWindow;
-using sf::VideoMode;
-using sf::Clock;
-using sf::Event;
-using sf::Keyboard;
-using sf::VertexArray;
-using sf::LinesStrip;
-using sf::Color;
+using namespace sf;
+// using is too tedious
 
 using Entity = uint32_t;
 

@@ -35,12 +35,22 @@ public:
 	template<typename T>
 	void removeComponent(Entity entity)
 	{
+		if (!getComponentArray<T>()->hasData(entity))
+		{
+			throw new runtime_error("Entity does not have this component.");
+		}
+
 		getComponentArray<T>()->removeData(entity);
 	}
 
 	template<typename T>
 	T& getComponent(Entity entity)
 	{
+		if (!getComponentArray<T>()->hasData(entity))
+		{
+			throw new runtime_error("Entity does not have this component.");
+		}
+
 		return getComponentArray<T>()->getData(entity);
 	}
 

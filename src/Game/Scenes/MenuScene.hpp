@@ -4,17 +4,23 @@
 void MenuScene(RenderWindow& window) {
 
 	// entity instantiation
-	Entity player = em.createEntity();
+	Entity playButton = em.createEntity();
 	cm.addComponent(
-		player,
+		playButton,
 		CPosition{
-		((float)window.getSize().x / 2) - 50, ((float)window.getSize().y / 2) - 50
+		((float)window.getSize().x / 2) - 50, ((float)window.getSize().y / 2) - 25
 		}
 	);
 	cm.addComponent(
-		player,
+		playButton,
 		CShape{
-		RectangleShape(Vector2f(100.f, 100.f))
+		RectangleShape(Vector2f(100.f, 50.f))
+		}
+	);
+	cm.addComponent(
+		playButton,
+		CButton{
+		MouseEvent::START_GAME
 		}
 	);
 
@@ -32,18 +38,50 @@ void MenuScene(RenderWindow& window) {
 				window.close();
 			}
 
-			if (event.type == Event::KeyReleased)
+			if (event.type == Event::MouseButtonPressed)
 			{
-				if (event.key.code == Keyboard::Space)
+				MouseEvent mouseEvent = MouseEvent::NOTHING;
+
+				if (event.mouseButton.button == Mouse::Left)
 				{
+					mouseEvent = MouseClickSystem(
+						Vector2f(event.mouseButton.x, event.mouseButton.y)
+					);
+				}
+				else
+				{
+					break;
+				}
+
+				switch (mouseEvent)
+				{
+				case NOTHING:
+				default:
+					break;
+				case START_GAME:
 					// on exit
-					cm.entityDestroyed(player);
-					em.destroyEntity(player);
+					cm.entityDestroyed(playButton);
+					em.destroyEntity(playButton);
 
 					playScene(window, PLAYING);
 					window.close();
+					// cout << "test" << "\n";
+					break;
 				}
 			}
+
+			//if (event.type == Event::KeyReleased)
+			//{
+			//	if (event.key.code == Keyboard::Space)
+			//	{
+			//		// on exit
+			//		cm.entityDestroyed(player);
+			//		em.destroyEntity(player);
+
+			//		playScene(window, PLAYING);
+			//		window.close();
+			//	}
+			//}
 		}
 
 		// systems

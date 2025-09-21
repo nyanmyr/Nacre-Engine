@@ -3,3 +3,12 @@
 (0.0.1) initial commit - Sept. 20, 2025
 - created rayfire branch
 - created scene manager (candidate for moving to core engine)
+
+(0.0.2) big update - Sept. 21, 2025
+- added click system
+- added play button
+- added rayfighter and enemy pngs to resources
+- added sprite component
+- added mouse aim
+- imported movement and player input systems
+- added runtime_error handling for entities missing components (candidate for moving to core engine)
