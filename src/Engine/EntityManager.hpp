@@ -45,14 +45,19 @@ public:
 
 	void destroyEntity(Entity entity)
 	{
-		if (!alive[entity])
-		{
-			throw runtime_error("entity is already dead.");
-		}
+		try {
+			if (!alive[entity])
+			{
+				throw runtime_error("entity is already dead.");
+			}
 
-		alive[entity] = false;
-		availableEntities.push(entity);
-		livingCount--;
+			alive[entity] = false;
+			availableEntities.push(entity);
+			livingCount--;
+		}
+		catch (...) {
+			cout << "entity is already dead" << "\n";
+		}
 	}
 
 	bool isAlive(Entity entity) const

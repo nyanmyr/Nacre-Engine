@@ -3,3 +3,6 @@
 (0.0.1) initial commit - Sept. 20, 2025
 - created rayfire branch
 - created scene manager (candidate for moving to core engine)
+
+(0.1.0) returning commit - Feb. 7, 2026
+- imported the fix from another repo (Rayfire) to the destroyEntity function in the Entity Manager

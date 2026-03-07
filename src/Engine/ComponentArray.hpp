@@ -1,5 +1,5 @@
 #ifndef COMPONENT_ARRAY_HPP
-#define COMPONENT_ARRAY_HP
+#define COMPONENT_ARRAY_HPP
 
 struct IComponentArray
 {
