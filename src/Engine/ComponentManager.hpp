@@ -1,7 +1,17 @@
 #ifndef COMPONENTS_MANAGER_HPP
 #define COMPONENTS_MANAGER_HPP
 
+#include <unordered_map>
+#include <memory>
+
 #include "ComponentArray.hpp"
+
+using std::unordered_map;
+using std::shared_ptr;
+using std::make_shared;
+using std::static_pointer_cast;
+
+using Entity = uint32_t;
 
 class ComponentManager
 {
@@ -35,12 +45,22 @@ public:
 	template<typename T>
 	void removeComponent(Entity entity)
 	{
+		if (!getComponentArray<T>()->hasData(entity))
+		{
+			throw new runtime_error("Entity does not have this component.");
+		}
+
 		getComponentArray<T>()->removeData(entity);
 	}
 
 	template<typename T>
 	T& getComponent(Entity entity)
 	{
+		if (!getComponentArray<T>()->hasData(entity))
+		{
+			throw new runtime_error("Entity does not have this component.");
+		}
+
 		return getComponentArray<T>()->getData(entity);
 	}
 

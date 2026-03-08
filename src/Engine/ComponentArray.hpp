@@ -1,6 +1,13 @@
 #ifndef COMPONENT_ARRAY_HPP
 #define COMPONENT_ARRAY_HPP
 
+#include <cstdint>
+#include <unordered_map>
+
+using std::unordered_map;
+
+using Entity = uint32_t;
+
 struct IComponentArray
 {
 	virtual ~IComponentArray() = default;

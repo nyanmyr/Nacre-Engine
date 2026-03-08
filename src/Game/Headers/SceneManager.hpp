@@ -1,7 +1,11 @@
 #ifndef SCENE_MANAGER_HPP
 #define SCENE_MANAGER_HPP
 
+#include <SFML/Graphics.hpp>
+
 #include "Scenes.hpp"
+
+using sf::RenderWindow;
 
 enum Scene {
 	MENU,

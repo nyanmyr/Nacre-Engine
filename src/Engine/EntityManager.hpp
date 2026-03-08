@@ -1,7 +1,18 @@
 #ifndef ENTITY_MANAGER_HPP
 #define ENTITY_MANAGER_HPP
 
-#include "Dependencies.hpp"
+#include <cstdint>
+#include <stdexcept>
+#include <vector>
+#include <queue>
+
+using std::runtime_error;
+using std::queue;
+using std::vector;
+
+using Entity = uint32_t;
+
+const Entity MAX_ENTITIES = 10;
 
 class EntityManager
 {
@@ -46,17 +57,12 @@ public:
 	void destroyEntity(Entity entity)
 	{
 		try {
-			if (!alive[entity])
-			{
-				throw runtime_error("entity is already dead.");
-			}
-
 			alive[entity] = false;
 			availableEntities.push(entity);
 			livingCount--;
 		}
 		catch (...) {
-			cout << "entity is already dead" << "\n";
+			throw runtime_error("entity is already dead.");
 		}
 	}
 

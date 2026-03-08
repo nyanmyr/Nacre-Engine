@@ -1,6 +1,10 @@
 #ifndef PLAYING_SCENE_HPP
 #define PLAYING_SCENE_HPP
 
+#include <SFML/Graphics.hpp>
+
+using sf::Color;
+
 void PlayingScene(RenderWindow& window) {
 
 	// entity instantiation
