@@ -6,8 +6,3 @@
 
 (0.1.0) returning commit - Feb. 7, 2026
 - imported the fix from another repo (Rayfire) to the destroyEntity function in the Entity Manager
-
-(0.1.1) minor update - Feb. 8, 206
-- Removed dependencies.hpp to make the headers self-contained
-- switched the include Scenes.hpp to SceneManager.hpp
-- removed Dependencies.hpp and Nacre.hpp

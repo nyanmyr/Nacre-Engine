@@ -1,10 +1,6 @@
 #ifndef SYSTEMS_HPP
 #define SYSTEMS_HPP
 
-#include <SFML/Graphics.hpp>
-
-using sf::RenderWindow;
-
 void RenderSystem(RenderWindow& window);
 
 EntityManager& em = EntityManager::getInstance();
