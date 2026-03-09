@@ -1,6 +1,12 @@
 #ifndef COMPONENT_ARRAY_HPP
 #define COMPONENT_ARRAY_HPP
 
+#include <unordered_map>
+
+#include "Core.hpp"
+
+using std::unordered_map;
+
 struct IComponentArray
 {
 	virtual ~IComponentArray() = default;

@@ -1,6 +1,14 @@
 #ifndef MENU_SCENE_HPP
 #define MENU_SCENE_HPP
 
+#include <SFML/Graphics.hpp>
+
+using sf::RenderWindow;
+using sf::Vector2f;
+using sf::Clock;
+using sf::Event;
+using sf::Keyboard;
+
 void MenuScene(RenderWindow& window) {
 
 	// entity instantiation

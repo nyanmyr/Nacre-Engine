@@ -3,6 +3,14 @@
 
 #include "ComponentArray.hpp"
 
+#include <unordered_map>
+#include <memory>
+
+using std::unordered_map;
+using std::shared_ptr;
+using std::make_shared;
+using std::static_pointer_cast;
+
 class ComponentManager
 {
 private:

@@ -1,11 +1,16 @@
-#include <iostream>
+#include <SFML/Graphics.hpp>
 
 #include "Headers/GameManager.hpp"
 
-const int SCREEN_WIDTH = 800;
-const int SCREEN_HEIGHT = 600;
+#include <iostream>
 
-const int MAX_FPS = 60;
+using sf::RenderWindow;
+using sf::VideoMode;
+
+constexpr int SCREEN_WIDTH = 800;
+constexpr int SCREEN_HEIGHT = 600;
+
+constexpr int MAX_FPS = 60;
 
 void Game() {
 	RenderWindow window(VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), "Nacre Engine", sf::Style::Close);

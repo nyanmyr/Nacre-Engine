@@ -4,7 +4,6 @@
 #include "../src/Engine/Nacre.hpp"
 #include "Components.hpp"
 #include "Systems.hpp"
-
-#include "Scenes.hpp"
+#include "SceneManager.hpp"
 
 #endif
