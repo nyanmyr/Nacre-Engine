@@ -6,6 +6,6 @@
 using Entity = uint32_t;
 using DeltaTime = float;
 
-constexpr Entity MAX_ENTITIES = 10;
+constexpr Entity MAX_ENTITIES = 1000;
 
 #endif

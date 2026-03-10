@@ -5,8 +5,6 @@
 
 #include "Core.hpp"
 
-using std::unordered_map;
-
 struct IComponentArray
 {
 	virtual ~IComponentArray() = default;
@@ -17,7 +15,7 @@ template<typename T>
 class ComponentArray : public IComponentArray
 {
 private:
-	unordered_map<Entity, T> components;
+	std::unordered_map<Entity, T> components;
 
 public:
 
@@ -41,7 +39,7 @@ public:
 		return components.find(entity) != components.end();
 	}
 
-	unordered_map<Entity, T>& getAll()
+	std::unordered_map<Entity, T>& getAll()
 	{
 		return components;
 	}

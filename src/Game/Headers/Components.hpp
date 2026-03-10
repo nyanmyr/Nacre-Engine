@@ -3,8 +3,6 @@
 
 #include <SFML/Graphics.hpp>
 
-using sf::RectangleShape;
-
 struct CPosition
 {
 	float x, y;
@@ -12,7 +10,7 @@ struct CPosition
 
 struct CShape
 {
-	RectangleShape rect;
+	sf::RectangleShape rect;
 };
 
 #endif

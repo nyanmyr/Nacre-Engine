@@ -61,38 +61,8 @@ else()
 
 endif()
 
-set(GAME_SOURCES
-    src/Game/Game.cpp
-)
-
-set(GAME_SCENES
-	src/Game/Scenes/MenuScene.hpp
-	src/Game/Scenes/PlayingScene.hpp
-)
-
-set(GAME_HEADERS
-	src/Game/Headers/Components.hpp
-    src/Game/Headers/Game.hpp
-	src/Game/Headers/GameManager.hpp
-	src/Game/Headers/SceneManager.hpp
-	src/Game/Headers/Systems.hpp
-)
-
-set(ENGINE_HEADERS
-    src/Engine/ComponentArray.hpp
-	src/Engine/ComponentManager.hpp
-	src/Engine/Dependencies.hpp
-    src/Engine/EntityManager.hpp
-	src/Engine/Nacre.hpp
-)
-
 target_sources("${CMAKE_PROJECT_NAME}" PRIVATE
     ${MY_SOURCES}
-    src/Main.cpp
-    ${GAME_SOURCES}
-	${GAME_SCENES}
-    ${GAME_HEADERS}
-    ${ENGINE_HEADERS}
  )
 
 if(MSVC) # If using the VS compiler...

@@ -7,15 +7,11 @@
 
 #include "Core.hpp"
 
-using std::queue;
-using std::vector;
-using std::runtime_error;
-
 class EntityManager
 {
 private:
-	queue<Entity> availableEntities;
-	vector<bool> alive;
+	std::queue<Entity> availableEntities;
+	std::vector<bool> alive;
 	Entity livingCount = 0;
 
 	EntityManager()
@@ -41,7 +37,7 @@ public:
 	{
 		if (livingCount >= MAX_ENTITIES)
 		{
-			throw runtime_error("Too many entities");
+			throw std::runtime_error("Too many entities");
 		}
 
 		Entity id = availableEntities.front();
@@ -53,14 +49,14 @@ public:
 
 	void destroyEntity(Entity entity)
 	{
-		try {
-			alive[entity] = false;
-			availableEntities.push(entity);
-			livingCount--;
+		if (entity >= alive.size() || !alive[entity] )
+		{
+			throw std::runtime_error("Too many entities");
 		}
-		catch (...) {
-			throw runtime_error("entity is already dead.");
-		}
+
+		alive[entity] = false;
+		availableEntities.push(entity);
+		--livingCount;
 	}
 
 	bool isAlive(Entity entity) const

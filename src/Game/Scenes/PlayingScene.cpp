@@ -1,9 +1,9 @@
-#ifndef PLAYING_SCENE_HPP
-#define PLAYING_SCENE_HPP
-
 #include <SFML/Graphics.hpp>
+#include "../src/Game/Headers/GameManager.hpp"
+#include "../src/Game/Headers/Scenes.hpp"
 
 using sf::RenderWindow;
+using sf::RectangleShape;
 using sf::Vector2f;
 using sf::Color;
 using sf::Clock;
@@ -11,6 +11,8 @@ using sf::Event;
 using sf::Keyboard;
 
 void PlayingScene(RenderWindow& window) {
+	EntityManager& em = EntityManager::getInstance();
+	ComponentManager& cm = ComponentManager::getInstance();
 
 	// entity instantiation
 	Entity player = em.createEntity();
@@ -64,5 +66,3 @@ void PlayingScene(RenderWindow& window) {
 		window.display();
 	}
 }
-
-#endif

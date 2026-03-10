@@ -1,15 +1,17 @@
-#ifndef MENU_SCENE_HPP
-#define MENU_SCENE_HPP
-
 #include <SFML/Graphics.hpp>
+#include "../src/Game/Headers/GameManager.hpp"
+#include "../src/Game/Headers/Scenes.hpp"
 
 using sf::RenderWindow;
+using sf::RectangleShape;
 using sf::Vector2f;
 using sf::Clock;
 using sf::Event;
 using sf::Keyboard;
 
 void MenuScene(RenderWindow& window) {
+	EntityManager& em = EntityManager::getInstance();
+	ComponentManager& cm = ComponentManager::getInstance();
 
 	// entity instantiation
 	Entity player = em.createEntity();
@@ -62,5 +64,3 @@ void MenuScene(RenderWindow& window) {
 		window.display();
 	}
 }
-
-#endif

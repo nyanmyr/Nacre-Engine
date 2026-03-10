@@ -1,20 +1,18 @@
-#ifndef COMPONENTS_MANAGER_HPP
-#define COMPONENTS_MANAGER_HPP
+#ifndef COMPONENT_MANAGER_HPP
+#define COMPONENT_MANAGER_HPP
 
 #include "ComponentArray.hpp"
 
 #include <unordered_map>
 #include <memory>
-
-using std::unordered_map;
-using std::shared_ptr;
-using std::make_shared;
-using std::static_pointer_cast;
+#include <typeindex>
+#include <typeinfo>
+#include <stdexcept>
 
 class ComponentManager
 {
 private:
-	unordered_map<const char*, shared_ptr<IComponentArray>> componentsArray;
+	std::unordered_map<std::type_index, std::shared_ptr<IComponentArray>> componentsArray;
 
 	ComponentManager() {};
 
@@ -24,14 +22,14 @@ public:
 	template<typename T>
 	void registerComponent()
 	{
-		const char* typeName = typeid(T).name();
+		std::type_index typeName = std::type_index(typeid(T));
 
 		if ((componentsArray.find(typeName)) != componentsArray.end())
 		{
-			throw runtime_error("Component already registered.");
+			throw std::runtime_error("Component already registered.");
 		}
 
-		componentsArray.insert({ typeName, make_shared<ComponentArray<T>>() });
+		componentsArray.insert({ typeName, std::make_shared<ComponentArray<T>>() });
 	}
 
 	template<typename T>
@@ -61,17 +59,17 @@ public:
 	}
 
 	template<typename T>
-	shared_ptr<ComponentArray<T>> getComponentArray()
+	std::shared_ptr<ComponentArray<T>> getComponentArray()
 	{
-		const char* typeName = typeid(T).name();
+		std::type_index typeName = std::type_index(typeid(T));
 
 		auto it = componentsArray.find(typeName);
 		if (it == componentsArray.end())
 		{
-			throw runtime_error("Component not registered.");
+			throw std::runtime_error("Component not registered.");
 		}
 
-		return static_pointer_cast<ComponentArray<T>>(it->second);
+		return std::static_pointer_cast<ComponentArray<T>>(it->second);
 	}
 
 	static ComponentManager& getInstance()

@@ -5,9 +5,6 @@
 
 #include <stdexcept>
 
-using std::runtime_error;
-using sf::RenderWindow;
-
 enum Scene {
 	MENU,
 	PLAYING,
@@ -15,26 +12,9 @@ enum Scene {
 	GAME_OVER
 };
 
-void playScene(RenderWindow& window, Scene scene);
-void MenuScene(RenderWindow& window);
-void PlayingScene(RenderWindow& window);
+void playScene(sf::RenderWindow& window, Scene scene);
+void MenuScene(sf::RenderWindow& window);
+void PlayingScene(sf::RenderWindow& window);
 
-void playScene(RenderWindow& window, Scene scene) {
-	switch (scene) {
-	case MENU:
-		MenuScene(window);
-		break;
-	case PLAYING:
-		PlayingScene(window);
-		break;
-	case PAUSED:
-		break;
-	case GAME_OVER:
-		break;
-	default:
-		throw new runtime_error("Scene does not exist.");
-		break;
-	}
-}
 
 #endif
