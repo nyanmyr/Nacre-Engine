@@ -7,7 +7,7 @@ using sf::RectangleShape;
 using sf::Vector2f;
 using sf::Clock;
 using sf::Event;
-using sf::Keyboard;
+using sf::Keyboard::Scancode;
 
 void MenuScene(RenderWindow& window) {
 	EntityManager& em = EntityManager::getInstance();
@@ -34,17 +34,16 @@ void MenuScene(RenderWindow& window) {
 	{
 		DeltaTime dt = clock.restart().asSeconds();
 
-		Event event;
-		while (window.pollEvent(event))
+		while (const std::optional event = window.pollEvent())
 		{
-			if (event.type == Event::Closed)
+			if (event->is<Event::Closed>())
 			{
 				window.close();
 			}
 
-			if (event.type == Event::KeyReleased)
+			if (const auto* keyPressed = event->getIf<sf::Event::KeyPressed>())
 			{
-				if (event.key.code == Keyboard::Space)
+				if (keyPressed->scancode == sf::Keyboard::Scancode::Space)
 				{
 					// on exit
 					cm.entityDestroyed(player);

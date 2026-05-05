@@ -14,7 +14,7 @@ void RenderSystem(sf::RenderWindow& window)
         if (positions->hasData(entity))
         {
             CPosition pos = positions->getData(entity);
-            shape.rect.setPosition(pos.x, pos.y);
+            shape.rect.setPosition({ pos.x, pos.y });
             window.draw(shape.rect);
         }
     }
