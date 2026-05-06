@@ -3,8 +3,6 @@
 #include "../src/Game/Headers/Scenes.hpp"
 
 using sf::RenderWindow;
-using sf::RectangleShape;
-using sf::Vector2f;
 using sf::Clock;
 using sf::Event;
 using sf::Keyboard::Scancode;
@@ -14,19 +12,7 @@ void MenuScene(RenderWindow& window) {
 	ComponentManager& cm = ComponentManager::getInstance();
 
 	// entity instantiation
-	Entity player = em.createEntity();
-	cm.addComponent(
-		player,
-		CPosition{
-		((float)window.getSize().x / 2) - 50, ((float)window.getSize().y / 2) - 50
-		}
-	);
-	cm.addComponent(
-		player,
-		CShape{
-		RectangleShape(Vector2f(100.f, 100.f))
-		}
-	);
+	Entity player = makeCube();
 
 	Clock clock;
 

@@ -4,6 +4,6 @@
 #include "../src/Engine/Nacre.hpp"
 #include "Components.hpp"
 #include "Systems.hpp"
-#include "SceneManager.hpp"
+#include "EntityMaker.hpp"
 
 #endif
