@@ -11,11 +11,13 @@ void RenderSystem(sf::RenderWindow& window)
 
     for (auto& [entity, shape] : shapes->getAll())
     {
-        if (positions->hasData(entity))
+        if (!positions->hasData(entity))
         {
-            CPosition pos = positions->getData(entity);
-            shape.rect.setPosition({ pos.x, pos.y });
-            window.draw(shape.rect);
+            continue;
         }
+
+        CPosition pos = positions->getData(entity);
+        shape.rect.setPosition({ pos.x, pos.y });
+        window.draw(shape.rect);
     }
 }

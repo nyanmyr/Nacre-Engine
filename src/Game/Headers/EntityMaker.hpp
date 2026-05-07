@@ -1,6 +1,8 @@
 #ifndef ENTITY_MAKER_HPP
 #define ENTITY_MAKER_HPP
 
-Entity& makeCube();
+#include <SFML/Graphics.hpp>
+
+Entity& makeCube(sf::Color col);
 
 #endif

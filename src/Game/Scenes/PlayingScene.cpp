@@ -12,7 +12,7 @@ void PlayingScene(RenderWindow& window) {
 	ComponentManager& cm = ComponentManager::getInstance();
 
 	// entity instantiation
-	Entity player = makeCube();
+	Entity player = makeCube(sf::Color::Green);
 
 	Clock clock;
 
