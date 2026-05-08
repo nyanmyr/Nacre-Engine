@@ -17,12 +17,11 @@ void main() {
 	RenderWindow window(VideoMode({ SCREEN_WIDTH, SCREEN_HEIGHT }), "Nacre Engine", sf::Style::Close);
 	window.setFramerateLimit(MAX_FPS);
 
-	EntityManager& em = EntityManager::getInstance();
-	ComponentManager& cm = ComponentManager::getInstance();
+	NacreManager& nm = NacreManager::getInstance();
 
 	// components registration
-	cm.registerComponent<CPosition>();
-	cm.registerComponent<CShape>();
+	nm.registerComponent<CPosition>();
+	nm.registerComponent<CShape>();
 
 	playScene(window, Scene::MENU);
 }

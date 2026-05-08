@@ -8,8 +8,7 @@ using sf::Event;
 using sf::Keyboard::Scancode;
 
 void PlayingScene(RenderWindow& window) {
-	EntityManager& em = EntityManager::getInstance();
-	ComponentManager& cm = ComponentManager::getInstance();
+	NacreManager& nm = NacreManager::getInstance();
 
 	// entity instantiation
 	Entity player = makeCube(sf::Color::Green);
@@ -32,8 +31,7 @@ void PlayingScene(RenderWindow& window) {
 				if (keyPressed->scancode == sf::Keyboard::Scancode::Space)
 				{
 					// on exit
-					cm.entityDestroyed(player);
-					em.destroyEntity(player);
+					nm.deleteEntity(player);
 
 					playScene(window, MENU);
 					window.close();

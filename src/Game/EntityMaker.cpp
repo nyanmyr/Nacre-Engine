@@ -3,14 +3,14 @@
 #include "Headers/EntityMaker.hpp"
 #include "Headers/Components.hpp"
 
-EntityManager& entityMakerEM = EntityManager::getInstance();
-ComponentManager& entityMakerCM = ComponentManager::getInstance();
+NacreManager& entityMakerNM = NacreManager::getInstance();
 
 Entity& makeCube(sf::Color col)
 {
-	Entity entity = entityMakerEM.createEntity();
+	Entity entity = entityMakerNM.createEntity();
 
-	entityMakerCM.addComponent(
+	entityMakerNM.addComponent
+	(
 		entity,
 		CPosition{ 0.f, 0.f }
 	);
@@ -19,7 +19,8 @@ Entity& makeCube(sf::Color col)
 
 	rect.setFillColor(col);
 
-	entityMakerCM.addComponent(
+	entityMakerNM.addComponent
+	(
 		entity,
 		CShape{
 			rect

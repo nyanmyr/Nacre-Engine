@@ -1,8 +1,6 @@
 #ifndef DEPENDENCIES_HPP
 #define DEPENDENCIES_HPP
 
-#include <cstdint>
-
 using Entity = uint32_t;
 using DeltaTime = float;
 
