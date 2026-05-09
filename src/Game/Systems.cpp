@@ -13,9 +13,9 @@ void SetTextSystem(sf::Font font)
 
     for (auto& [entity, text] : texts->getAll())
     {
-        text.box.setString(text.string);
-        text.box.setCharacterSize(text.size);
-        text.box.setFillColor(text.color);
+        text.box.value().setString(text.string);
+        text.box.value().setCharacterSize(text.size);
+        text.box.value().setFillColor(text.color);
     }
 }
 void SetTextOriginSystem()
@@ -38,21 +38,21 @@ void SetTextOriginSystem()
         switch (text.format)
         {
         case TOP:
-            offsetX = text.box.getLocalBounds().size.x / 2;
-            offsetY = text.box.getLocalBounds().size.y;
+            offsetX = text.box.value().getLocalBounds().size.x / 2;
+            offsetY = text.box.value().getLocalBounds().size.y;
             break;
         case BOTTOM:
-            offsetX = text.box.getLocalBounds().size.x / 2;
-            offsetY = text.box.getLocalBounds().size.y / 2;
+            offsetX = text.box.value().getLocalBounds().size.x / 2;
+            offsetY = text.box.value().getLocalBounds().size.y / 2;
             break;
         case MIDDLE:
         default:
-            offsetX = text.box.getLocalBounds().size.x / 2;
-            offsetY = (text.box.getLocalBounds().size.y / 2) + (text.box.getLocalBounds().size.y / 4);
+            offsetX = text.box.value().getLocalBounds().size.x / 2;
+            offsetY = (text.box.value().getLocalBounds().size.y / 2) + (text.box.value().getLocalBounds().size.y / 4);
             break;
         }
 
-        text.box.setOrigin
+        text.box.value().setOrigin
         (
             {
                 offsetX,
@@ -140,7 +140,7 @@ void ButtonClickedSystem(sf::Vector2i& mouseVector, bool& buttonClicked, DeltaTi
                         DEFAULT_SCALE_Y
                     )
                 );
-                text.box.setScale
+                text.box.value().setScale
                 (
                     sf::Vector2f
                     (
@@ -181,7 +181,7 @@ void ButtonClickedSystem(sf::Vector2i& mouseVector, bool& buttonClicked, DeltaTi
                         HOVER_SCALE_Y
                     )
                 );
-                text.box.setScale
+                text.box.value().setScale
                 (
                     sf::Vector2f
                     (
@@ -207,7 +207,7 @@ void ButtonClickedSystem(sf::Vector2i& mouseVector, bool& buttonClicked, DeltaTi
                         CLICKED_SCALE_Y
                     )
                 );
-                text.box.setScale
+                text.box.value().setScale
                 (
                     sf::Vector2f
                     (
@@ -245,6 +245,77 @@ void NextSceneSystem(sf::RenderWindow& window, sf::Font& font)
         window.close();
     }
 }
+void PlayerControlSystem(const Entity player, MovementDirection movDir, DeltaTime dt)
+{
+    auto& velocities = systemsNC.getComponentArray<CVelocity>();
+    auto& speeds = systemsNC.getComponentArray<CSpeed>();
+    auto& playerControllers = systemsNC.getComponentArray<CPlayerController>();
+
+    if 
+    (
+        !velocities->hasData(player) ||
+        !speeds->hasData(player) ||
+        !playerControllers->hasData(player)
+    )
+    {
+        return;
+    }
+
+    const CPlayerController playerController = playerControllers->getData(player);
+    const CSpeed speed = speeds->getData(player);
+    CVelocity& velocity = velocities->getData(player);
+
+    if (!playerController.enabled)
+    {
+        return;
+    }
+
+    float newSpeedX = 0.f;
+    float newSpeedY = 0.f;
+
+    switch (movDir)
+    {
+        case MovementDirection::NORTH:
+            newSpeedY = -speed.y;
+            break;
+        case MovementDirection::SOUTH:
+            newSpeedY = speed.y;
+            break;
+        case MovementDirection::EAST:
+            newSpeedX = speed.x;
+            break;
+        case MovementDirection::WEST:
+            newSpeedX = -speed.x;
+            break;
+        case MovementDirection::NONE:
+        default:
+            break;
+    }
+
+    velocity.x = velocity.x + (newSpeedX * dt) > velocity.maxX ?
+        velocity.maxX :
+        velocity.x + (newSpeedX * dt);
+    velocity.y = velocity.y + (newSpeedY * dt) > velocity.maxY ?
+        velocity.maxY :
+        velocity.y + (newSpeedY * dt);
+}
+void MoveSystem()
+{
+    auto& velocities = systemsNC.getComponentArray<CVelocity>();
+    auto& positions = systemsNC.getComponentArray<CPosition>();
+
+    for (auto& [entity, velocity] : velocities->getAll())
+    {
+        if (!positions->hasData(entity))
+        {
+            continue;
+        }
+
+        CPosition& pos = positions->getData(entity);
+        pos.x += velocity.x;
+        pos.y += velocity.y;
+    }
+}
 
 // -------------------------------------------------------
 // rendering systems
@@ -270,8 +341,6 @@ void RenderSystem(sf::RenderWindow& window, std::queue<Entity>& renderQueue)
     auto& shapes = systemsNC.getComponentArray<CShape>();
     auto& positions = systemsNC.getComponentArray<CPosition>();
     auto& texts = systemsNC.getComponentArray<CText>();
-    auto& buttons = systemsNC.getComponentArray<CButton>();
-    auto& origins = systemsNC.getComponentArray<COrigin>();
 
     while (!renderQueue.empty())
     {
@@ -285,7 +354,6 @@ void RenderSystem(sf::RenderWindow& window, std::queue<Entity>& renderQueue)
         }
 
         CPosition& pos = positions->getData(popped);
-        COrigin& origin = origins->getData(popped);
 
         if (shapes->hasData(popped))
         {
@@ -305,14 +373,14 @@ void RenderSystem(sf::RenderWindow& window, std::queue<Entity>& renderQueue)
         {
             CText& text = texts->getData(popped);
 
-            text.box.setPosition
+            text.box.value().setPosition
             (
                 {
                     pos.x,
                     pos.y
                 }
             );
-            window.draw(text.box);
+            window.draw(text.box.value());
         }
 
         renderQueue.pop();

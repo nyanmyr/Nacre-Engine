@@ -30,6 +30,9 @@ void main() {
 	nc.registerComponent<CText>();
 	nc.registerComponent<CNextScene>();
 	nc.registerComponent<CZIndex>();
+	nc.registerComponent<CVelocity>();
+	nc.registerComponent<CSpeed>();
+	nc.registerComponent<CPlayerController>();
 
 	sf::Font font;
 	if (!font.openFromFile(FONT_FILEPATH))

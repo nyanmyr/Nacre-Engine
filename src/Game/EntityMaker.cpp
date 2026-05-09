@@ -5,25 +5,72 @@
 
 NacreCoordinator& entityMakerNC = NacreCoordinator::getInstance();
 
-Entity& makeCube(sf::Color col)
+Entity& makePlayer(float posX, float posY, float width, float height, float maxVelocityX, float maxVelocityY, float speedX, float speedY)
 {
 	Entity entity = entityMakerNC.createEntity();
 
 	entityMakerNC.addComponent
 	(
 		entity,
-		CPosition{ 0.f, 0.f }
+		CPosition
+		{ 
+			posX,
+			posY
+		}
 	);
 
-	sf::RectangleShape rect(sf::Vector2f(100.f, 100.f));
-
-	rect.setFillColor(col);
+	sf::RectangleShape rect(sf::Vector2f(width, height));
+	rect.setFillColor(sf::Color::Green);
 
 	entityMakerNC.addComponent
 	(
 		entity,
 		CShape{
 			rect
+		}
+	);
+	entityMakerNC.addComponent
+	(
+		entity,
+		CZIndex
+		{
+			1,
+			true
+		}
+	);
+	entityMakerNC.addComponent
+	(
+		entity,
+		COrigin
+		{
+			width / 2.f,
+			height / 2.f
+		}
+	);
+	entityMakerNC.addComponent
+	(
+		entity,
+		CVelocity
+		{
+			maxVelocityX,
+			maxVelocityY
+		}
+	);
+	entityMakerNC.addComponent
+	(
+		entity,
+		CSpeed
+		{
+			speedX,
+			speedY
+		}
+	);
+	entityMakerNC.addComponent
+	(
+		entity,
+		CPlayerController
+		{
+			true
 		}
 	);
 
@@ -88,7 +135,7 @@ Entity& makeButton(float posX, float posY, float width, float height, Scene scen
 			text,
 			str,
 			64,
-			sf::Color::White,
+			sf::Color::Black,
 			TextFormat::MIDDLE
 		}
 	);

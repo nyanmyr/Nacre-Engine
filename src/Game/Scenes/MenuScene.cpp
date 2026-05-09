@@ -10,12 +10,23 @@ using sf::Keyboard::Scancode;
 void MenuScene(sf::RenderWindow& window, sf::Font& font) {
 	NacreCoordinator& nc = NacreCoordinator::getInstance();
 
-	// entity instantiation
-	Entity player = makeCube(sf::Color::Red);
-
+	// game state variables
 	Clock clock;
 	std::queue<Entity> renderQueue;
-	
+	bool buttonClicked = false;
+
+	// entity instantiation
+	Entity playButton = makeButton
+	(
+		window.getSize().x / 2,
+		window.getSize().y / 2,
+		200,
+		100,
+		Scene::PLAYING,
+		"Play",
+		font
+	);
+
 	// onstart systems
 	SetTextSystem(font); // font system is limited to one font
 	SetTextOriginSystem();
@@ -25,6 +36,9 @@ void MenuScene(sf::RenderWindow& window, sf::Font& font) {
 	{
 		DeltaTime dt = clock.restart().asSeconds();
 
+		auto& pixelPos = sf::Mouse::getPosition(window);
+		auto& worldPos = window.mapPixelToCoords(pixelPos);
+
 		while (const std::optional event = window.pollEvent())
 		{
 			if (event->is<Event::Closed>())
@@ -32,17 +46,15 @@ void MenuScene(sf::RenderWindow& window, sf::Font& font) {
 				window.close();
 			}
 
-			//if (const auto* keyPressed = event->getIf<sf::Event::KeyPressed>())
-			//{
-			//	if (keyPressed->scancode == sf::Keyboard::Scancode::Space)
-			//	{
-			//	}
-			//}
+			if (const auto& mousePress = event->getIf<sf::Event::MouseButtonPressed>())
+			{
+				buttonClicked = true;
+			}
 		}
 
 		// update systems
-		//ButtonClickedSystem(sf::Vector2i(worldPos.x, worldPos.y), buttonClicked, dt);
-		//NextSceneSystem(window, font);
+		ButtonClickedSystem(sf::Vector2i(worldPos.x, worldPos.y), buttonClicked, dt);
+		NextSceneSystem(window, font);
 
 		window.clear();
 		// render systems
