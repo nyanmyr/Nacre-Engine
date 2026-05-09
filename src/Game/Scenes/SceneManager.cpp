@@ -1,13 +1,13 @@
 #include "../Headers/Scenes.hpp"
 #include <stdexcept>
 
-void playScene(sf::RenderWindow& window, Scene scene) {
+void playScene(sf::RenderWindow& window, Scene scene, sf::Font& font) {
     switch (scene) {
     case MENU:
-        MenuScene(window);
+        MenuScene(window, font);
         break;
     case PLAYING:
-        PlayingScene(window);
+        PlayingScene(window, font);
         break;
     case PAUSED:
         break;

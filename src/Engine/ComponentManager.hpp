@@ -19,6 +19,12 @@ private:
 	ComponentManager(const ComponentManager&) = delete;
 	ComponentManager& operator=(const ComponentManager&) = delete;
 public:
+	static ComponentManager& getInstance()
+	{
+		static ComponentManager instance;
+		return instance;
+	}
+
 	template<typename T>
 	void registerComponent()
 	{
@@ -72,10 +78,13 @@ public:
 		return std::static_pointer_cast<ComponentArray<T>>(it->second);
 	}
 
-	static ComponentManager& getInstance()
+	// incredibly inefficient (but works for now)
+	void allEntitiesDestroyed()
 	{
-		static ComponentManager instance;
-		return instance;
+		for (Entity i = 0; i < MAX_ENTITIES; ++i)
+		{
+			entityDestroyed(i);
+		}
 	}
 };
 

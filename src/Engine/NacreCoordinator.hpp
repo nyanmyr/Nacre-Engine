@@ -4,20 +4,20 @@
 #include "ComponentManager.hpp"
 #include "EntityManager.hpp"
 
-class NacreManager
+class NacreCoordinator
 {
 private:
 	ComponentManager& cm = ComponentManager::getInstance();
 	EntityManager& em = EntityManager::getInstance();
 
-	NacreManager() {}
+	NacreCoordinator() {}
 
-	NacreManager(const NacreManager&) = delete;
-	NacreManager& operator=(const NacreManager&) = delete;
+	NacreCoordinator(const NacreCoordinator&) = delete;
+	NacreCoordinator& operator=(const NacreCoordinator&) = delete;
 public:
-	static NacreManager& getInstance()
+	static NacreCoordinator& getInstance()
 	{
-		static NacreManager instance;
+		static NacreCoordinator instance;
 		return instance;
 	}
 
@@ -49,7 +49,7 @@ public:
 	template<typename T>
 	std::shared_ptr<ComponentArray<T>> getComponentArray()
 	{
-		std::shared_ptr<ComponentArray<T>> componentArray = cm.getComponentArray();
+		std::shared_ptr<ComponentArray<T>> componentArray = cm.getComponentArray<T>();
 		return componentArray;
 	}
 
@@ -69,6 +69,12 @@ public:
 	{
 		cm.entityDestroyed(entity);
 		em.destroyEntity(entity);
+	}
+
+	void destroyAll()
+	{
+		cm.allEntitiesDestroyed();
+		em.destroyAllEntities();
 	}
 };
 

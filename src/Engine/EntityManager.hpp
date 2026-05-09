@@ -63,6 +63,23 @@ public:
 	{
 		return alive[entity];
 	}
+
+	// same goes here: inneficient but works
+	void destroyAllEntities()
+	{
+		//std::cout << "living: " << livingCount << "\n";
+		for (Entity i = 0; i < MAX_ENTITIES; ++i)
+		{
+			if (alive[i])
+			{
+				//std::cout << "isAlive: " << alive[i] << "\n";
+				alive[i] = false;
+				availableEntities.push(i);
+				--livingCount;
+			}
+		}
+		//std::cout << "living: " << livingCount << "\n";
+	}
 };
 
 #endif

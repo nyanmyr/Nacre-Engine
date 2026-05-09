@@ -12,9 +12,9 @@ enum Scene {
 	GAME_OVER
 };
 
-void playScene(sf::RenderWindow& window, Scene scene);
-void MenuScene(sf::RenderWindow& window);
-void PlayingScene(sf::RenderWindow& window);
+void playScene(sf::RenderWindow& window, Scene scene, sf::Font& font);
+void MenuScene(sf::RenderWindow& window, sf::Font& font);
+void PlayingScene(sf::RenderWindow& window, sf::Font& font);
 
 
 #endif

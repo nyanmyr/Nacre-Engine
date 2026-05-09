@@ -7,13 +7,19 @@ using sf::Clock;
 using sf::Event;
 using sf::Keyboard::Scancode;
 
-void MenuScene(RenderWindow& window) {
-	NacreManager& nm = NacreManager::getInstance();
+void MenuScene(sf::RenderWindow& window, sf::Font& font) {
+	NacreCoordinator& nc = NacreCoordinator::getInstance();
 
 	// entity instantiation
 	Entity player = makeCube(sf::Color::Red);
 
 	Clock clock;
+	std::queue<Entity> renderQueue;
+	
+	// onstart systems
+	SetTextSystem(font); // font system is limited to one font
+	SetTextOriginSystem();
+	SetShapeOriginSystem();
 
 	while (window.isOpen())
 	{
@@ -26,24 +32,22 @@ void MenuScene(RenderWindow& window) {
 				window.close();
 			}
 
-			if (const auto* keyPressed = event->getIf<sf::Event::KeyPressed>())
-			{
-				if (keyPressed->scancode == sf::Keyboard::Scancode::Space)
-				{
-					// on exit
-					nm.deleteEntity(player);
-
-					playScene(window, PLAYING);
-					window.close();
-				}
-			}
+			//if (const auto* keyPressed = event->getIf<sf::Event::KeyPressed>())
+			//{
+			//	if (keyPressed->scancode == sf::Keyboard::Scancode::Space)
+			//	{
+			//	}
+			//}
 		}
 
-		// systems
+		// update systems
+		//ButtonClickedSystem(sf::Vector2i(worldPos.x, worldPos.y), buttonClicked, dt);
+		//NextSceneSystem(window, font);
 
 		window.clear();
 		// render systems
-		RenderSystem(window);
+		ZIndexSystem(renderQueue);
+		RenderSystem(window, renderQueue);
 		window.display();
 	}
 }

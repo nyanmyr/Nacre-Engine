@@ -13,15 +13,29 @@ constexpr int SCREEN_HEIGHT = 600;
 
 constexpr int MAX_FPS = 60;
 
+const std::string FONT_FILEPATH = RESOURCES_PATH "arial.ttf";
+
 void main() {
 	RenderWindow window(VideoMode({ SCREEN_WIDTH, SCREEN_HEIGHT }), "Nacre Engine", sf::Style::Close);
 	window.setFramerateLimit(MAX_FPS);
 
-	NacreManager& nm = NacreManager::getInstance();
+	NacreCoordinator& nc = NacreCoordinator::getInstance();
 
 	// components registration
-	nm.registerComponent<CPosition>();
-	nm.registerComponent<CShape>();
+	nc.registerComponent<CPosition>();
+	nc.registerComponent<CShape>();
+	nc.registerComponent<CTransform>();
+	nc.registerComponent<COrigin>();
+	nc.registerComponent<CButton>();
+	nc.registerComponent<CText>();
+	nc.registerComponent<CNextScene>();
+	nc.registerComponent<CZIndex>();
 
-	playScene(window, Scene::MENU);
+	sf::Font font;
+	if (!font.openFromFile(FONT_FILEPATH))
+	{
+		throw std::runtime_error("Font not found.");
+	}
+
+	playScene(window, Scene::MENU, font);
 }

@@ -7,8 +7,8 @@ using sf::Clock;
 using sf::Event;
 using sf::Keyboard::Scancode;
 
-void PlayingScene(RenderWindow& window) {
-	NacreManager& nm = NacreManager::getInstance();
+void PlayingScene(sf::RenderWindow& window, sf::Font& font) {
+	NacreCoordinator& nc = NacreCoordinator::getInstance();
 
 	// entity instantiation
 	Entity player = makeCube(sf::Color::Green);
@@ -25,25 +25,12 @@ void PlayingScene(RenderWindow& window) {
 			{
 				window.close();
 			}
-
-			if (const auto* keyPressed = event->getIf<sf::Event::KeyPressed>())
-			{
-				if (keyPressed->scancode == sf::Keyboard::Scancode::Space)
-				{
-					// on exit
-					nm.deleteEntity(player);
-
-					playScene(window, MENU);
-					window.close();
-				}
-			}
 		}
 
 		// systems
 
 		window.clear();
 		// render systems
-		RenderSystem(window);
 		window.display();
 	}
 }
