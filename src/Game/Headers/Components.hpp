@@ -80,7 +80,6 @@ struct CZIndex
 	};
 };
 
-// uhh there's no minimum
 struct CVelocity
 {
 	float x = 0.f, y = 0.f, minX = 0.f, minY = 0.f, maxX = 0.f, maxY = 0.f;

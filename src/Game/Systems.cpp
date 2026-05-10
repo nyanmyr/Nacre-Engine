@@ -7,7 +7,7 @@ NacreCoordinator& systemsNC = NacreCoordinator::getInstance();
 // -------------------------------------------------------
 // start systems
 // -------------------------------------------------------
-void SetTextSystem(sf::Font font)
+void setTextSystem(sf::Font& font)
 {
     auto& texts = systemsNC.getComponentArray<CText>();
 
@@ -18,7 +18,7 @@ void SetTextSystem(sf::Font font)
         text.box.value().setFillColor(text.color);
     }
 }
-void SetTextOriginSystem()
+void setTextOriginSystem()
 {
     auto& texts = systemsNC.getComponentArray<CText>();
     auto& transforms = systemsNC.getComponentArray<CTransform>();
@@ -61,7 +61,7 @@ void SetTextOriginSystem()
         );
     }
 }
-void SetShapeOriginSystem()
+void setShapeOriginSystem()
 {
     auto& origins = systemsNC.getComponentArray<COrigin>();
     auto& shapes = systemsNC.getComponentArray<CShape>();
@@ -96,7 +96,7 @@ const float HOVER_SCALE_Y = 1.1f;
 const float CLICKED_SCALE_X = 0.9f;
 const float CLICKED_SCALE_Y = 0.9f;
 
-void ButtonClickedSystem(sf::Vector2i& mouseVector, bool& buttonClicked, DeltaTime dt)
+void buttonClickedSystem(sf::Vector2i& mouseVector, bool& buttonClicked, const DeltaTime dt)
 {
     //auto& shapes = systemsNC.getComponentArray<CShape>();
     auto& shapes = systemsNC.getComponentArray<CShape>();
@@ -219,7 +219,7 @@ void ButtonClickedSystem(sf::Vector2i& mouseVector, bool& buttonClicked, DeltaTi
         }
     }
 }
-void NextSceneSystem(sf::RenderWindow& window, sf::Font& font)
+void nextSceneSystem(sf::RenderWindow& window, sf::Font& font)
 {
     auto& nextScenes = systemsNC.getComponentArray<CNextScene>();
 
@@ -245,7 +245,7 @@ void NextSceneSystem(sf::RenderWindow& window, sf::Font& font)
         window.close();
     }
 }
-void PlayerControlSystem(const Entity player, DeltaTime dt)
+void playerControlSystem(const Entity player, DeltaTime dt)
 // controlling seems buggy, first you move slow then you speed up suddenly
 {
     auto& velocities = systemsNC.getComponentArray<CVelocity>();
@@ -315,7 +315,7 @@ void PlayerControlSystem(const Entity player, DeltaTime dt)
     }
 
 }
-void MoveSystem(const DeltaTime dt)
+void moveSystem(const DeltaTime dt)
 {
     auto& velocities = systemsNC.getComponentArray<CVelocity>();
     auto& positions = systemsNC.getComponentArray<CPosition>();
@@ -332,7 +332,7 @@ void MoveSystem(const DeltaTime dt)
         pos.y += (velocity.y * dt);
     }
 }
-void DragSystem(const DeltaTime dt)
+void dragSystem(const DeltaTime dt)
 {
     auto& velocities = systemsNC.getComponentArray<CVelocity>();
     auto& drags = systemsNC.getComponentArray<CDrag>();
@@ -357,7 +357,7 @@ void DragSystem(const DeltaTime dt)
 // -------------------------------------------------------
 // rendering systems
 // -------------------------------------------------------
-void ZIndexSystem(std::queue<Entity>& renderQueue)
+void zIndexSystem(std::queue<Entity>& renderQueue)
 {
     auto& zIndexes = systemsNC.getComponentArray<CZIndex>();
 
@@ -373,7 +373,7 @@ void ZIndexSystem(std::queue<Entity>& renderQueue)
         renderQueue.push(entity);
     }
 }
-void RenderSystem(sf::RenderWindow& window, std::queue<Entity>& renderQueue)
+void renderSystem(sf::RenderWindow& window, std::queue<Entity>& renderQueue)
 {
     auto& shapes = systemsNC.getComponentArray<CShape>();
     auto& positions = systemsNC.getComponentArray<CPosition>();

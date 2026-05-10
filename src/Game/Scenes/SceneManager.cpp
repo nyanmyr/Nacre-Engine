@@ -9,10 +9,6 @@ void playScene(sf::RenderWindow& window, Scene scene, sf::Font& font) {
     case PLAYING:
         PlayingScene(window, font);
         break;
-    case PAUSED:
-        break;
-    case GAME_OVER:
-        break;
     default:
         throw std::runtime_error("Scene does not exist.");
         break;

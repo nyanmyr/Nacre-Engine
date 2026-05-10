@@ -7,9 +7,7 @@
 
 enum Scene {
 	MENU,
-	PLAYING,
-	PAUSED,
-	GAME_OVER
+	PLAYING
 };
 
 void playScene(sf::RenderWindow& window, Scene scene, sf::Font& font);

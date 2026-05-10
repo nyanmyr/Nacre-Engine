@@ -10,25 +10,25 @@
 // -------------------------------------------------------
 // start systems
 // -------------------------------------------------------
-void SetTextSystem(sf::Font font);
-void SetTextOriginSystem();
-void SetShapeOriginSystem();
+void setTextSystem(sf::Font& font);
+void setTextOriginSystem();
+void setShapeOriginSystem();
 
 // -------------------------------------------------------
 // update systems
 // -------------------------------------------------------
-void ButtonClickedSystem(sf::Vector2i&, bool&, DeltaTime);
-void NextSceneSystem(sf::RenderWindow&, sf::Font&);
-void PlayerControlSystem(const Entity player, DeltaTime dt);
-void MoveSystem(const DeltaTime dt);
-void DragSystem(const DeltaTime dt);
+void buttonClickedSystem(sf::Vector2i& mouseVector, bool& buttonClicked, const DeltaTime dt);
+void nextSceneSystem(sf::RenderWindow& window, sf::Font& font);
+void playerControlSystem(const Entity player, DeltaTime dt);
+void moveSystem(const DeltaTime dt);
+void dragSystem(const DeltaTime dt);
 
 // make edge collision system here
 
 // -------------------------------------------------------
 // rendering systems
 // -------------------------------------------------------
-void ZIndexSystem(std::queue<Entity>&);
-void RenderSystem(sf::RenderWindow&, std::queue<Entity>&);
+void zIndexSystem(std::queue<Entity>& renderQueue);
+void renderSystem(sf::RenderWindow& window, std::queue<Entity>& renderQueue);
 
 #endif

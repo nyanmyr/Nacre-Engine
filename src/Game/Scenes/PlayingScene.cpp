@@ -62,9 +62,9 @@ void PlayingScene(sf::RenderWindow& window, sf::Font& font) {
 	);
 
 	// onstart systems
-	SetTextSystem(font); // font system is limited to one font
-	SetTextOriginSystem();
-	SetShapeOriginSystem();
+	setTextSystem(font); // font system is limited to one font
+	setTextOriginSystem();
+	setShapeOriginSystem();
 
 	while (window.isOpen())
 	{
@@ -79,14 +79,14 @@ void PlayingScene(sf::RenderWindow& window, sf::Font& font) {
 		}
 
 		// systems
-		PlayerControlSystem(player, dt);
-		MoveSystem(dt);
-		DragSystem(dt);
+		playerControlSystem(player, dt);
+		moveSystem(dt);
+		dragSystem(dt);
 
 		window.clear();
 		// render systems
-		ZIndexSystem(renderQueue);
-		RenderSystem(window, renderQueue);
+		zIndexSystem(renderQueue);
+		renderSystem(window, renderQueue);
 		window.display();
 	}
 }

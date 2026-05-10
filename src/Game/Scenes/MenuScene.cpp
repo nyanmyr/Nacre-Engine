@@ -38,9 +38,9 @@ void MenuScene(sf::RenderWindow& window, sf::Font& font) {
 	);
 
 	// onstart systems
-	SetTextSystem(font); // font system is limited to one font
-	SetTextOriginSystem();
-	SetShapeOriginSystem();
+	setTextSystem(font); // font system is limited to one font
+	setTextOriginSystem();
+	setShapeOriginSystem();
 
 	while (window.isOpen())
 	{
@@ -63,13 +63,13 @@ void MenuScene(sf::RenderWindow& window, sf::Font& font) {
 		}
 
 		// update systems
-		ButtonClickedSystem(sf::Vector2i(worldPos.x, worldPos.y), buttonClicked, dt);
-		NextSceneSystem(window, font);
+		buttonClickedSystem(sf::Vector2i(worldPos.x, worldPos.y), buttonClicked, dt);
+		nextSceneSystem(window, font);
 
 		window.clear();
 		// render systems
-		ZIndexSystem(renderQueue);
-		RenderSystem(window, renderQueue);
+		zIndexSystem(renderQueue);
+		renderSystem(window, renderQueue);
 		window.display();
 	}
 }
