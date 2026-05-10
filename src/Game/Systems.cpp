@@ -245,7 +245,8 @@ void NextSceneSystem(sf::RenderWindow& window, sf::Font& font)
         window.close();
     }
 }
-void PlayerControlSystem(const Entity player, MovementDirection movDir, DeltaTime dt)
+void PlayerControlSystem(const Entity player, const sf::Event::KeyPressed* buttonPress, DeltaTime dt)
+// controlling seems buggy, first you move slow then you speed up suddenly
 {
     auto& velocities = systemsNC.getComponentArray<CVelocity>();
     auto& speeds = systemsNC.getComponentArray<CSpeed>();
@@ -273,31 +274,45 @@ void PlayerControlSystem(const Entity player, MovementDirection movDir, DeltaTim
     float newSpeedX = 0.f;
     float newSpeedY = 0.f;
 
-    switch (movDir)
+    if (buttonPress->scancode == sf::Keyboard::Scancode::W)
     {
-        case MovementDirection::NORTH:
-            newSpeedY = -speed.y;
-            break;
-        case MovementDirection::SOUTH:
-            newSpeedY = speed.y;
-            break;
-        case MovementDirection::EAST:
-            newSpeedX = speed.x;
-            break;
-        case MovementDirection::WEST:
-            newSpeedX = -speed.x;
-            break;
-        case MovementDirection::NONE:
-        default:
-            break;
+        newSpeedY += -speed.y;
+    }
+    if (buttonPress->scancode == sf::Keyboard::Scancode::A)
+    {
+        newSpeedX += -speed.x;
+    }
+    if (buttonPress->scancode == sf::Keyboard::Scancode::S)
+    {
+        newSpeedY += speed.y;
+    }
+    if (buttonPress->scancode == sf::Keyboard::Scancode::D)
+    {
+        newSpeedX += speed.x;
     }
 
-    velocity.x = velocity.x + (newSpeedX * dt) > velocity.maxX ?
-        velocity.maxX :
-        velocity.x + (newSpeedX * dt);
-    velocity.y = velocity.y + (newSpeedY * dt) > velocity.maxY ?
-        velocity.maxY :
-        velocity.y + (newSpeedY * dt);
+    // applies the speed (even if there aren't any changes)
+    velocity.x += (newSpeedX * dt);
+    velocity.y += (newSpeedY * dt);
+
+    if (velocity.x > velocity.maxX)
+    {
+        velocity.x = velocity.maxX;
+    }
+    else if (velocity.x < velocity.minX)
+    {
+        velocity.x = velocity.minX;
+    }
+
+    if (velocity.y > velocity.maxY)
+    {
+        velocity.y = velocity.maxY;
+    }
+    else if (velocity.y < velocity.minY)
+    {
+        velocity.y = velocity.minY;
+    }
+
 }
 void MoveSystem()
 {

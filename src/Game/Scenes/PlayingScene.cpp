@@ -17,14 +17,41 @@ void PlayingScene(sf::RenderWindow& window, sf::Font& font) {
 	// entity instantiation
 	Entity player = makePlayer
 	(
-		window.getSize().x / 2,
-		window.getSize().y / 2,
-		50,
-		50,
-		20,
-		20,
-		10,
-		10
+		sf::Vector2f
+		(
+			{
+				window.getSize().x / 2.f,
+				window.getSize().y / 2.f
+			}
+		),
+		sf::Vector2f
+		(
+			{
+				50.f,
+				50.f
+			}
+		),
+		sf::Vector2f
+		(
+			{
+				-10.f,
+				-10.f
+			}
+		),
+		sf::Vector2f
+		(
+			{
+				10.f,
+				10.f
+			}
+		),
+		sf::Vector2f
+		(
+			{
+				75.f,
+				75.f
+			}
+		)
 	);
 
 	// onstart systems
@@ -45,25 +72,7 @@ void PlayingScene(sf::RenderWindow& window, sf::Font& font) {
 
 			if (const auto& buttonPress = event->getIf<sf::Event::KeyPressed>())
 			{
-				MovementDirection movDir = MovementDirection::NONE;
-
-				switch (buttonPress->scancode)
-				{
-					case sf::Keyboard::Scancode::W:
-						movDir = MovementDirection::NORTH;
-						break;
-					case sf::Keyboard::Scancode::A:
-						movDir = MovementDirection::WEST;
-						break;
-					case sf::Keyboard::Scancode::S:
-						movDir = MovementDirection::SOUTH;
-						break;
-					case sf::Keyboard::Scancode::D:
-						movDir = MovementDirection::EAST;
-						break;
-				}
-
-				PlayerControlSystem(player, movDir, dt);
+				PlayerControlSystem(player, buttonPress, dt);
 			}
 		}
 

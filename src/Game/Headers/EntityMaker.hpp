@@ -5,7 +5,7 @@
 #include "Scenes.hpp"
 
 // could prolly use some Vector2fs
-Entity& makePlayer(float posX, float posY, float width, float height, float maxVelocityX, float maxVelocityY, float speedX, float speedY);
-Entity& makeButton(float posX, float posY, float width, float height, Scene scene, std::string str, sf::Font& font);
+Entity& makePlayer(sf::Vector2f pos, sf::Vector2f size, sf::Vector2f minVelocity, sf::Vector2f maxVelocity, sf::Vector2f speed);
+Entity& makeButton(sf::Vector2f pos, sf::Vector2f size, Scene scene, std::string str, sf::Font& font);
 
 #endif

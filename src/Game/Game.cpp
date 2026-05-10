@@ -33,6 +33,7 @@ void main() {
 	nc.registerComponent<CVelocity>();
 	nc.registerComponent<CSpeed>();
 	nc.registerComponent<CPlayerController>();
+	nc.registerComponent<CDrag>();
 
 	sf::Font font;
 	if (!font.openFromFile(FONT_FILEPATH))

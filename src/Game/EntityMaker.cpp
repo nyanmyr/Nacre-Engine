@@ -5,7 +5,7 @@
 
 NacreCoordinator& entityMakerNC = NacreCoordinator::getInstance();
 
-Entity& makePlayer(float posX, float posY, float width, float height, float maxVelocityX, float maxVelocityY, float speedX, float speedY)
+Entity& makePlayer(sf::Vector2f pos, sf::Vector2f size, sf::Vector2f minVelocity, sf::Vector2f maxVelocity, sf::Vector2f speed)
 {
 	Entity entity = entityMakerNC.createEntity();
 
@@ -14,12 +14,12 @@ Entity& makePlayer(float posX, float posY, float width, float height, float maxV
 		entity,
 		CPosition
 		{ 
-			posX,
-			posY
+			pos.x,
+			pos.y
 		}
 	);
 
-	sf::RectangleShape rect(sf::Vector2f(width, height));
+	sf::RectangleShape rect(sf::Vector2f(size.x, size.y));
 	rect.setFillColor(sf::Color::Green);
 
 	entityMakerNC.addComponent
@@ -43,8 +43,8 @@ Entity& makePlayer(float posX, float posY, float width, float height, float maxV
 		entity,
 		COrigin
 		{
-			width / 2.f,
-			height / 2.f
+			size.x / 2.f,
+			size.y / 2.f
 		}
 	);
 	entityMakerNC.addComponent
@@ -52,8 +52,10 @@ Entity& makePlayer(float posX, float posY, float width, float height, float maxV
 		entity,
 		CVelocity
 		{
-			maxVelocityX,
-			maxVelocityY
+			minVelocity.x,
+			minVelocity.y,
+			maxVelocity.x,
+			maxVelocity.y
 		}
 	);
 	entityMakerNC.addComponent
@@ -61,8 +63,8 @@ Entity& makePlayer(float posX, float posY, float width, float height, float maxV
 		entity,
 		CSpeed
 		{
-			speedX,
-			speedY
+			speed.x,
+			speed.y
 		}
 	);
 	entityMakerNC.addComponent
@@ -77,7 +79,7 @@ Entity& makePlayer(float posX, float posY, float width, float height, float maxV
 	return entity;
 }
 
-Entity& makeButton(float posX, float posY, float width, float height, Scene scene, std::string str, sf::Font& font)
+Entity& makeButton(sf::Vector2f pos, sf::Vector2f size, Scene scene, std::string str, sf::Font& font)
 {
 	Entity entity = entityMakerNC.createEntity();
 
@@ -85,8 +87,8 @@ Entity& makeButton(float posX, float posY, float width, float height, Scene scen
 		entity,
 		CPosition
 		{
-			posX,
-			posY
+			pos.x,
+			pos.y
 		}
 	);
 	entityMakerNC.addComponent
@@ -94,11 +96,11 @@ Entity& makeButton(float posX, float posY, float width, float height, Scene scen
 		entity,
 		CTransform
 		{
-			width,
-			height
+			size.x,
+			size.y
 		}
 	);
-	sf::RectangleShape rect(sf::Vector2f(width, height));
+	sf::RectangleShape rect(sf::Vector2f(size.x, size.y));
 	entityMakerNC.addComponent
 	(
 		entity,
@@ -112,8 +114,8 @@ Entity& makeButton(float posX, float posY, float width, float height, Scene scen
 		entity,
 		COrigin
 		{
-			width / 2.f,
-			height / 2.f
+			size.x / 2.f,
+			size.y / 2.f
 		}
 	);
 	entityMakerNC.addComponent

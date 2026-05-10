@@ -5,6 +5,8 @@
 #include "../../Engine/NacreCoordinator.hpp"
 #include "Components.hpp"
 
+// oughta make some of these parameters as consts
+
 // -------------------------------------------------------
 // start systems
 // -------------------------------------------------------
@@ -15,18 +17,9 @@ void SetShapeOriginSystem();
 // -------------------------------------------------------
 // update systems
 // -------------------------------------------------------
-enum MovementDirection
-{
-	NORTH,
-	SOUTH,
-	EAST,
-	WEST,
-	NONE
-};
-
 void ButtonClickedSystem(sf::Vector2i&, bool&, DeltaTime);
 void NextSceneSystem(sf::RenderWindow&, sf::Font&);
-void PlayerControlSystem(const Entity player, MovementDirection movDir, DeltaTime dt);
+void PlayerControlSystem(const Entity player, const sf::Event::KeyPressed* buttonPress, DeltaTime dt);
 void MoveSystem();
 // make edge collision system here
 

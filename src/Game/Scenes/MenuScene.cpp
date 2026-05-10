@@ -18,10 +18,20 @@ void MenuScene(sf::RenderWindow& window, sf::Font& font) {
 	// entity instantiation
 	Entity playButton = makeButton
 	(
-		window.getSize().x / 2,
-		window.getSize().y / 2,
-		200,
-		100,
+		sf::Vector2f
+		(
+			{
+				window.getSize().x / 2.f,
+				window.getSize().y / 2.f
+			}
+		),
+		sf::Vector2f
+		(
+			{
+				200.f,
+				100.f
+			}
+		),
 		Scene::PLAYING,
 		"Play",
 		font
