@@ -5,7 +5,7 @@
 
 NacreCoordinator& entityMakerNC = NacreCoordinator::getInstance();
 
-Entity& makePlayer(sf::Vector2f pos, sf::Vector2f size, sf::Vector2f minVelocity, sf::Vector2f maxVelocity, sf::Vector2f speed)
+Entity& makePlayer(sf::Vector2f pos, sf::Vector2f size, sf::Vector2f minVelocity, sf::Vector2f maxVelocity, sf::Vector2f speed, sf::Vector2f drag)
 {
 	Entity entity = entityMakerNC.createEntity();
 
@@ -65,6 +65,15 @@ Entity& makePlayer(sf::Vector2f pos, sf::Vector2f size, sf::Vector2f minVelocity
 		{
 			speed.x,
 			speed.y
+		}
+	);
+	entityMakerNC.addComponent
+	(
+		entity,
+		CDrag
+		{
+			drag.x,
+			drag.y
 		}
 	);
 	entityMakerNC.addComponent

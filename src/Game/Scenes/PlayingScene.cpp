@@ -27,29 +27,36 @@ void PlayingScene(sf::RenderWindow& window, sf::Font& font) {
 		sf::Vector2f
 		(
 			{
+				40.f,
+				40.f
+			}
+		),
+		sf::Vector2f
+		(
+			{
+				-300.f,
+				-300.f
+			}
+		),
+		sf::Vector2f
+		(
+			{
+				300.f,
+				300.f
+			}
+		),
+		sf::Vector2f
+		(
+			{
+				500.f,
+				500.f
+			}
+		),
+		sf::Vector2f
+		(
+			{
 				50.f,
 				50.f
-			}
-		),
-		sf::Vector2f
-		(
-			{
-				-10.f,
-				-10.f
-			}
-		),
-		sf::Vector2f
-		(
-			{
-				10.f,
-				10.f
-			}
-		),
-		sf::Vector2f
-		(
-			{
-				75.f,
-				75.f
 			}
 		)
 	);
@@ -69,15 +76,12 @@ void PlayingScene(sf::RenderWindow& window, sf::Font& font) {
 			{
 				window.close();
 			}
-
-			if (const auto& buttonPress = event->getIf<sf::Event::KeyPressed>())
-			{
-				PlayerControlSystem(player, buttonPress, dt);
-			}
 		}
 
 		// systems
-		MoveSystem();
+		PlayerControlSystem(player, dt);
+		MoveSystem(dt);
+		DragSystem(dt);
 
 		window.clear();
 		// render systems

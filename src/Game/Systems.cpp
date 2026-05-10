@@ -245,7 +245,7 @@ void NextSceneSystem(sf::RenderWindow& window, sf::Font& font)
         window.close();
     }
 }
-void PlayerControlSystem(const Entity player, const sf::Event::KeyPressed* buttonPress, DeltaTime dt)
+void PlayerControlSystem(const Entity player, DeltaTime dt)
 // controlling seems buggy, first you move slow then you speed up suddenly
 {
     auto& velocities = systemsNC.getComponentArray<CVelocity>();
@@ -274,21 +274,22 @@ void PlayerControlSystem(const Entity player, const sf::Event::KeyPressed* butto
     float newSpeedX = 0.f;
     float newSpeedY = 0.f;
 
-    if (buttonPress->scancode == sf::Keyboard::Scancode::W)
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W))
     {
-        newSpeedY += -speed.y;
+        newSpeedY = -speed.y;
+    } 
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S))
+    {
+        newSpeedY = speed.y;
     }
-    if (buttonPress->scancode == sf::Keyboard::Scancode::A)
+
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A))
     {
-        newSpeedX += -speed.x;
+        newSpeedX = -speed.x;
     }
-    if (buttonPress->scancode == sf::Keyboard::Scancode::S)
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D))
     {
-        newSpeedY += speed.y;
-    }
-    if (buttonPress->scancode == sf::Keyboard::Scancode::D)
-    {
-        newSpeedX += speed.x;
+        newSpeedX = speed.x;
     }
 
     // applies the speed (even if there aren't any changes)
@@ -314,7 +315,7 @@ void PlayerControlSystem(const Entity player, const sf::Event::KeyPressed* butto
     }
 
 }
-void MoveSystem()
+void MoveSystem(const DeltaTime dt)
 {
     auto& velocities = systemsNC.getComponentArray<CVelocity>();
     auto& positions = systemsNC.getComponentArray<CPosition>();
@@ -327,8 +328,29 @@ void MoveSystem()
         }
 
         CPosition& pos = positions->getData(entity);
-        pos.x += velocity.x;
-        pos.y += velocity.y;
+        pos.x += (velocity.x * dt);
+        pos.y += (velocity.y * dt);
+    }
+}
+void DragSystem(const DeltaTime dt)
+{
+    auto& velocities = systemsNC.getComponentArray<CVelocity>();
+    auto& drags = systemsNC.getComponentArray<CDrag>();
+
+    for (auto& [entity, velocity] : velocities->getAll())
+    {
+        if (!drags->hasData(entity))
+        {
+            continue;
+        }
+
+        CDrag drag = drags->getData(entity);
+
+        // can't be exactly 0.f because it will drift aimlessly
+        velocity.x = velocity.x < -0.1f ? velocity.x + (drag.x * dt) :
+            velocity.x > 0.1f ? velocity.x - (drag.x * dt) : 0.f;
+        velocity.y = velocity.y < -0.1f ? velocity.y + (drag.y * dt) :
+            velocity.y > 0.1f ? velocity.y - (drag.y * dt) : 0.f;
     }
 }
 

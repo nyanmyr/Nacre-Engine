@@ -19,8 +19,10 @@ void SetShapeOriginSystem();
 // -------------------------------------------------------
 void ButtonClickedSystem(sf::Vector2i&, bool&, DeltaTime);
 void NextSceneSystem(sf::RenderWindow&, sf::Font&);
-void PlayerControlSystem(const Entity player, const sf::Event::KeyPressed* buttonPress, DeltaTime dt);
-void MoveSystem();
+void PlayerControlSystem(const Entity player, DeltaTime dt);
+void MoveSystem(const DeltaTime dt);
+void DragSystem(const DeltaTime dt);
+
 // make edge collision system here
 
 // -------------------------------------------------------
