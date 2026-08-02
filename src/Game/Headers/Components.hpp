@@ -15,87 +15,70 @@ enum TextFormat
 
 struct CPosition
 {
-	float x, y;
+	float x = 0.f;
+	float y = 0.f;
 };
 
 struct CShape
 {
-	sf::RectangleShape rect;
+	sf::RectangleShape rect {};
 };
 
 struct CTransform
 {
-	float width = 0.f, height = 0.f;
-	CTransform() = default;
-	CTransform(const float width, const float height) :
-		width(width), height(height) {
-	};
+	float width = 0.f;
+	float height = 0.f;
 };
 
 struct COrigin
 {
-	float offsetX = 0.f, offsetY = 0.f;
-	COrigin() = default;
-	COrigin(const float offsetX, const float offsetY) :
-		offsetX(offsetX), offsetY(offsetY) {};
+	float offsetX = 0.f;
+	float offsetY = 0.f;
 };
 
 struct CButton
 {
-	float clickedDuration, clickedTimer = 0.f;
-	bool clicked = false, enabled = true;
-
-	CButton() = default;
-	CButton(const float clickedDuration, const bool enabled) :
-		clickedDuration(clickedDuration), enabled(enabled) {};
+	float clickedDuration = 0.f;
+	float enabled = true;
+	float clickedTimer = 0.f;
+	bool clicked = false;
 };
 
 struct CText
 {
-	std::optional<sf::Text> box;
-	std::string string = " ";
+	std::optional<sf::Text> box {};
+	std::string string = "";
 	int size = 12;
-	sf::Color color;
-	TextFormat format;
-
-	CText() = default;
-	CText(sf::Text box, std::string string, int size, sf::Color color, TextFormat format) :
-		box(box), string(string), size(size), color(color), format(format) {};
+	sf::Color color = sf::Color::White;
+	TextFormat format = TextFormat::MIDDLE;
 };
 
 struct CNextScene
 {
-	Scene next;
-	bool active;
+	Scene next = Scene::MENU;
+	bool active = false;
 };
 
 struct CZIndex
 {
-	int index = true;
+	int index = 0;
 	bool visible = true;
-
-	CZIndex() = default;
-	CZIndex(int index, bool visible) :
-		index(index), visible(visible) {
-	};
 };
 
 struct CVelocity
 {
-	float x = 0.f, y = 0.f, minX = 0.f, minY = 0.f, maxX = 0.f, maxY = 0.f;
-
-	CVelocity() = default;
-	CVelocity(float minX, float minY, float maxX, float maxY) :
-		minX(minX), minY(minY), maxX(maxX), maxY(maxY) {};
+	float minX = 0.f;
+	float minY = 0.f;
+	float maxX = 0.f;
+	float maxY = 0.f;
+	float x = 0.f;
+	float y = 0.f;
 };
 
 struct CSpeed
 {
-	float x = 0.f, y = 0.f;
-
-	CSpeed() = default;
-	CSpeed(float x, float y) :
-		x(x), y(y) {};
+	float x = 0.f;
+	float y = 0.f;
 };
 
 struct CPlayerController
@@ -105,12 +88,8 @@ struct CPlayerController
 
 struct CDrag
 {
-	float x = 0.f, y = 0.f;
-
-	CDrag() = default;
-	CDrag(float x, float y) :
-		x(x), y(y) {
-	};
+	float x = 0.f;
+	float y = 0.f;
 };
 
 #endif

@@ -15,11 +15,20 @@ void setTextOriginSystem();
 void setShapeOriginSystem();
 
 // -------------------------------------------------------
+// control systems
+// -------------------------------------------------------
+void buttonClicks_Control(const sf::Vector2i mouseVector, const DeltaTime dt);
+void playerControlSystem(const Entity player, DeltaTime dt);
+
+// -------------------------------------------------------
 // update systems
 // -------------------------------------------------------
-void buttonClickedSystem(sf::Vector2i& mouseVector, bool& buttonClicked, const DeltaTime dt);
+void doButtons_Update
+(
+	const sf::Vector2i mouseVector,
+	const DeltaTime dt
+);
 void nextSceneSystem(sf::RenderWindow& window, sf::Font& font);
-void playerControlSystem(const Entity player, DeltaTime dt);
 void moveSystem(const DeltaTime dt);
 void dragSystem(const DeltaTime dt);
 

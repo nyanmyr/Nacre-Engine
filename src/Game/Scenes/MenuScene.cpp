@@ -13,25 +13,18 @@ void MenuScene(sf::RenderWindow& window, sf::Font& font) {
 	// game state variables
 	Clock clock;
 	std::queue<Entity> renderQueue;
-	bool buttonClicked = false;
 
 	// entity instantiation
 	Entity playButton = makeButton
 	(
-		sf::Vector2f
-		(
-			{
-				window.getSize().x / 2.f,
-				window.getSize().y / 2.f
-			}
-		),
-		sf::Vector2f
-		(
-			{
-				200.f,
-				100.f
-			}
-		),
+		{
+			window.getSize().x / 2.f,
+			window.getSize().y / 2.f
+		},
+		{
+			200.f,
+			100.f
+		},
 		Scene::PLAYING,
 		"Play",
 		font
@@ -56,15 +49,36 @@ void MenuScene(sf::RenderWindow& window, sf::Font& font) {
 				window.close();
 			}
 
-			if (const auto& mousePress = event->getIf<sf::Event::MouseButtonPressed>())
+			if (const auto& mousePressed = event->getIf<sf::Event::MouseButtonPressed>())
 			{
-				buttonClicked = true;
+				if (mousePressed->button == sf::Mouse::Button::Left)
+				{
+					buttonClicks_Control
+					(
+						{ 
+							static_cast<int>(worldPos.x),
+							static_cast<int>(worldPos.y)
+						},
+						dt
+					);
+				}
 			}
 		}
 
 		// update systems
-		buttonClickedSystem(sf::Vector2i(worldPos.x, worldPos.y), buttonClicked, dt);
-		nextSceneSystem(window, font);
+		doButtons_Update
+		(
+			{
+				static_cast<int>(worldPos.x),
+				static_cast<int>(worldPos.y)
+			},
+			dt
+		);
+		nextSceneSystem
+		(
+			window,
+			font
+		);
 
 		window.clear();
 		// render systems
