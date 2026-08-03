@@ -8,8 +8,8 @@ NacreCoordinator& entityMakerNC = NacreCoordinator::getInstance();
 Entity makePlayer
 (
 	const sf::Vector2f pos,
-	const sf::Vector2f minVelocity,
 	const sf::Vector2f size,
+	const sf::Vector2f minVelocity,
 	const sf::Vector2f maxVelocity,
 	const sf::Vector2f speed,
 	const sf::Vector2f drag

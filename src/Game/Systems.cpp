@@ -7,7 +7,7 @@ NacreCoordinator& systemsNC = NacreCoordinator::getInstance();
 // -------------------------------------------------------
 // start systems
 // -------------------------------------------------------
-void setTextSystem(sf::Font& font)
+void Start::setText(sf::Font& font)
 {
     auto& texts = systemsNC.getComponentArray<CText>();
 
@@ -18,7 +18,7 @@ void setTextSystem(sf::Font& font)
         text.box.value().setFillColor(text.color);
     }
 }
-void setTextOriginSystem()
+void Start::setTextOrigin()
 {
     auto& texts = systemsNC.getComponentArray<CText>();
     auto& transforms = systemsNC.getComponentArray<CTransform>();
@@ -61,7 +61,7 @@ void setTextOriginSystem()
         );
     }
 }
-void setShapeOriginSystem()
+void Start::setShapeOrigin()
 {
     auto& origins = systemsNC.getComponentArray<COrigin>();
     auto& shapes = systemsNC.getComponentArray<CShape>();
@@ -96,7 +96,7 @@ const float HOVER_SCALE_Y = 1.1f;
 const float CLICKED_SCALE_X = 0.9f;
 const float CLICKED_SCALE_Y = 0.9f;
 
-void buttonClicks_Control
+void Control::buttonClicks
 (
     const sf::Vector2i mouseVector,
     const DeltaTime dt
@@ -137,184 +137,19 @@ void buttonClicks_Control
         }
     }
 }
-
-// -------------------------------------------------------
-// update systems
-// -------------------------------------------------------
-void doButtons_Update
+void Control::doPlayerControl
 (
-    const sf::Vector2i mouseVector,
+    const Entity player,
     const DeltaTime dt
 )
-{
-    auto& shapeArray = systemsNC.getComponentArray<CShape>();
-    auto& buttonArray = systemsNC.getComponentArray<CButton>();
-    auto& originArray = systemsNC.getComponentArray<COrigin>();
-    auto& textArray = systemsNC.getComponentArray<CText>();
-    auto& nextSceneArray = systemsNC.getComponentArray<CNextScene>();
-    auto& transformArray = systemsNC.getComponentArray<CTransform>();
-    auto& positionArray = systemsNC.getComponentArray<CPosition>();
-
-    for (auto& [entity, button] : buttonArray->getAll())
-    {
-        if (!button.enabled)
-        {
-            continue;
-        }
-
-        // buttonArray must have a shape, origin, and text
-        if (!originArray->hasData(entity) ||
-            !positionArray->hasData(entity) ||
-            !shapeArray->hasData(entity))
-        {
-            continue;
-        }
-
-        ////std::cout << "button.top: " << button.top << "\n";
-        ////std::cout << "button.left: " << button.left << "\n";
-        COrigin& origin = originArray->getData(entity);
-        CTransform& transform = transformArray->getData(entity);
-        CPosition& position = positionArray->getData(entity);
-        CShape& shape = shapeArray->getData(entity);
-
-        if (button.clickedTimer <= 0)
-        {
-            shape.rect.setScale
-            (
-                sf::Vector2f
-                (
-                    DEFAULT_SCALE_X,
-                    DEFAULT_SCALE_Y
-                )
-            );
-
-            if (textArray->hasData(entity))
-            {
-                CText& text = textArray->getData(entity);
-                text.box->setScale
-                (
-                    sf::Vector2f
-                    (
-                        DEFAULT_SCALE_X,
-                        DEFAULT_SCALE_Y
-                    )
-                );
-            }
-
-            button.clicked = false; // reset
-        }
-        else
-        {
-            button.clickedTimer -= dt;
-            if (button.clickedTimer <= 0)
-            {
-                button.clicked = true;
-
-                if (nextSceneArray->hasData(entity))
-                {
-                    ////std::cout << "starting next scene." << "\n";
-                    CNextScene& nextScene = nextSceneArray->getData(entity);
-                    nextScene.active = true;
-                }
-            }
-        }
-
-        // button hovering
-        if (mouseVector.x > position.x - origin.offsetX &&
-            mouseVector.x < position.x + transform.width - origin.offsetX &&
-            mouseVector.y > position.y - origin.offsetY &&
-            mouseVector.y < position.y + transform.height - origin.offsetY &&
-            button.clickedTimer <= 0)
-        {
-            shape.rect.setScale
-            (
-                sf::Vector2f
-                (
-                    HOVER_SCALE_X * transform.width,
-                    HOVER_SCALE_Y * transform.height
-                )
-            );
-
-            if (textArray->hasData(entity))
-            {
-                CText& text = textArray->getData(entity);
-                text.box->setScale
-                (
-                    sf::Vector2f
-                    (
-                        HOVER_SCALE_X,
-                        HOVER_SCALE_Y
-                    )
-                );
-            }
-        }
-
-        // button clicking
-        if (button.clickedTimer > 0)
-        {
-            shape.rect.setScale
-            (
-                sf::Vector2f
-                (
-                    CLICKED_SCALE_X * transform.width,
-                    CLICKED_SCALE_Y * transform.height
-                )
-            );
-
-            if (textArray->hasData(entity))
-            {
-                CText& text = textArray->getData(entity);
-                text.box->setScale
-                (
-                    sf::Vector2f
-                    (
-                        CLICKED_SCALE_X,
-                        CLICKED_SCALE_Y
-                    )
-                );
-            }
-        }
-    }
-}
-void nextSceneSystem(sf::RenderWindow& window, sf::Font& font)
-{
-    auto& nextScenes = systemsNC.getComponentArray<CNextScene>();
-
-    bool playNext = false;
-    Scene playNextScene;
-
-    for (auto& [entity, nextScene] : nextScenes->getAll())
-    {
-        // buttons must have a shape, origin, and text
-        if (nextScene.active)
-        {
-            //std::cout << "active: " << nextScene.next << "\n";
-            playNext = true;
-            playNextScene = nextScene.next;
-            break;
-        }
-    }
-
-    if (playNext)
-    {
-        systemsNC.destroyAll();
-        playScene(window, playNextScene, font);
-        window.close();
-    }
-}
-void playerControlSystem(const Entity player, DeltaTime dt)
-// controlling seems buggy, first you move slow then you speed up suddenly
 {
     auto& velocities = systemsNC.getComponentArray<CVelocity>();
     auto& speeds = systemsNC.getComponentArray<CSpeed>();
     auto& playerControllers = systemsNC.getComponentArray<CPlayerController>();
 
-    if 
-    (
-        !velocities->hasData(player) ||
+    if (!velocities->hasData(player) ||
         !speeds->hasData(player) ||
-        !playerControllers->hasData(player)
-    )
+        !playerControllers->hasData(player))
     {
         return;
     }
@@ -334,7 +169,7 @@ void playerControlSystem(const Entity player, DeltaTime dt)
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W))
     {
         newSpeedY = -speed.y;
-    } 
+    }
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S))
     {
         newSpeedY = speed.y;
@@ -372,7 +207,171 @@ void playerControlSystem(const Entity player, DeltaTime dt)
     }
 
 }
-void moveSystem(const DeltaTime dt)
+
+// -------------------------------------------------------
+// update systems
+// -------------------------------------------------------
+void Update::doButtons
+(
+    const sf::Vector2i mouseVector,
+    const DeltaTime dt
+)
+{
+    auto& shapeArray = systemsNC.getComponentArray<CShape>();
+    auto& buttonArray = systemsNC.getComponentArray<CButton>();
+    auto& originArray = systemsNC.getComponentArray<COrigin>();
+    auto& textArray = systemsNC.getComponentArray<CText>();
+    auto& nextSceneArray = systemsNC.getComponentArray<CNextScene>();
+    auto& transformArray = systemsNC.getComponentArray<CTransform>();
+    auto& positionArray = systemsNC.getComponentArray<CPosition>();
+
+    for (auto& [entity, button] : buttonArray->getAll())
+    {
+        if (!button.enabled)
+        {
+            continue;
+        }
+
+        // buttonArray must have a shape, origin, and text
+        if (!originArray->hasData(entity) ||
+            !transformArray->hasData(entity) ||
+            !positionArray->hasData(entity) ||
+            !shapeArray->hasData(entity))
+        {
+            continue;
+        }
+
+        ////std::cout << "button.top: " << button.top << "\n";
+        ////std::cout << "button.left: " << button.left << "\n";
+        COrigin& origin = originArray->getData(entity);
+        CTransform& transform = transformArray->getData(entity);
+        CPosition& position = positionArray->getData(entity);
+        CShape& shape = shapeArray->getData(entity);
+
+        if (button.clickedTimer <= 0)
+        {
+            shape.rect.setScale
+            (
+                {
+                    DEFAULT_SCALE_X,
+                    DEFAULT_SCALE_Y
+                }
+            );
+
+            if (textArray->hasData(entity))
+            {
+                CText& text = textArray->getData(entity);
+                text.box->setScale
+                (
+                    {
+                        DEFAULT_SCALE_X,
+                        DEFAULT_SCALE_Y
+                    }
+                );
+            }
+
+            button.clicked = false; // reset
+        }
+        else
+        {
+            button.clickedTimer -= dt;
+            if (button.clickedTimer <= 0)
+            {
+                button.clicked = true;
+
+                if (nextSceneArray->hasData(entity))
+                {
+                    ////std::cout << "starting next scene." << "\n";
+                    CNextScene& nextScene = nextSceneArray->getData(entity);
+                    nextScene.active = true;
+                }
+            }
+        }
+
+        // button hovering
+        if (mouseVector.x > position.x - origin.offsetX &&
+            mouseVector.x < position.x + transform.width - origin.offsetX &&
+            mouseVector.y > position.y - origin.offsetY &&
+            mouseVector.y < position.y + transform.height - origin.offsetY &&
+            button.clickedTimer <= 0)
+        {
+            shape.rect.setScale
+            (
+                {
+                    HOVER_SCALE_X,
+                    HOVER_SCALE_Y
+                }
+            );
+
+            if (textArray->hasData(entity))
+            {
+                CText& text = textArray->getData(entity);
+                text.box->setScale
+                (
+                    {
+                        HOVER_SCALE_X,
+                        HOVER_SCALE_Y
+                    }
+                );
+            }
+        }
+
+        // button clicking
+        if (button.clickedTimer > 0)
+        {
+            shape.rect.setScale
+            (
+                {
+                    CLICKED_SCALE_X,
+                    CLICKED_SCALE_Y
+                }
+            );
+
+            if (textArray->hasData(entity))
+            {
+                CText& text = textArray->getData(entity);
+                text.box->setScale
+                (
+                    {
+                        CLICKED_SCALE_X,
+                        CLICKED_SCALE_Y
+                    }
+                );
+            }
+        }
+    }
+}
+void Update::doNextScene
+(
+    sf::RenderWindow& window,
+    sf::Font& font
+)
+{
+    auto& nextScenes = systemsNC.getComponentArray<CNextScene>();
+
+    bool playNext = false;
+    Scene playNextScene;
+
+    for (auto& [entity, nextScene] : nextScenes->getAll())
+    {
+        // buttons must have a shape, origin, and text
+        if (nextScene.active)
+        {
+            //std::cout << "active: " << nextScene.next << "\n";
+            playNext = true;
+            playNextScene = nextScene.next;
+            break;
+        }
+    }
+
+    if (playNext)
+    {
+        systemsNC.destroyAll();
+        playScene(window, playNextScene, font);
+        window.close();
+    }
+}
+void Update::move(const DeltaTime dt)
 {
     auto& velocities = systemsNC.getComponentArray<CVelocity>();
     auto& positions = systemsNC.getComponentArray<CPosition>();
@@ -389,7 +388,7 @@ void moveSystem(const DeltaTime dt)
         pos.y += (velocity.y * dt);
     }
 }
-void dragSystem(const DeltaTime dt)
+void Update::drag(const DeltaTime dt)
 {
     auto& velocities = systemsNC.getComponentArray<CVelocity>();
     auto& drags = systemsNC.getComponentArray<CDrag>();
@@ -414,7 +413,7 @@ void dragSystem(const DeltaTime dt)
 // -------------------------------------------------------
 // rendering systems
 // -------------------------------------------------------
-void zIndexSystem(std::queue<Entity>& renderQueue)
+void Render::doZIndex(std::queue<Entity>& renderQueue)
 {
     auto& zIndexes = systemsNC.getComponentArray<CZIndex>();
 
@@ -430,7 +429,11 @@ void zIndexSystem(std::queue<Entity>& renderQueue)
         renderQueue.push(entity);
     }
 }
-void renderSystem(sf::RenderWindow& window, std::queue<Entity>& renderQueue)
+void Render::render
+(
+    sf::RenderWindow& window,
+    std::queue<Entity>& renderQueue
+)
 {
     auto& shapes = systemsNC.getComponentArray<CShape>();
     auto& positions = systemsNC.getComponentArray<CPosition>();

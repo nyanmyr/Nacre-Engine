@@ -5,39 +5,47 @@
 #include "../../Engine/NacreCoordinator.hpp"
 #include "Components.hpp"
 
-// oughta make some of these parameters as consts
+namespace Start
+{
+	void setText(sf::Font& font);
+	void setTextOrigin();
+	void setShapeOrigin();
+}
 
-// -------------------------------------------------------
-// start systems
-// -------------------------------------------------------
-void setTextSystem(sf::Font& font);
-void setTextOriginSystem();
-void setShapeOriginSystem();
+namespace Control
+{
+	void buttonClicks
+	(
+		const sf::Vector2i mouseVector,
+		const DeltaTime dt
+	);
+	void doPlayerControl
+	(
+		const Entity player,
+		const DeltaTime dt
+	);
+}
 
-// -------------------------------------------------------
-// control systems
-// -------------------------------------------------------
-void buttonClicks_Control(const sf::Vector2i mouseVector, const DeltaTime dt);
-void playerControlSystem(const Entity player, DeltaTime dt);
+namespace Update
+{
+	void doButtons
+	(
+		const sf::Vector2i mouseVector,
+		const DeltaTime dt
+	);
+	void doNextScene(sf::RenderWindow& window, sf::Font& font);
+	void move(const DeltaTime dt);
+	void drag(const DeltaTime dt);
+}
 
-// -------------------------------------------------------
-// update systems
-// -------------------------------------------------------
-void doButtons_Update
-(
-	const sf::Vector2i mouseVector,
-	const DeltaTime dt
-);
-void nextSceneSystem(sf::RenderWindow& window, sf::Font& font);
-void moveSystem(const DeltaTime dt);
-void dragSystem(const DeltaTime dt);
-
-// make edge collision system here
-
-// -------------------------------------------------------
-// rendering systems
-// -------------------------------------------------------
-void zIndexSystem(std::queue<Entity>& renderQueue);
-void renderSystem(sf::RenderWindow& window, std::queue<Entity>& renderQueue);
+namespace Render
+{
+	void doZIndex(std::queue<Entity>& renderQueue);
+	void render
+	(
+		sf::RenderWindow& window,
+		std::queue<Entity>& renderQueue
+	);
+}
 
 #endif

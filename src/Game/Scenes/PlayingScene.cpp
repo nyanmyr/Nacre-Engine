@@ -2,16 +2,11 @@
 #include "../src/Game/Headers/GameManager.hpp"
 #include "../src/Game/Headers/Scenes.hpp"
 
-using sf::RenderWindow;
-using sf::Clock;
-using sf::Event;
-using sf::Keyboard::Scancode;
-
 void PlayingScene(sf::RenderWindow& window, sf::Font& font) {
 	NacreCoordinator& nc = NacreCoordinator::getInstance();
 
 	// game state variables
-	Clock clock;
+	sf::Clock clock;
 	std::queue<Entity> renderQueue;
 
 	// entity instantiation
@@ -44,9 +39,9 @@ void PlayingScene(sf::RenderWindow& window, sf::Font& font) {
 	);
 
 	// onstart systems
-	setTextSystem(font); // font system is limited to one font
-	setTextOriginSystem();
-	setShapeOriginSystem();
+	Start::setText(font); // font system is limited to one font
+	Start::setTextOrigin();
+	Start::setShapeOrigin();
 
 	while (window.isOpen())
 	{
@@ -54,25 +49,25 @@ void PlayingScene(sf::RenderWindow& window, sf::Font& font) {
 
 		while (const std::optional event = window.pollEvent())
 		{
-			if (event->is<Event::Closed>())
+			if (event->is<sf::Event::Closed>())
 			{
 				window.close();
 			}
 		}
 
 		// systems
-		playerControlSystem
+		Control::doPlayerControl
 		(
 			player,
 			dt
 		);
-		moveSystem(dt);
-		dragSystem(dt);
+		Update::move(dt);
+		Update::drag(dt);
 
 		window.clear();
 		// render systems
-		zIndexSystem(renderQueue);
-		renderSystem
+		Render::doZIndex(renderQueue);
+		Render::render
 		(
 			window,
 			renderQueue

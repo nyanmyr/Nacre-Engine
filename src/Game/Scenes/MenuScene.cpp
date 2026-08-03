@@ -2,16 +2,11 @@
 #include "../src/Game/Headers/GameManager.hpp"
 #include "../src/Game/Headers/Scenes.hpp"
 
-using sf::RenderWindow;
-using sf::Clock;
-using sf::Event;
-using sf::Keyboard::Scancode;
-
 void MenuScene(sf::RenderWindow& window, sf::Font& font) {
 	NacreCoordinator& nc = NacreCoordinator::getInstance();
 
 	// game state variables
-	Clock clock;
+	sf::Clock clock;
 	std::queue<Entity> renderQueue;
 
 	// entity instantiation
@@ -31,9 +26,9 @@ void MenuScene(sf::RenderWindow& window, sf::Font& font) {
 	);
 
 	// onstart systems
-	setTextSystem(font); // font system is limited to one font
-	setTextOriginSystem();
-	setShapeOriginSystem();
+	Start::setText(font); // font system is limited to one font
+	Start::setTextOrigin();
+	Start::setShapeOrigin();
 
 	while (window.isOpen())
 	{
@@ -44,7 +39,7 @@ void MenuScene(sf::RenderWindow& window, sf::Font& font) {
 
 		while (const std::optional event = window.pollEvent())
 		{
-			if (event->is<Event::Closed>())
+			if (event->is<sf::Event::Closed>())
 			{
 				window.close();
 			}
@@ -53,7 +48,7 @@ void MenuScene(sf::RenderWindow& window, sf::Font& font) {
 			{
 				if (mousePressed->button == sf::Mouse::Button::Left)
 				{
-					buttonClicks_Control
+					Control::buttonClicks
 					(
 						{ 
 							static_cast<int>(worldPos.x),
@@ -66,7 +61,7 @@ void MenuScene(sf::RenderWindow& window, sf::Font& font) {
 		}
 
 		// update systems
-		doButtons_Update
+		Update::doButtons
 		(
 			{
 				static_cast<int>(worldPos.x),
@@ -74,7 +69,7 @@ void MenuScene(sf::RenderWindow& window, sf::Font& font) {
 			},
 			dt
 		);
-		nextSceneSystem
+		Update::doNextScene
 		(
 			window,
 			font
@@ -82,8 +77,8 @@ void MenuScene(sf::RenderWindow& window, sf::Font& font) {
 
 		window.clear();
 		// render systems
-		zIndexSystem(renderQueue);
-		renderSystem(window, renderQueue);
+		Render::doZIndex(renderQueue);
+		Render::render(window, renderQueue);
 		window.display();
 	}
 }

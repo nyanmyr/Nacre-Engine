@@ -34,7 +34,16 @@ FetchContent_MakeAvailable(SFML)
 # DON'T ADD THE SOURCES BY HAND, they are already added with this macro
 file(GLOB_RECURSE MY_SOURCES CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp")
 
-add_executable(${CMAKE_PROJECT_NAME} ${MY_SOURCES})
+# --- Application Icon (Windows) ---
+set(APP_ICON_RESOURCE "")
+if(WIN32)
+    # Include the .rc file in sources so CMake compiles it via rc.exe / windres
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/app.rc")
+        set(APP_ICON_RESOURCE "${CMAKE_CURRENT_SOURCE_DIR}/app.rc")
+    endif()
+endif()
+
+add_executable(${CMAKE_PROJECT_NAME} ${MY_SOURCES} ${APP_ICON_RESOURCE})
 
 # --- Target Properties & Includes ---
 # Require C++17
@@ -71,7 +80,7 @@ target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE
     SFML::Window 
     SFML::System 
     SFML::Audio 
-    SFML::Network
+    # SFML::Network
 )
 
 # --- IDE Integration ---
