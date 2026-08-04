@@ -92,4 +92,29 @@ struct CDrag
 	float y = 0.f;
 };
 
+struct CSprite
+{
+	std::optional<sf::Sprite> body {};
+};
+
+enum ETexture
+{
+	TEXTURE_PLACEHOLDER
+};
+
+struct CTexture
+{
+	ETexture data;
+
+	CTexture() = default;
+	CTexture(ETexture texture) :
+		data(texture) {
+	};
+};
+
+struct CTexturesContainer
+{
+	std::unordered_map<ETexture, sf::Texture> map;
+};
+
 #endif

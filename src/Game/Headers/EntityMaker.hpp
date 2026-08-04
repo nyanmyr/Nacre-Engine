@@ -21,5 +21,5 @@ Entity makeButton
 	const std::string str,
 	const sf::Font& font
 );
-
+Entity makeLoadedTexturesContainer();
 #endif

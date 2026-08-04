@@ -34,6 +34,9 @@ void main() {
 	nc.registerComponent<CSpeed>();
 	nc.registerComponent<CPlayerController>();
 	nc.registerComponent<CDrag>();
+	nc.registerComponent<CSprite>();
+	nc.registerComponent<CTexture>();
+	nc.registerComponent<CTexturesContainer>();
 
 	sf::Font font;
 	if (!font.openFromFile(FONT_FILEPATH))

@@ -9,6 +9,8 @@ void PlayingScene(sf::RenderWindow& window, sf::Font& font) {
 	sf::Clock clock;
 	std::queue<Entity> renderQueue;
 
+	Entity loadedTextures = makeLoadedTexturesContainer();
+
 	// entity instantiation
 	Entity player = makePlayer
 	(
