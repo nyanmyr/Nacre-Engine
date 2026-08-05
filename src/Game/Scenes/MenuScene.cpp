@@ -14,6 +14,7 @@ void MenuScene(sf::RenderWindow& window, sf::Font& font) {
 	// entity instantiation
 	Entity playButton = makeButton
 	(
+		ETexture::TEXTURE_PLACEHOLDER,
 		{
 			window.getSize().x / 2.f,
 			window.getSize().y / 2.f
@@ -30,7 +31,10 @@ void MenuScene(sf::RenderWindow& window, sf::Font& font) {
 	// onstart systems
 	Start::setText(font); // font system is limited to one font
 	Start::setTextOrigin();
-	Start::setShapeOrigin();
+
+	Start::loadTextures(loadedTextures);
+	Start::loadSprites(loadedTextures);
+	Start::setSpriteOrigin();
 
 	while (window.isOpen())
 	{

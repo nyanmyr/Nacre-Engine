@@ -7,6 +7,7 @@ NacreCoordinator& entityMakerNC = NacreCoordinator::getInstance();
 
 Entity makePlayer
 (
+	const ETexture texture,
 	const sf::Vector2f pos,
 	const sf::Vector2f size,
 	const sf::Vector2f minVelocity,
@@ -24,17 +25,6 @@ Entity makePlayer
 		{ 
 			pos.x,
 			pos.y
-		}
-	);
-
-	sf::RectangleShape rect(sf::Vector2f(size.x, size.y));
-	rect.setFillColor(sf::Color::Green);
-
-	entityMakerNC.addComponent
-	(
-		entity,
-		CShape{
-			rect
 		}
 	);
 	entityMakerNC.addComponent
@@ -92,12 +82,32 @@ Entity makePlayer
 			true
 		}
 	);
+	entityMakerNC.addComponent
+	(
+		entity,
+		CTransform
+		{
+			size.x,
+			size.y
+		}
+	);
+	entityMakerNC.addComponent
+	(
+		entity,
+		CTexture{ texture }
+	);
+	entityMakerNC.addComponent
+	(
+		entity,
+		CSprite{}
+	);
 
 	return entity;
 }
 
 Entity makeButton
 (
+	const ETexture texture,
 	const sf::Vector2f pos,
 	const sf::Vector2f size,
 	const Scene scene,
@@ -122,15 +132,6 @@ Entity makeButton
 		{
 			size.x,
 			size.y
-		}
-	);
-	sf::RectangleShape rect(sf::Vector2f(size.x, size.y));
-	entityMakerNC.addComponent
-	(
-		entity,
-		CShape
-		{
-			rect
 		}
 	);
 	entityMakerNC.addComponent
@@ -182,6 +183,25 @@ Entity makeButton
 			1,
 			true
 		}
+	);
+	entityMakerNC.addComponent
+	(
+		entity,
+		CTransform
+		{
+			size.x,
+			size.y
+		}
+	);
+	entityMakerNC.addComponent
+	(
+		entity,
+		CTexture{ texture }
+	);
+	entityMakerNC.addComponent
+	(
+		entity,
+		CSprite{}
 	);
 
 	return entity;

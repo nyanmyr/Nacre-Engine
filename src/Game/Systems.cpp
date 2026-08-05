@@ -61,24 +61,77 @@ void Start::setTextOrigin()
         );
     }
 }
-void Start::setShapeOrigin()
+void Start::setSpriteOrigin()
 {
-    auto& origins = systemsNC.getComponentArray<COrigin>();
-    auto& shapes = systemsNC.getComponentArray<CShape>();
+    auto& originArray = systemsNC.getComponentArray<COrigin>();
+    auto& spriteArray = systemsNC.getComponentArray<CSprite>();
 
-    for (auto& [entity, shape] : shapes->getAll())
+
+    for (auto& [entity, sprite] : spriteArray->getAll())
     {
-        if (!origins->hasData(entity))
+        if (!originArray->hasData(entity))
         {
             continue;
         }
 
-        COrigin& origin = origins->getData(entity);
-        shape.rect.setOrigin
+        COrigin& origin = originArray->getData(entity);
+
+        sprite.body->setOrigin
         (
             {
-                origin.offsetX,
-                origin.offsetY
+                origin.offsetX / sprite.body->getScale().x,
+                origin.offsetY / sprite.body->getScale().y
+            }
+        );
+    }
+}
+void Start::loadTextures(Entity loadedTextures)
+{
+    auto& texturesContainerArray = systemsNC.getComponentArray<CTexturesContainer>();
+
+    if (!texturesContainerArray->hasData(loadedTextures))
+    {
+        return;
+    }
+
+    CTexturesContainer& container = texturesContainerArray->getData(loadedTextures);
+
+    container.map.emplace(ETexture::TEXTURE_PLACEHOLDER, sf::Texture(SPRITES_PATH "placeholder_texture.jpeg"));
+}
+void Start::loadSprites(Entity loadedTextures)
+{
+    auto& spriteArray = systemsNC.getComponentArray<CSprite>();
+    auto& transformArray = systemsNC.getComponentArray<CTransform>();
+    auto& textureArray = systemsNC.getComponentArray<CTexture>();
+    auto& texturesContainerArray = systemsNC.getComponentArray<CTexturesContainer>();
+
+    if (!texturesContainerArray->hasData(loadedTextures))
+    {
+        return;
+    }
+
+    CTexturesContainer& container = texturesContainerArray->getData(loadedTextures);
+
+    for (auto& [entity, sprite] : spriteArray->getAll())
+    {
+        if
+            (
+                !transformArray->hasData(entity) ||
+                !textureArray->hasData(entity)
+                )
+        {
+            continue;
+        }
+
+        CTexture& texture = textureArray->getData(entity);
+        CTransform& transform = transformArray->getData(entity);
+
+        sprite.body.emplace(container.map[texture.data]);
+        sprite.body->setScale
+        (
+            {
+                transform.width / sprite.body->getGlobalBounds().size.x,
+                transform.height / sprite.body->getGlobalBounds().size.y
             }
         );
     }
@@ -215,9 +268,8 @@ void Update::doButtons
 (
     const sf::Vector2i mouseVector,
     const DeltaTime dt
-)
-{
-    auto& shapeArray = systemsNC.getComponentArray<CShape>();
+) {
+    auto& spriteArray = systemsNC.getComponentArray<CSprite>();
     auto& buttonArray = systemsNC.getComponentArray<CButton>();
     auto& originArray = systemsNC.getComponentArray<COrigin>();
     auto& textArray = systemsNC.getComponentArray<CText>();
@@ -234,9 +286,8 @@ void Update::doButtons
 
         // buttonArray must have a shape, origin, and text
         if (!originArray->hasData(entity) ||
-            !transformArray->hasData(entity) ||
             !positionArray->hasData(entity) ||
-            !shapeArray->hasData(entity))
+            !spriteArray->hasData(entity))
         {
             continue;
         }
@@ -246,16 +297,17 @@ void Update::doButtons
         COrigin& origin = originArray->getData(entity);
         CTransform& transform = transformArray->getData(entity);
         CPosition& position = positionArray->getData(entity);
-        CShape& shape = shapeArray->getData(entity);
+        CSprite& sprite = spriteArray->getData(entity);
 
         if (button.clickedTimer <= 0)
         {
-            shape.rect.setScale
+            sprite.body->setScale
             (
-                {
-                    DEFAULT_SCALE_X,
-                    DEFAULT_SCALE_Y
-                }
+                sf::Vector2f
+                (
+                    DEFAULT_SCALE_X * (transform.width / sprite.body->getTexture().getSize().x),
+                    DEFAULT_SCALE_Y * (transform.height / sprite.body->getTexture().getSize().y)
+                )
             );
 
             if (textArray->hasData(entity))
@@ -263,14 +315,13 @@ void Update::doButtons
                 CText& text = textArray->getData(entity);
                 text.box->setScale
                 (
-                    {
+                    sf::Vector2f
+                    (
                         DEFAULT_SCALE_X,
                         DEFAULT_SCALE_Y
-                    }
+                    )
                 );
             }
-
-            button.clicked = false; // reset
         }
         else
         {
@@ -289,18 +340,22 @@ void Update::doButtons
         }
 
         // button hovering
-        if (mouseVector.x > position.x - origin.offsetX &&
-            mouseVector.x < position.x + transform.width - origin.offsetX &&
-            mouseVector.y > position.y - origin.offsetY &&
-            mouseVector.y < position.y + transform.height - origin.offsetY &&
-            button.clickedTimer <= 0)
-        {
-            shape.rect.setScale
+        if
             (
-                {
-                    HOVER_SCALE_X,
-                    HOVER_SCALE_Y
-                }
+                mouseVector.x > position.x - origin.offsetX &&
+                mouseVector.x < position.x + transform.width - origin.offsetX &&
+                mouseVector.y > position.y - origin.offsetY &&
+                mouseVector.y < position.y + transform.height - origin.offsetY &&
+                button.clickedTimer <= 0
+                )
+        {
+            sprite.body->setScale
+            (
+                sf::Vector2f
+                (
+                    HOVER_SCALE_X * (transform.width / sprite.body->getTexture().getSize().x),
+                    HOVER_SCALE_Y * (transform.height / sprite.body->getTexture().getSize().y)
+                )
             );
 
             if (textArray->hasData(entity))
@@ -308,10 +363,11 @@ void Update::doButtons
                 CText& text = textArray->getData(entity);
                 text.box->setScale
                 (
-                    {
+                    sf::Vector2f
+                    (
                         HOVER_SCALE_X,
                         HOVER_SCALE_Y
-                    }
+                    )
                 );
             }
         }
@@ -319,12 +375,13 @@ void Update::doButtons
         // button clicking
         if (button.clickedTimer > 0)
         {
-            shape.rect.setScale
+            sprite.body->setScale
             (
-                {
-                    CLICKED_SCALE_X,
-                    CLICKED_SCALE_Y
-                }
+                sf::Vector2f
+                (
+                    CLICKED_SCALE_X * (transform.width / sprite.body->getTexture().getSize().x),
+                    CLICKED_SCALE_Y * (transform.height / sprite.body->getTexture().getSize().y)
+                )
             );
 
             if (textArray->hasData(entity))
@@ -332,10 +389,11 @@ void Update::doButtons
                 CText& text = textArray->getData(entity);
                 text.box->setScale
                 (
-                    {
+                    sf::Vector2f
+                    (
                         CLICKED_SCALE_X,
                         CLICKED_SCALE_Y
-                    }
+                    )
                 );
             }
         }
@@ -435,42 +493,45 @@ void Render::render
     std::queue<Entity>& renderQueue
 )
 {
-    auto& shapes = systemsNC.getComponentArray<CShape>();
-    auto& positions = systemsNC.getComponentArray<CPosition>();
-    auto& texts = systemsNC.getComponentArray<CText>();
+    auto& spriteArray = systemsNC.getComponentArray<CSprite>();
+    auto& positionArray = systemsNC.getComponentArray<CPosition>();
+    auto& textArray = systemsNC.getComponentArray<CText>();
 
     while (!renderQueue.empty())
     {
         Entity& popped = renderQueue.front();
-        //std::cout << "popped: " << popped << "\n";
+        ////std::cout << "popped: " << popped << "\n";
 
-        if (!positions->hasData(popped))
+        if
+            (
+                !positionArray->hasData(popped)
+                )
         {
             // this means the entity does not have a position component
             continue;
         }
 
-        CPosition& pos = positions->getData(popped);
+        CPosition& pos = positionArray->getData(popped);
 
-        if (shapes->hasData(popped))
+        if (spriteArray->hasData(popped))
         {
-            CShape& shape = shapes->getData(popped);
+            CSprite& sprite = spriteArray->getData(popped);
 
-            shape.rect.setPosition
+            sprite.body->setPosition
             (
                 {
                     pos.x,
                     pos.y
                 }
             );
-            window.draw(shape.rect);
+            window.draw(sprite.body.value());
         }
 
-        if (texts->hasData(popped))
+        if (textArray->hasData(popped))
         {
-            CText& text = texts->getData(popped);
+            CText& text = textArray->getData(popped);
 
-            text.box.value().setPosition
+            text.box->setPosition
             (
                 {
                     pos.x,

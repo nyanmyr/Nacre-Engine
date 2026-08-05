@@ -9,7 +9,9 @@ namespace Start
 {
 	void setText(sf::Font& font);
 	void setTextOrigin();
-	void setShapeOrigin();
+	void setSpriteOrigin();
+	void loadTextures(Entity loadedTextures);
+	void loadSprites(Entity loadedTextures);
 }
 
 namespace Control

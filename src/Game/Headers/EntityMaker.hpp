@@ -3,9 +3,11 @@
 
 #include <SFML/Graphics.hpp>
 #include "Scenes.hpp"
+#include "Components.hpp"
 
 Entity makePlayer
 (
+	const ETexture texture,
 	const sf::Vector2f pos,
 	const sf::Vector2f size,
 	const sf::Vector2f minVelocity,
@@ -15,6 +17,7 @@ Entity makePlayer
 );
 Entity makeButton
 (
+	const ETexture texture,
 	const sf::Vector2f pos,
 	const sf::Vector2f size,
 	const Scene scene,

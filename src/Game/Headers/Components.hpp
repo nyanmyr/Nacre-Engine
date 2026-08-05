@@ -19,11 +19,6 @@ struct CPosition
 	float y = 0.f;
 };
 
-struct CShape
-{
-	sf::RectangleShape rect {};
-};
-
 struct CTransform
 {
 	float width = 0.f;
