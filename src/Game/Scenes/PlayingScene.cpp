@@ -38,7 +38,8 @@ void PlayingScene(sf::RenderWindow& window, sf::Font& font) {
 		{
 			50.f,
 			50.f
-		}
+		},
+		sf::Color::Green
 	);
 
 	// onstart systems
@@ -48,6 +49,7 @@ void PlayingScene(sf::RenderWindow& window, sf::Font& font) {
 	Start::loadTextures(loadedTextures);
 	Start::loadSprites(loadedTextures);
 	Start::setSpriteOrigin();
+	Start::setColor();
 
 	while (window.isOpen())
 	{

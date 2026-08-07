@@ -12,6 +12,7 @@ namespace Start
 	void setSpriteOrigin();
 	void loadTextures(Entity loadedTextures);
 	void loadSprites(Entity loadedTextures);
+	void setColor();
 }
 
 namespace Control

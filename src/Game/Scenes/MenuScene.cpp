@@ -25,7 +25,8 @@ void MenuScene(sf::RenderWindow& window, sf::Font& font) {
 		},
 		Scene::PLAYING,
 		"Play",
-		font
+		font,
+		sf::Color::Red
 	);
 
 	// onstart systems
@@ -35,6 +36,7 @@ void MenuScene(sf::RenderWindow& window, sf::Font& font) {
 	Start::loadTextures(loadedTextures);
 	Start::loadSprites(loadedTextures);
 	Start::setSpriteOrigin();
+	Start::setColor();
 
 	while (window.isOpen())
 	{

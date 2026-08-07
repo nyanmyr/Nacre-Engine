@@ -13,7 +13,8 @@ Entity makePlayer
 	const sf::Vector2f minVelocity,
 	const sf::Vector2f maxVelocity,
 	const sf::Vector2f speed,
-	const sf::Vector2f drag
+	const sf::Vector2f drag,
+	const sf::Color col
 );
 Entity makeButton
 (
@@ -22,7 +23,8 @@ Entity makeButton
 	const sf::Vector2f size,
 	const Scene scene,
 	const std::string str,
-	const sf::Font& font
+	const sf::Font& font,
+	const sf::Color col
 );
 Entity makeLoadedTexturesContainer();
 #endif

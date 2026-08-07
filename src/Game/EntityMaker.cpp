@@ -13,7 +13,8 @@ Entity makePlayer
 	const sf::Vector2f minVelocity,
 	const sf::Vector2f maxVelocity,
 	const sf::Vector2f speed,
-	const sf::Vector2f drag
+	const sf::Vector2f drag,
+	const sf::Color col
 )
 {
 	Entity entity = entityMakerNC.createEntity();
@@ -102,6 +103,12 @@ Entity makePlayer
 		CSprite{}
 	);
 
+	entityMakerNC.addComponent
+	(
+		entity,
+		CColor{ col }
+	);
+
 	return entity;
 }
 
@@ -112,7 +119,8 @@ Entity makeButton
 	const sf::Vector2f size,
 	const Scene scene,
 	const std::string str,
-	const sf::Font& font
+	const sf::Font& font,
+	const sf::Color col
 )
 {
 	Entity entity = entityMakerNC.createEntity();
@@ -202,6 +210,12 @@ Entity makeButton
 	(
 		entity,
 		CSprite{}
+	);
+
+	entityMakerNC.addComponent
+	(
+		entity,
+		CColor{ col }
 	);
 
 	return entity;

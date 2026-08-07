@@ -112,4 +112,10 @@ struct CTexturesContainer
 	std::unordered_map<ETexture, sf::Texture> map;
 };
 
+struct CColor
+{
+	sf::Color col = sf::Color(sf::Color::White);
+};
+
+
 #endif

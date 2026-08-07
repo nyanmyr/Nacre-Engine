@@ -136,6 +136,24 @@ void Start::loadSprites(Entity loadedTextures)
         );
     }
 }
+void Start::setColor()
+{
+    auto& colorArray = systemsNC.getComponentArray<CColor>();
+    auto& spriteArray = systemsNC.getComponentArray<CSprite>();
+
+    for (auto& [entity, color] : colorArray->getAll())
+    {
+        if (!spriteArray->hasData(entity))
+        {
+            continue;
+        }
+
+        CColor& colorObj = colorArray->getData(entity);
+        CSprite& spriteObj = spriteArray->getData(entity);
+
+        spriteObj.body->setColor(colorObj.col);
+    }
+}
 
 // -------------------------------------------------------
 // control systems
