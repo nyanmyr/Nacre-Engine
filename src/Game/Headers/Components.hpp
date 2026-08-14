@@ -15,27 +15,27 @@ enum TextFormat
 
 struct CPosition
 {
-	float x = 0.f;
-	float y = 0.f;
+	double x = 0.f;
+	double y = 0.f;
 };
 
 struct CTransform
 {
-	float width = 0.f;
-	float height = 0.f;
+	double width = 0.f;
+	double height = 0.f;
 };
 
 struct COrigin
 {
-	float offsetX = 0.f;
-	float offsetY = 0.f;
+	double offsetX = 0.f;
+	double offsetY = 0.f;
 };
 
 struct CButton
 {
-	float clickedDuration = 0.f;
-	float enabled = true;
-	float clickedTimer = 0.f;
+	double clickedDuration = 0.f;
+	double enabled = true;
+	double clickedTimer = 0.f;
 	bool clicked = false;
 };
 
@@ -62,18 +62,18 @@ struct CZIndex
 
 struct CVelocity
 {
-	float minX = 0.f;
-	float minY = 0.f;
-	float maxX = 0.f;
-	float maxY = 0.f;
-	float x = 0.f;
-	float y = 0.f;
+	double minX = 0.f;
+	double minY = 0.f;
+	double maxX = 0.f;
+	double maxY = 0.f;
+	double x = 0.f;
+	double y = 0.f;
 };
 
 struct CSpeed
 {
-	float x = 0.f;
-	float y = 0.f;
+	double x = 0.f;
+	double y = 0.f;
 };
 
 struct CPlayerController
@@ -83,8 +83,8 @@ struct CPlayerController
 
 struct CDrag
 {
-	float x = 0.f;
-	float y = 0.f;
+	double x = 0.f;
+	double y = 0.f;
 };
 
 struct CSprite

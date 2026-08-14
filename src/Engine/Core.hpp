@@ -2,7 +2,7 @@
 #define DEPENDENCIES_HPP
 
 using Entity = uint32_t;
-using DeltaTime = float;
+using DeltaTime = double;
 
 constexpr Entity MAX_ENTITIES = 1000;
 

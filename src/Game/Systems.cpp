@@ -23,8 +23,8 @@ void Start::setTextOrigin()
     auto& texts = systemsNC.getComponentArray<CText>();
     auto& transforms = systemsNC.getComponentArray<CTransform>();
 
-    float offsetX;
-    float offsetY;
+    double offsetX;
+    double offsetY;
 
     for (auto& [entity, text] : texts->getAll())
     {
@@ -158,14 +158,14 @@ void Start::setColor()
 // -------------------------------------------------------
 // control systems
 // -------------------------------------------------------
-const float DEFAULT_SCALE_X = 1.0f;
-const float DEFAULT_SCALE_Y = 1.0f;
+const double DEFAULT_SCALE_X = 1.0f;
+const double DEFAULT_SCALE_Y = 1.0f;
 
-const float HOVER_SCALE_X = 1.1f;
-const float HOVER_SCALE_Y = 1.1f;
+const double HOVER_SCALE_X = 1.1f;
+const double HOVER_SCALE_Y = 1.1f;
 
-const float CLICKED_SCALE_X = 0.9f;
-const float CLICKED_SCALE_Y = 0.9f;
+const double CLICKED_SCALE_X = 0.9f;
+const double CLICKED_SCALE_Y = 0.9f;
 
 void Control::buttonClicks
 (
@@ -234,8 +234,8 @@ void Control::doPlayerControl
         return;
     }
 
-    float newSpeedX = 0.f;
-    float newSpeedY = 0.f;
+    double newSpeedX = 0.f;
+    double newSpeedY = 0.f;
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W))
     {
