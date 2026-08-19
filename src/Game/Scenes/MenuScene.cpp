@@ -2,7 +2,7 @@
 #include "../src/Game/Headers/GameManager.hpp"
 #include "../src/Game/Headers/Scenes.hpp"
 
-void MenuScene(sf::RenderWindow& window, sf::Font& font) {
+void menuScene(sf::RenderWindow& window, sf::Font& font) {
 	NacreCoordinator& nc = NacreCoordinator::getInstance();
 
 	// game state variables

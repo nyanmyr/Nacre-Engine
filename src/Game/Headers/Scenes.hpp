@@ -5,14 +5,28 @@
 
 #include <stdexcept>
 
-enum Scene {
+enum Scene
+{
 	MENU,
 	PLAYING
 };
 
-void playScene(sf::RenderWindow& window, Scene scene, sf::Font& font);
-void MenuScene(sf::RenderWindow& window, sf::Font& font);
-void PlayingScene(sf::RenderWindow& window, sf::Font& font);
+void playScene
+(
+	sf::RenderWindow& window,
+	Scene scene,
+	sf::Font& font
+);
+void menuScene
+(
+	sf::RenderWindow& window,
+	sf::Font& font
+);
+void playingScene
+(
+	sf::RenderWindow& window,
+	sf::Font& font
+);
 
 
 #endif
