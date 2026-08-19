@@ -100,11 +100,6 @@ enum ETexture
 struct CTexture
 {
 	ETexture data;
-
-	CTexture() = default;
-	CTexture(ETexture texture) :
-		data(texture) {
-	};
 };
 
 struct CTexturesContainer

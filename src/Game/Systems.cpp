@@ -443,7 +443,12 @@ void Update::doNextScene
     if (playNext)
     {
         systemsNC.destroyAll();
-        playScene(window, playNextScene, font);
+        playScene
+        (
+            window,
+            playNextScene,
+            font
+        );
         window.close();
     }
 }

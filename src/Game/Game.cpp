@@ -15,7 +15,8 @@ constexpr int MAX_FPS = 60;
 
 const std::string FONT_FILEPATH = RESOURCES_PATH "arial.ttf";
 
-void main() {
+void main()
+{
 	RenderWindow window(VideoMode({ SCREEN_WIDTH, SCREEN_HEIGHT }), "Nacre Engine", sf::Style::Close);
 	window.setFramerateLimit(MAX_FPS);
 
@@ -44,5 +45,10 @@ void main() {
 		throw std::runtime_error("Font not found.");
 	}
 
-	playScene(window, Scene::MENU, font);
+	playScene
+	(
+		window,
+		Scene::MENU,
+		font
+	);
 }
