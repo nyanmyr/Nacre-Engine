@@ -23,7 +23,7 @@ Entity makePlayer
 	entityMakerNC.addComponent
 	(
 		entity,
-		CPosition
+		Component::Position
 		{ 
 			pos.x,
 			pos.y
@@ -32,7 +32,7 @@ Entity makePlayer
 	entityMakerNC.addComponent
 	(
 		entity,
-		CZIndex
+		Component::ZIndex
 		{
 			1,
 			true
@@ -41,7 +41,7 @@ Entity makePlayer
 	entityMakerNC.addComponent
 	(
 		entity,
-		COrigin
+		Component::Origin
 		{
 			size.x / 2.f,
 			size.y / 2.f
@@ -50,7 +50,7 @@ Entity makePlayer
 	entityMakerNC.addComponent
 	(
 		entity,
-		CVelocity
+		Component::Velocity
 		{
 			minVelocity.x,
 			minVelocity.y,
@@ -61,7 +61,7 @@ Entity makePlayer
 	entityMakerNC.addComponent
 	(
 		entity,
-		CSpeed
+		Component::Speed
 		{
 			speed.x,
 			speed.y
@@ -70,7 +70,7 @@ Entity makePlayer
 	entityMakerNC.addComponent
 	(
 		entity,
-		CDrag
+		Component::Drag
 		{
 			drag.x,
 			drag.y
@@ -79,7 +79,7 @@ Entity makePlayer
 	entityMakerNC.addComponent
 	(
 		entity,
-		CPlayerController
+		Component::PlayerController
 		{
 			true
 		}
@@ -87,7 +87,7 @@ Entity makePlayer
 	entityMakerNC.addComponent
 	(
 		entity,
-		CTransform
+		Component::Transform
 		{
 			size.x,
 			size.y
@@ -96,18 +96,18 @@ Entity makePlayer
 	entityMakerNC.addComponent
 	(
 		entity,
-		CTexture{ texture }
+		Component::Texture{ texture }
 	);
 	entityMakerNC.addComponent
 	(
 		entity,
-		CSprite{}
+		Component::Sprite{}
 	);
 
 	entityMakerNC.addComponent
 	(
 		entity,
-		CColor{ col }
+		Component::Color{ col }
 	);
 
 	return entity;
@@ -128,7 +128,7 @@ Entity makeButton
 
 	entityMakerNC.addComponent(
 		entity,
-		CPosition
+		Component::Position
 		{
 			pos.x,
 			pos.y
@@ -137,7 +137,7 @@ Entity makeButton
 	entityMakerNC.addComponent
 	(
 		entity,
-		CTransform
+		Component::Transform
 		{
 			size.x,
 			size.y
@@ -146,7 +146,7 @@ Entity makeButton
 	entityMakerNC.addComponent
 	(
 		entity,
-		COrigin
+		Component::Origin
 		{
 			size.x / 2.f,
 			size.y / 2.f
@@ -155,7 +155,7 @@ Entity makeButton
 	entityMakerNC.addComponent
 	(
 		entity,
-		CButton
+		Component::Button
 		{
 			0.125f,
 			true
@@ -166,7 +166,7 @@ Entity makeButton
 	entityMakerNC.addComponent
 	(
 		entity,
-		CText
+		Component::Text
 		{
 			text,
 			str,
@@ -178,7 +178,7 @@ Entity makeButton
 	entityMakerNC.addComponent
 	(
 		entity,
-		CNextScene
+		Component::NextScene
 		{
 			scene,
 			false
@@ -187,7 +187,7 @@ Entity makeButton
 	entityMakerNC.addComponent
 	(
 		entity,
-		CZIndex
+		Component::ZIndex
 		{
 			1,
 			true
@@ -196,7 +196,7 @@ Entity makeButton
 	entityMakerNC.addComponent
 	(
 		entity,
-		CTransform
+		Component::Transform
 		{
 			size.x,
 			size.y
@@ -205,18 +205,18 @@ Entity makeButton
 	entityMakerNC.addComponent
 	(
 		entity,
-		CTexture{ texture }
+		Component::Texture{ texture }
 	);
 	entityMakerNC.addComponent
 	(
 		entity,
-		CSprite{}
+		Component::Sprite{}
 	);
 
 	entityMakerNC.addComponent
 	(
 		entity,
-		CColor{ col }
+		Component::Color{ col }
 	);
 
 	return entity;
@@ -229,7 +229,7 @@ Entity makeLoadedTexturesContainer()
 	entityMakerNC.addComponent
 	(
 		entity,
-		CTexturesContainer{}
+		Component::TexturesContainer{}
 	);
 
 	return entity;

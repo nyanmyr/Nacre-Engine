@@ -7,25 +7,43 @@
 #include <optional>
 #include <string>
 
-struct CPosition
+namespace Component {
+	struct Position;
+	struct Transform;
+	struct Origin;
+	struct Button;
+	struct Text;
+	struct NextScene;
+	struct ZIndex;
+	struct Velocity;
+	struct Speed;
+	struct PlayerController;
+	struct Drag;
+	struct Sprite;
+	struct Texture;
+	struct TexturesContainer;
+	struct Color;
+}
+
+struct Component::Position
 {
 	double x = 0.f;
 	double y = 0.f;
 };
 
-struct CTransform
+struct Component::Transform
 {
 	double width = 0.f;
 	double height = 0.f;
 };
 
-struct COrigin
+struct Component::Origin
 {
 	double offsetX = 0.f;
 	double offsetY = 0.f;
 };
 
-struct CButton
+struct Component::Button
 {
 	double clickedDuration = 0.f;
 	double enabled = true;
@@ -33,7 +51,7 @@ struct CButton
 	bool clicked = false;
 };
 
-struct CText
+struct Component::Text
 {
 	std::optional<sf::Text> box {};
 	std::string string = "";
@@ -42,19 +60,19 @@ struct CText
 	Enum::TextFormat format = Enum::TextFormat::MIDDLE;
 };
 
-struct CNextScene
+struct Component::NextScene
 {
 	Scene next = Scene::MENU;
 	bool active = false;
 };
 
-struct CZIndex
+struct Component::ZIndex
 {
 	int index = 0;
 	bool visible = true;
 };
 
-struct CVelocity
+struct Component::Velocity
 {
 	double minX = 0.f;
 	double minY = 0.f;
@@ -64,39 +82,39 @@ struct CVelocity
 	double y = 0.f;
 };
 
-struct CSpeed
+struct Component::Speed
 {
 	double x = 0.f;
 	double y = 0.f;
 };
 
-struct CPlayerController
+struct Component::PlayerController
 {
 	bool enabled = false;
 };
 
-struct CDrag
+struct Component::Drag
 {
 	double x = 0.f;
 	double y = 0.f;
 };
 
-struct CSprite
+struct Component::Sprite
 {
 	std::optional<sf::Sprite> body {};
 };
 
-struct CTexture
+struct Component::Texture
 {
 	Enum::Texture data;
 };
 
-struct CTexturesContainer
+struct Component::TexturesContainer
 {
 	std::unordered_map<Enum::Texture, sf::Texture> map;
 };
 
-struct CColor
+struct Component::Color
 {
 	sf::Color col = sf::Color(sf::Color::White);
 };

@@ -9,7 +9,7 @@ NacreCoordinator& systemsNC = NacreCoordinator::getInstance();
 // -------------------------------------------------------
 void Start::setText(sf::Font& font)
 {
-    auto& texts = systemsNC.getComponentArray<CText>();
+    auto& texts = systemsNC.getComponentArray<Component::Text>();
 
     for (auto& [entity, text] : texts->getAll())
     {
@@ -20,8 +20,8 @@ void Start::setText(sf::Font& font)
 }
 void Start::setTextOrigin()
 {
-    auto& texts = systemsNC.getComponentArray<CText>();
-    auto& transforms = systemsNC.getComponentArray<CTransform>();
+    auto& texts = systemsNC.getComponentArray<Component::Text>();
+    auto& transforms = systemsNC.getComponentArray<Component::Transform>();
 
     double offsetX;
     double offsetY;
@@ -33,7 +33,7 @@ void Start::setTextOrigin()
             continue;
         }
 
-        CTransform& transform = transforms->getData(entity);
+        Component::Transform& transform = transforms->getData(entity);
 
         switch (text.format)
         {
@@ -64,8 +64,8 @@ void Start::setTextOrigin()
 }
 void Start::setSpriteOrigin()
 {
-    auto& originArray = systemsNC.getComponentArray<COrigin>();
-    auto& spriteArray = systemsNC.getComponentArray<CSprite>();
+    auto& originArray = systemsNC.getComponentArray<Component::Origin>();
+    auto& spriteArray = systemsNC.getComponentArray<Component::Sprite>();
 
 
     for (auto& [entity, sprite] : spriteArray->getAll())
@@ -75,7 +75,7 @@ void Start::setSpriteOrigin()
             continue;
         }
 
-        COrigin& origin = originArray->getData(entity);
+        Component::Origin& origin = originArray->getData(entity);
 
         sprite.body->setOrigin
         (
@@ -89,30 +89,30 @@ void Start::setSpriteOrigin()
 }
 void Start::loadTextures(Entity loadedTextures)
 {
-    auto& texturesContainerArray = systemsNC.getComponentArray<CTexturesContainer>();
+    auto& texturesContainerArray = systemsNC.getComponentArray<Component::TexturesContainer>();
 
     if (!texturesContainerArray->hasData(loadedTextures))
     {
         return;
     }
 
-    CTexturesContainer& container = texturesContainerArray->getData(loadedTextures);
+    Component::TexturesContainer& container = texturesContainerArray->getData(loadedTextures);
 
     container.map.emplace(Enum::Texture::TEXTURE_PLACEHOLDER, sf::Texture(SPRITES_PATH "placeholder_texture.jpeg"));
 }
 void Start::loadSprites(Entity loadedTextures)
 {
-    auto& spriteArray = systemsNC.getComponentArray<CSprite>();
-    auto& transformArray = systemsNC.getComponentArray<CTransform>();
-    auto& textureArray = systemsNC.getComponentArray<CTexture>();
-    auto& texturesContainerArray = systemsNC.getComponentArray<CTexturesContainer>();
+    auto& spriteArray = systemsNC.getComponentArray<Component::Sprite>();
+    auto& transformArray = systemsNC.getComponentArray<Component::Transform>();
+    auto& textureArray = systemsNC.getComponentArray<Component::Texture>();
+    auto& texturesContainerArray = systemsNC.getComponentArray<Component::TexturesContainer>();
 
     if (!texturesContainerArray->hasData(loadedTextures))
     {
         return;
     }
 
-    CTexturesContainer& container = texturesContainerArray->getData(loadedTextures);
+    Component::TexturesContainer& container = texturesContainerArray->getData(loadedTextures);
 
     for (auto& [entity, sprite] : spriteArray->getAll())
     {
@@ -125,8 +125,8 @@ void Start::loadSprites(Entity loadedTextures)
             continue;
         }
 
-        CTexture& texture = textureArray->getData(entity);
-        CTransform& transform = transformArray->getData(entity);
+        Component::Texture& texture = textureArray->getData(entity);
+        Component::Transform& transform = transformArray->getData(entity);
 
         sprite.body.emplace(container.map[texture.data]);
         sprite.body->setScale
@@ -141,8 +141,8 @@ void Start::loadSprites(Entity loadedTextures)
 }
 void Start::setColor()
 {
-    auto& colorArray = systemsNC.getComponentArray<CColor>();
-    auto& spriteArray = systemsNC.getComponentArray<CSprite>();
+    auto& colorArray = systemsNC.getComponentArray<Component::Color>();
+    auto& spriteArray = systemsNC.getComponentArray<Component::Sprite>();
 
     for (auto& [entity, color] : colorArray->getAll())
     {
@@ -151,8 +151,8 @@ void Start::setColor()
             continue;
         }
 
-        CColor& colorObj = colorArray->getData(entity);
-        CSprite& spriteObj = spriteArray->getData(entity);
+        Component::Color& colorObj = colorArray->getData(entity);
+        Component::Sprite& spriteObj = spriteArray->getData(entity);
 
         spriteObj.body->setColor(colorObj.col);
     }
@@ -176,10 +176,10 @@ void Control::buttonClicks
     const DeltaTime dt
 )
 {
-    auto& buttonArray = systemsNC.getComponentArray<CButton>();
-    auto& originArray = systemsNC.getComponentArray<COrigin>();
-    auto& transformArray = systemsNC.getComponentArray<CTransform>();
-    auto& positionArray = systemsNC.getComponentArray<CPosition>();
+    auto& buttonArray = systemsNC.getComponentArray<Component::Button>();
+    auto& originArray = systemsNC.getComponentArray<Component::Origin>();
+    auto& transformArray = systemsNC.getComponentArray<Component::Transform>();
+    auto& positionArray = systemsNC.getComponentArray<Component::Position>();
 
     for (auto& [entity, button] : buttonArray->getAll())
     {
@@ -194,9 +194,9 @@ void Control::buttonClicks
         // buttonArray must have a shape, origin, and text
         ////std::cout << "button.top: " << button.top << "\n";
         ////std::cout << "button.left: " << button.left << "\n";
-        const COrigin& origin = originArray->getData(entity);
-        const CTransform& transform = transformArray->getData(entity);
-        const CPosition& position = positionArray->getData(entity);
+        const Component::Origin& origin = originArray->getData(entity);
+        const Component::Transform& transform = transformArray->getData(entity);
+        const Component::Position& position = positionArray->getData(entity);
 
         if
             (
@@ -217,9 +217,9 @@ void Control::doPlayerControl
     const DeltaTime dt
 )
 {
-    auto& velocities = systemsNC.getComponentArray<CVelocity>();
-    auto& speeds = systemsNC.getComponentArray<CSpeed>();
-    auto& playerControllers = systemsNC.getComponentArray<CPlayerController>();
+    auto& velocities = systemsNC.getComponentArray<Component::Velocity>();
+    auto& speeds = systemsNC.getComponentArray<Component::Speed>();
+    auto& playerControllers = systemsNC.getComponentArray<Component::PlayerController>();
 
     if (!velocities->hasData(player) ||
         !speeds->hasData(player) ||
@@ -228,9 +228,9 @@ void Control::doPlayerControl
         return;
     }
 
-    const CPlayerController playerController = playerControllers->getData(player);
-    const CSpeed speed = speeds->getData(player);
-    CVelocity& velocity = velocities->getData(player);
+    const Component::PlayerController playerController = playerControllers->getData(player);
+    const Component::Speed speed = speeds->getData(player);
+    Component::Velocity& velocity = velocities->getData(player);
 
     if (!playerController.enabled)
     {
@@ -290,13 +290,13 @@ void Update::doButtons
     const sf::Vector2i mouseVector,
     const DeltaTime dt
 ) {
-    auto& spriteArray = systemsNC.getComponentArray<CSprite>();
-    auto& buttonArray = systemsNC.getComponentArray<CButton>();
-    auto& originArray = systemsNC.getComponentArray<COrigin>();
-    auto& textArray = systemsNC.getComponentArray<CText>();
-    auto& nextSceneArray = systemsNC.getComponentArray<CNextScene>();
-    auto& transformArray = systemsNC.getComponentArray<CTransform>();
-    auto& positionArray = systemsNC.getComponentArray<CPosition>();
+    auto& spriteArray = systemsNC.getComponentArray<Component::Sprite>();
+    auto& buttonArray = systemsNC.getComponentArray<Component::Button>();
+    auto& originArray = systemsNC.getComponentArray<Component::Origin>();
+    auto& textArray = systemsNC.getComponentArray<Component::Text>();
+    auto& nextSceneArray = systemsNC.getComponentArray<Component::NextScene>();
+    auto& transformArray = systemsNC.getComponentArray<Component::Transform>();
+    auto& positionArray = systemsNC.getComponentArray<Component::Position>();
 
     for (auto& [entity, button] : buttonArray->getAll())
     {
@@ -315,10 +315,10 @@ void Update::doButtons
 
         ////std::cout << "button.top: " << button.top << "\n";
         ////std::cout << "button.left: " << button.left << "\n";
-        COrigin& origin = originArray->getData(entity);
-        CTransform& transform = transformArray->getData(entity);
-        CPosition& position = positionArray->getData(entity);
-        CSprite& sprite = spriteArray->getData(entity);
+        Component::Origin& origin = originArray->getData(entity);
+        Component::Transform& transform = transformArray->getData(entity);
+        Component::Position& position = positionArray->getData(entity);
+        Component::Sprite& sprite = spriteArray->getData(entity);
 
         if (button.clickedTimer <= 0)
         {
@@ -333,7 +333,7 @@ void Update::doButtons
 
             if (textArray->hasData(entity))
             {
-                CText& text = textArray->getData(entity);
+                Component::Text& text = textArray->getData(entity);
                 text.box->setScale
                 (
                     sf::Vector2f
@@ -354,7 +354,7 @@ void Update::doButtons
                 if (nextSceneArray->hasData(entity))
                 {
                     ////std::cout << "starting next scene." << "\n";
-                    CNextScene& nextScene = nextSceneArray->getData(entity);
+                    Component::NextScene& nextScene = nextSceneArray->getData(entity);
                     nextScene.active = true;
                 }
             }
@@ -381,7 +381,7 @@ void Update::doButtons
 
             if (textArray->hasData(entity))
             {
-                CText& text = textArray->getData(entity);
+                Component::Text& text = textArray->getData(entity);
                 text.box->setScale
                 (
                     sf::Vector2f
@@ -407,7 +407,7 @@ void Update::doButtons
 
             if (textArray->hasData(entity))
             {
-                CText& text = textArray->getData(entity);
+                Component::Text& text = textArray->getData(entity);
                 text.box->setScale
                 (
                     sf::Vector2f
@@ -426,7 +426,7 @@ void Update::doNextScene
     sf::Font& font
 )
 {
-    auto& nextScenes = systemsNC.getComponentArray<CNextScene>();
+    auto& nextScenes = systemsNC.getComponentArray<Component::NextScene>();
 
     bool playNext = false;
     Scene playNextScene;
@@ -457,8 +457,8 @@ void Update::doNextScene
 }
 void Update::move(const DeltaTime dt)
 {
-    auto& velocities = systemsNC.getComponentArray<CVelocity>();
-    auto& positions = systemsNC.getComponentArray<CPosition>();
+    auto& velocities = systemsNC.getComponentArray<Component::Velocity>();
+    auto& positions = systemsNC.getComponentArray<Component::Position>();
 
     for (auto& [entity, velocity] : velocities->getAll())
     {
@@ -467,15 +467,15 @@ void Update::move(const DeltaTime dt)
             continue;
         }
 
-        CPosition& pos = positions->getData(entity);
+        Component::Position& pos = positions->getData(entity);
         pos.x += (velocity.x * dt);
         pos.y += (velocity.y * dt);
     }
 }
 void Update::drag(const DeltaTime dt)
 {
-    auto& velocities = systemsNC.getComponentArray<CVelocity>();
-    auto& drags = systemsNC.getComponentArray<CDrag>();
+    auto& velocities = systemsNC.getComponentArray<Component::Velocity>();
+    auto& drags = systemsNC.getComponentArray<Component::Drag>();
 
     for (auto& [entity, velocity] : velocities->getAll())
     {
@@ -484,7 +484,7 @@ void Update::drag(const DeltaTime dt)
             continue;
         }
 
-        CDrag drag = drags->getData(entity);
+        Component::Drag drag = drags->getData(entity);
 
         // can't be exactly 0.f because it will drift aimlessly
         velocity.x = velocity.x < -0.1f ? velocity.x + (drag.x * dt) :
@@ -499,7 +499,7 @@ void Update::drag(const DeltaTime dt)
 // -------------------------------------------------------
 void Render::doZIndex(std::queue<Entity>& renderQueue)
 {
-    auto& zIndexes = systemsNC.getComponentArray<CZIndex>();
+    auto& zIndexes = systemsNC.getComponentArray<Component::ZIndex>();
 
     std::vector<std::pair<int, Entity>> renderVector;
     for (auto& [entity, zIndex] : zIndexes->getAll())
@@ -519,9 +519,9 @@ void Render::render
     std::queue<Entity>& renderQueue
 )
 {
-    auto& spriteArray = systemsNC.getComponentArray<CSprite>();
-    auto& positionArray = systemsNC.getComponentArray<CPosition>();
-    auto& textArray = systemsNC.getComponentArray<CText>();
+    auto& spriteArray = systemsNC.getComponentArray<Component::Sprite>();
+    auto& positionArray = systemsNC.getComponentArray<Component::Position>();
+    auto& textArray = systemsNC.getComponentArray<Component::Text>();
 
     while (!renderQueue.empty())
     {
@@ -537,11 +537,11 @@ void Render::render
             continue;
         }
 
-        CPosition& pos = positionArray->getData(popped);
+        Component::Position& pos = positionArray->getData(popped);
 
         if (spriteArray->hasData(popped))
         {
-            CSprite& sprite = spriteArray->getData(popped);
+            Component::Sprite& sprite = spriteArray->getData(popped);
 
             sprite.body->setPosition
             (
@@ -556,7 +556,7 @@ void Render::render
 
         if (textArray->hasData(popped))
         {
-            CText& text = textArray->getData(popped);
+            Component::Text& text = textArray->getData(popped);
 
             text.box->setPosition
             (

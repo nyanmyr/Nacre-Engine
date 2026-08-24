@@ -23,21 +23,21 @@ void main()
 	NacreCoordinator& nc = NacreCoordinator::getInstance();
 
 	// components registration
-	nc.registerComponent<CPosition>();
-	nc.registerComponent<CTransform>();
-	nc.registerComponent<COrigin>();
-	nc.registerComponent<CButton>();
-	nc.registerComponent<CText>();
-	nc.registerComponent<CNextScene>();
-	nc.registerComponent<CZIndex>();
-	nc.registerComponent<CVelocity>();
-	nc.registerComponent<CSpeed>();
-	nc.registerComponent<CPlayerController>();
-	nc.registerComponent<CDrag>();
-	nc.registerComponent<CSprite>();
-	nc.registerComponent<CTexture>();
-	nc.registerComponent<CTexturesContainer>();
-	nc.registerComponent<CColor>();
+	nc.registerComponent<Component::Position>();
+	nc.registerComponent<Component::Transform>();
+	nc.registerComponent<Component::Origin>();
+	nc.registerComponent<Component::Button>();
+	nc.registerComponent<Component::Text>();
+	nc.registerComponent<Component::NextScene>();
+	nc.registerComponent<Component::ZIndex>();
+	nc.registerComponent<Component::Velocity>();
+	nc.registerComponent<Component::Speed>();
+	nc.registerComponent<Component::PlayerController>();
+	nc.registerComponent<Component::Drag>();
+	nc.registerComponent<Component::Sprite>();
+	nc.registerComponent<Component::Texture>();
+	nc.registerComponent<Component::TexturesContainer>();
+	nc.registerComponent<Component::Color>();
 
 	sf::Font font;
 	if (!font.openFromFile(FONT_FILEPATH))
