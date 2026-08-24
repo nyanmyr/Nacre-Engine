@@ -19,7 +19,7 @@ void playingScene
 	// entity instantiation
 	Entity player = makePlayer
 	(
-		ETexture::TEXTURE_PLACEHOLDER,
+		Enum::Texture::TEXTURE_PLACEHOLDER,
 		{
 			window.getSize().x / 2.f,
 			window.getSize().y / 2.f

@@ -3,15 +3,9 @@
 
 #include <SFML/Graphics.hpp>
 #include "Scenes.hpp"
+#include "Enums.hpp"
 #include <optional>
 #include <string>
-
-enum TextFormat
-{
-	TOP,
-	MIDDLE,
-	BOTTOM
-};
 
 struct CPosition
 {
@@ -45,7 +39,7 @@ struct CText
 	std::string string = "";
 	int size = 12;
 	sf::Color color = sf::Color::White;
-	TextFormat format = TextFormat::MIDDLE;
+	Enum::TextFormat format = Enum::TextFormat::MIDDLE;
 };
 
 struct CNextScene
@@ -92,19 +86,14 @@ struct CSprite
 	std::optional<sf::Sprite> body {};
 };
 
-enum ETexture
-{
-	TEXTURE_PLACEHOLDER
-};
-
 struct CTexture
 {
-	ETexture data;
+	Enum::Texture data;
 };
 
 struct CTexturesContainer
 {
-	std::unordered_map<ETexture, sf::Texture> map;
+	std::unordered_map<Enum::Texture, sf::Texture> map;
 };
 
 struct CColor

@@ -5,5 +5,6 @@
 #include "Components.hpp"
 #include "Systems.hpp"
 #include "EntityMaker.hpp"
+#include "Enums.hpp"
 
 #endif

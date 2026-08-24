@@ -37,15 +37,15 @@ void Start::setTextOrigin()
 
         switch (text.format)
         {
-        case TOP:
+        case Enum::TextFormat::TOP:
             offsetX = text.box.value().getLocalBounds().size.x / 2;
             offsetY = text.box.value().getLocalBounds().size.y;
             break;
-        case BOTTOM:
+        case Enum::TextFormat::BOTTOM:
             offsetX = text.box.value().getLocalBounds().size.x / 2;
             offsetY = text.box.value().getLocalBounds().size.y / 2;
             break;
-        case MIDDLE:
+        case Enum::TextFormat::MIDDLE:
         default:
             offsetX = text.box.value().getLocalBounds().size.x / 2;
             offsetY = (text.box.value().getLocalBounds().size.y / 2) + (text.box.value().getLocalBounds().size.y / 4);
@@ -54,9 +54,10 @@ void Start::setTextOrigin()
 
         text.box.value().setOrigin
         (
+            sf::Vector2f
             {
-                offsetX,
-                offsetY
+                static_cast<float>(offsetX),
+                static_cast<float>(offsetY)
             }
         );
     }
@@ -78,9 +79,10 @@ void Start::setSpriteOrigin()
 
         sprite.body->setOrigin
         (
+            sf::Vector2f
             {
-                origin.offsetX / sprite.body->getScale().x,
-                origin.offsetY / sprite.body->getScale().y
+                static_cast<float>(origin.offsetX / sprite.body->getScale().x),
+                static_cast<float>(origin.offsetY / sprite.body->getScale().y)
             }
         );
     }
@@ -96,7 +98,7 @@ void Start::loadTextures(Entity loadedTextures)
 
     CTexturesContainer& container = texturesContainerArray->getData(loadedTextures);
 
-    container.map.emplace(ETexture::TEXTURE_PLACEHOLDER, sf::Texture(SPRITES_PATH "placeholder_texture.jpeg"));
+    container.map.emplace(Enum::Texture::TEXTURE_PLACEHOLDER, sf::Texture(SPRITES_PATH "placeholder_texture.jpeg"));
 }
 void Start::loadSprites(Entity loadedTextures)
 {
@@ -129,9 +131,10 @@ void Start::loadSprites(Entity loadedTextures)
         sprite.body.emplace(container.map[texture.data]);
         sprite.body->setScale
         (
+            sf::Vector2f
             {
-                transform.width / sprite.body->getGlobalBounds().size.x,
-                transform.height / sprite.body->getGlobalBounds().size.y
+                static_cast<float>(transform.width / sprite.body->getGlobalBounds().size.x),
+                static_cast<float>(transform.height / sprite.body->getGlobalBounds().size.y)
             }
         );
     }
@@ -542,9 +545,10 @@ void Render::render
 
             sprite.body->setPosition
             (
+                sf::Vector2f
                 {
-                    pos.x,
-                    pos.y
+                    static_cast<float>(pos.x),
+                    static_cast<float>(pos.y)
                 }
             );
             window.draw(sprite.body.value());
@@ -556,9 +560,10 @@ void Render::render
 
             text.box->setPosition
             (
+                sf::Vector2f
                 {
-                    pos.x,
-                    pos.y
+                    static_cast<float>(pos.x),
+                    static_cast<float>(pos.y)
                 }
             );
             window.draw(text.box.value());

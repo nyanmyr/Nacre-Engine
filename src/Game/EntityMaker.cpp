@@ -2,12 +2,13 @@
 #include "../Engine/NacreCoordinator.hpp"
 #include "Headers/EntityMaker.hpp"
 #include "Headers/Components.hpp"
+#include "Headers/Enums.hpp"
 
 NacreCoordinator& entityMakerNC = NacreCoordinator::getInstance();
 
 Entity makePlayer
 (
-	const ETexture texture,
+	const Enum::Texture texture,
 	const sf::Vector2f pos,
 	const sf::Vector2f size,
 	const sf::Vector2f minVelocity,
@@ -114,7 +115,7 @@ Entity makePlayer
 
 Entity makeButton
 (
-	const ETexture texture,
+	const Enum::Texture texture,
 	const sf::Vector2f pos,
 	const sf::Vector2f size,
 	const Scene scene,
@@ -171,7 +172,7 @@ Entity makeButton
 			str,
 			64,
 			sf::Color::Black,
-			TextFormat::MIDDLE
+			Enum::TextFormat::MIDDLE
 		}
 	);
 	entityMakerNC.addComponent

@@ -4,10 +4,11 @@
 #include <SFML/Graphics.hpp>
 #include "Scenes.hpp"
 #include "Components.hpp"
+#include "Enums.hpp"
 
 Entity makePlayer
 (
-	const ETexture texture,
+	const Enum::Texture texture,
 	const sf::Vector2f pos,
 	const sf::Vector2f size,
 	const sf::Vector2f minVelocity,
@@ -18,7 +19,7 @@ Entity makePlayer
 );
 Entity makeButton
 (
-	const ETexture texture,
+	const Enum::Texture texture,
 	const sf::Vector2f pos,
 	const sf::Vector2f size,
 	const Scene scene,
