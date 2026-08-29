@@ -21,8 +21,8 @@ void playingScene
 	(
 		Enum::Texture::TEXTURE_PLACEHOLDER,
 		{
-			window.getSize().x / 2.f,
-			window.getSize().y / 2.f
+			window.getDefaultView().getSize().x / 2.f,
+			window.getDefaultView().getSize().y / 2.f
 		},
 		{
 			40.f,
