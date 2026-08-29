@@ -21,28 +21,28 @@ void playingScene
 	(
 		Enum::Texture::TEXTURE_PLACEHOLDER,
 		{
-			window.getDefaultView().getSize().x / 2.f,
-			window.getDefaultView().getSize().y / 2.f
+			window.getDefaultView().getSize().x / 2.0,
+			window.getDefaultView().getSize().y / 2.0
 		},
 		{
-			40.f,
-			40.f
+			40.0,
+			40.0
 		},
 		{
-			-300.f,
-			-300.f
+			-300.0,
+			-300.0
 		},
 		{
-			300.f,
-			300.f
+			300.0,
+			300.0
 		},
 		{
-			500.f,
-			500.f
+			500.0,
+			500.0
 		},
 		{
-			50.f,
-			50.f
+			50.0,
+			50.0
 		},
 		sf::Color::Green
 	);

@@ -20,12 +20,12 @@ void menuScene
 	(
 		Enum::Texture::TEXTURE_PLACEHOLDER,
 		{
-			window.getDefaultView().getSize().x / 2.f,
-			window.getDefaultView().getSize().y / 2.f
+			window.getDefaultView().getSize().x / 2.0,
+			window.getDefaultView().getSize().y / 2.0
 		},
 		{
-			200.f,
-			100.f
+			200.0,
+			100.0
 		},
 		Scene::PLAYING,
 		"Play",

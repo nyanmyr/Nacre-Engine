@@ -27,27 +27,27 @@ namespace Component {
 
 struct Component::Position
 {
-	double x = 0.f;
-	double y = 0.f;
+	double x = 0.0;
+	double y = 0.0;
 };
 
 struct Component::Transform
 {
-	double width = 0.f;
-	double height = 0.f;
+	double width = 0.0;
+	double height = 0.0;
 };
 
 struct Component::Origin
 {
-	double offsetX = 0.f;
-	double offsetY = 0.f;
+	double offsetX = 0.0;
+	double offsetY = 0.0;
 };
 
 struct Component::Button
 {
-	double clickedDuration = 0.f;
+	double clickedDuration = 0.0;
 	double enabled = true;
-	double clickedTimer = 0.f;
+	double clickedTimer = 0.0;
 	bool clicked = false;
 };
 
@@ -74,18 +74,18 @@ struct Component::ZIndex
 
 struct Component::Velocity
 {
-	double minX = 0.f;
-	double minY = 0.f;
-	double maxX = 0.f;
-	double maxY = 0.f;
-	double x = 0.f;
-	double y = 0.f;
+	double minX = 0.0;
+	double minY = 0.0;
+	double maxX = 0.0;
+	double maxY = 0.0;
+	double x = 0.0;
+	double y = 0.0;
 };
 
 struct Component::Speed
 {
-	double x = 0.f;
-	double y = 0.f;
+	double x = 0.0;
+	double y = 0.0;
 };
 
 struct Component::PlayerController
@@ -95,8 +95,8 @@ struct Component::PlayerController
 
 struct Component::Drag
 {
-	double x = 0.f;
-	double y = 0.f;
+	double x = 0.0;
+	double y = 0.0;
 };
 
 struct Component::Sprite

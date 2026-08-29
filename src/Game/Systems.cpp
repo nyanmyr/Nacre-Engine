@@ -237,8 +237,8 @@ void Control::doPlayerControl
         return;
     }
 
-    double newSpeedX = 0.f;
-    double newSpeedY = 0.f;
+    double newSpeedX = 0.0;
+    double newSpeedY = 0.0;
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W))
     {
@@ -486,11 +486,11 @@ void Update::drag(const DeltaTime dt)
 
         Component::Drag drag = drags->getData(entity);
 
-        // can't be exactly 0.f because it will drift aimlessly
-        velocity.x = velocity.x < -0.1f ? velocity.x + (drag.x * dt) :
-            velocity.x > 0.1f ? velocity.x - (drag.x * dt) : 0.f;
-        velocity.y = velocity.y < -0.1f ? velocity.y + (drag.y * dt) :
-            velocity.y > 0.1f ? velocity.y - (drag.y * dt) : 0.f;
+        // can't be exactly 0.0 because it will drift aimlessly
+        velocity.x = velocity.x < -0.1 ? velocity.x + (drag.x * dt) :
+            velocity.x > 0.1f ? velocity.x - (drag.x * dt) : 0.0;
+        velocity.y = velocity.y < -0.1 ? velocity.y + (drag.y * dt) :
+            velocity.y > 0.1f ? velocity.y - (drag.y * dt) : 0.0;
     }
 }
 

@@ -43,8 +43,8 @@ Entity makePlayer
 		entity,
 		Component::Origin
 		{
-			size.x / 2.f,
-			size.y / 2.f
+			size.x / 2.0,
+			size.y / 2.0
 		}
 	);
 	entityMakerNC.addComponent
@@ -148,8 +148,8 @@ Entity makeButton
 		entity,
 		Component::Origin
 		{
-			size.x / 2.f,
-			size.y / 2.f
+			size.x / 2.0,
+			size.y / 2.0
 		}
 	);
 	entityMakerNC.addComponent
