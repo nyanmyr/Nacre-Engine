@@ -9,50 +9,50 @@ NacreCoordinator& systemsNC = NacreCoordinator::getInstance();
 // -------------------------------------------------------
 void Start::setText(sf::Font& font)
 {
-    auto& texts = systemsNC.getComponentArray<Component::Text>();
+    auto& textArray = systemsNC.getComponentArray<Component::Text>();
 
-    for (auto& [entity, text] : texts->getAll())
+    for (auto& [entity, textObj] : textArray->getAll())
     {
-        text.box.value().setString(text.string);
-        text.box.value().setCharacterSize(text.size);
-        text.box.value().setFillColor(text.color);
+        textObj.box.value().setString(textObj.string);
+        textObj.box.value().setCharacterSize(textObj.size);
+        textObj.box.value().setFillColor(textObj.color);
     }
 }
 void Start::setTextOrigin()
 {
-    auto& texts = systemsNC.getComponentArray<Component::Text>();
-    auto& transforms = systemsNC.getComponentArray<Component::Transform>();
+    auto& textArray = systemsNC.getComponentArray<Component::Text>();
+    auto& transformArray = systemsNC.getComponentArray<Component::Transform>();
 
     double offsetX;
     double offsetY;
 
-    for (auto& [entity, text] : texts->getAll())
+    for (auto& [entity, textObj] : textArray->getAll())
     {
-        if (!transforms->hasData(entity))
+        if (!transformArray->hasData(entity))
         {
             continue;
         }
 
-        Component::Transform& transform = transforms->getData(entity);
+        Component::Transform& transform = transformArray->getData(entity);
 
-        switch (text.format)
+        switch (textObj.format)
         {
         case Enum::TextFormat::TOP:
-            offsetX = text.box.value().getLocalBounds().size.x / 2;
-            offsetY = text.box.value().getLocalBounds().size.y;
+            offsetX = textObj.box.value().getLocalBounds().size.x / 2;
+            offsetY = textObj.box.value().getLocalBounds().size.y;
             break;
         case Enum::TextFormat::BOTTOM:
-            offsetX = text.box.value().getLocalBounds().size.x / 2;
-            offsetY = text.box.value().getLocalBounds().size.y / 2;
+            offsetX = textObj.box.value().getLocalBounds().size.x / 2;
+            offsetY = textObj.box.value().getLocalBounds().size.y / 2;
             break;
         case Enum::TextFormat::MIDDLE:
         default:
-            offsetX = text.box.value().getLocalBounds().size.x / 2;
-            offsetY = (text.box.value().getLocalBounds().size.y / 2) + (text.box.value().getLocalBounds().size.y / 4);
+            offsetX = textObj.box.value().getLocalBounds().size.x / 2;
+            offsetY = (textObj.box.value().getLocalBounds().size.y / 2) + (textObj.box.value().getLocalBounds().size.y / 4);
             break;
         }
 
-        text.box.value().setOrigin
+        textObj.box.value().setOrigin
         (
             sf::Vector2f
             {
@@ -67,22 +67,21 @@ void Start::setSpriteOrigin()
     auto& originArray = systemsNC.getComponentArray<Component::Origin>();
     auto& spriteArray = systemsNC.getComponentArray<Component::Sprite>();
 
-
-    for (auto& [entity, sprite] : spriteArray->getAll())
+    for (auto& [entity, spriteObj] : spriteArray->getAll())
     {
         if (!originArray->hasData(entity))
         {
             continue;
         }
 
-        Component::Origin& origin = originArray->getData(entity);
+        Component::Origin& originObj = originArray->getData(entity);
 
-        sprite.body->setOrigin
+        spriteObj.body->setOrigin
         (
             sf::Vector2f
             {
-                static_cast<float>(origin.offsetX / sprite.body->getScale().x),
-                static_cast<float>(origin.offsetY / sprite.body->getScale().y)
+                static_cast<float>(originObj.offsetX / spriteObj.body->getScale().x),
+                static_cast<float>(originObj.offsetY / spriteObj.body->getScale().y)
             }
         );
     }
@@ -96,9 +95,9 @@ void Start::loadTextures(Entity loadedTextures)
         return;
     }
 
-    Component::TexturesContainer& container = texturesContainerArray->getData(loadedTextures);
+    Component::TexturesContainer& containerObj = texturesContainerArray->getData(loadedTextures);
 
-    container.map.emplace(Enum::Texture::TEXTURE_PLACEHOLDER, sf::Texture(SPRITES_PATH "placeholder_texture.jpeg"));
+    containerObj.map.emplace(Enum::Texture::TEXTURE_PLACEHOLDER, sf::Texture(SPRITES_PATH "placeholder_texture.jpeg"));
 }
 void Start::loadSprites(Entity loadedTextures)
 {
@@ -112,29 +111,26 @@ void Start::loadSprites(Entity loadedTextures)
         return;
     }
 
-    Component::TexturesContainer& container = texturesContainerArray->getData(loadedTextures);
+    Component::TexturesContainer& containerObj = texturesContainerArray->getData(loadedTextures);
 
-    for (auto& [entity, sprite] : spriteArray->getAll())
+    for (auto& [entity, spriteObj] : spriteArray->getAll())
     {
-        if
-            (
-                !transformArray->hasData(entity) ||
-                !textureArray->hasData(entity)
-                )
+        if (!transformArray->hasData(entity) ||
+            !textureArray->hasData(entity))
         {
             continue;
         }
 
-        Component::Texture& texture = textureArray->getData(entity);
-        Component::Transform& transform = transformArray->getData(entity);
+        Component::Texture& textureObj = textureArray->getData(entity);
+        Component::Transform& transformObj = transformArray->getData(entity);
 
-        sprite.body.emplace(container.map[texture.data]);
-        sprite.body->setScale
+        spriteObj.body.emplace(containerObj.map[textureObj.data]);
+        spriteObj.body->setScale
         (
             sf::Vector2f
             {
-                static_cast<float>(transform.width / sprite.body->getGlobalBounds().size.x),
-                static_cast<float>(transform.height / sprite.body->getGlobalBounds().size.y)
+                static_cast<float>(transformObj.width / spriteObj.body->getGlobalBounds().size.x),
+                static_cast<float>(transformObj.height / spriteObj.body->getGlobalBounds().size.y)
             }
         );
     }
@@ -144,14 +140,13 @@ void Start::setColor()
     auto& colorArray = systemsNC.getComponentArray<Component::Color>();
     auto& spriteArray = systemsNC.getComponentArray<Component::Sprite>();
 
-    for (auto& [entity, color] : colorArray->getAll())
+    for (auto& [entity, colorObj] : colorArray->getAll())
     {
         if (!spriteArray->hasData(entity))
         {
             continue;
         }
 
-        Component::Color& colorObj = colorArray->getData(entity);
         Component::Sprite& spriteObj = spriteArray->getData(entity);
 
         spriteObj.body->setColor(colorObj.col);
@@ -161,14 +156,14 @@ void Start::setColor()
 // -------------------------------------------------------
 // control systems
 // -------------------------------------------------------
-const double DEFAULT_SCALE_X = 1.0f;
-const double DEFAULT_SCALE_Y = 1.0f;
+const double DEFAULT_SCALE_X = 1.0;
+const double DEFAULT_SCALE_Y = 1.0;
 
-const double HOVER_SCALE_X = 1.1f;
-const double HOVER_SCALE_Y = 1.1f;
+const double HOVER_SCALE_X = 1.1;
+const double HOVER_SCALE_Y = 1.1;
 
-const double CLICKED_SCALE_X = 0.9f;
-const double CLICKED_SCALE_Y = 0.9f;
+const double CLICKED_SCALE_X = 0.9;
+const double CLICKED_SCALE_Y = 0.9;
 
 void Control::buttonClicks
 (
@@ -181,9 +176,9 @@ void Control::buttonClicks
     auto& transformArray = systemsNC.getComponentArray<Component::Transform>();
     auto& positionArray = systemsNC.getComponentArray<Component::Position>();
 
-    for (auto& [entity, button] : buttonArray->getAll())
+    for (auto& [entity, buttonObj] : buttonArray->getAll())
     {
-        if (!button.enabled ||
+        if (!buttonObj.enabled ||
             !originArray->hasData(entity) ||
             !positionArray->hasData(entity) ||
             !transformArray->hasData(entity))
@@ -194,20 +189,17 @@ void Control::buttonClicks
         // buttonArray must have a shape, origin, and text
         ////std::cout << "button.top: " << button.top << "\n";
         ////std::cout << "button.left: " << button.left << "\n";
-        const Component::Origin& origin = originArray->getData(entity);
-        const Component::Transform& transform = transformArray->getData(entity);
-        const Component::Position& position = positionArray->getData(entity);
+        const Component::Origin& originObj = originArray->getData(entity);
+        const Component::Transform& transformObj = transformArray->getData(entity);
+        const Component::Position& posObj = positionArray->getData(entity);
 
-        if
-            (
-                mouseVector.x > position.x - origin.offsetX &&
-                mouseVector.x < position.x + transform.width - origin.offsetX &&
-                mouseVector.y > position.y - origin.offsetY &&
-                mouseVector.y < position.y + transform.height - origin.offsetY
-                )
+		if (mouseVector.x > posObj.x - originObj.offsetX &&
+			mouseVector.x < posObj.x + transformObj.width - originObj.offsetX &&
+			mouseVector.y > posObj.y - originObj.offsetY &&
+			mouseVector.y < posObj.y + transformObj.height - originObj.offsetY)
         {
-            button.clicked = true;
-            button.clickedTimer = button.clickedDuration;
+            buttonObj.clicked = true;
+            buttonObj.clickedTimer = buttonObj.clickedDuration;
         }
     }
 }
@@ -217,22 +209,22 @@ void Control::doPlayerControl
     const DeltaTime dt
 )
 {
-    auto& velocities = systemsNC.getComponentArray<Component::Velocity>();
-    auto& speeds = systemsNC.getComponentArray<Component::Speed>();
-    auto& playerControllers = systemsNC.getComponentArray<Component::PlayerController>();
+    auto& velocityArray = systemsNC.getComponentArray<Component::Velocity>();
+    auto& speedArray = systemsNC.getComponentArray<Component::Speed>();
+    auto& playerControllerArray = systemsNC.getComponentArray<Component::PlayerController>();
 
-    if (!velocities->hasData(player) ||
-        !speeds->hasData(player) ||
-        !playerControllers->hasData(player))
+    if (!velocityArray->hasData(player) ||
+        !speedArray->hasData(player) ||
+        !playerControllerArray->hasData(player))
     {
         return;
     }
 
-    const Component::PlayerController playerController = playerControllers->getData(player);
-    const Component::Speed speed = speeds->getData(player);
-    Component::Velocity& velocity = velocities->getData(player);
+    const Component::PlayerController playerControllerObj = playerControllerArray->getData(player);
+    const Component::Speed speedObj = speedArray->getData(player);
+    Component::Velocity& velocityObj = velocityArray->getData(player);
 
-    if (!playerController.enabled)
+    if (!playerControllerObj.enabled)
     {
         return;
     }
@@ -242,42 +234,42 @@ void Control::doPlayerControl
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W))
     {
-        newSpeedY = -speed.y;
+        newSpeedY = -speedObj.y;
     }
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S))
     {
-        newSpeedY = speed.y;
+        newSpeedY = speedObj.y;
     }
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A))
     {
-        newSpeedX = -speed.x;
+        newSpeedX = -speedObj.x;
     }
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D))
     {
-        newSpeedX = speed.x;
+        newSpeedX = speedObj.x;
     }
 
     // applies the speed (even if there aren't any changes)
-    velocity.x += (newSpeedX * dt);
-    velocity.y += (newSpeedY * dt);
+    velocityObj.x += (newSpeedX * dt);
+    velocityObj.y += (newSpeedY * dt);
 
-    if (velocity.x > velocity.maxX)
+    if (velocityObj.x > velocityObj.maxX)
     {
-        velocity.x = velocity.maxX;
+        velocityObj.x = velocityObj.maxX;
     }
-    else if (velocity.x < velocity.minX)
+    else if (velocityObj.x < velocityObj.minX)
     {
-        velocity.x = velocity.minX;
+        velocityObj.x = velocityObj.minX;
     }
 
-    if (velocity.y > velocity.maxY)
+    if (velocityObj.y > velocityObj.maxY)
     {
-        velocity.y = velocity.maxY;
+        velocityObj.y = velocityObj.maxY;
     }
-    else if (velocity.y < velocity.minY)
+    else if (velocityObj.y < velocityObj.minY)
     {
-        velocity.y = velocity.minY;
+        velocityObj.y = velocityObj.minY;
     }
 
 }
@@ -298,9 +290,9 @@ void Update::doButtons
     auto& transformArray = systemsNC.getComponentArray<Component::Transform>();
     auto& positionArray = systemsNC.getComponentArray<Component::Position>();
 
-    for (auto& [entity, button] : buttonArray->getAll())
+    for (auto& [entity, buttonObj] : buttonArray->getAll())
     {
-        if (!button.enabled)
+        if (!buttonObj.enabled)
         {
             continue;
         }
@@ -315,19 +307,19 @@ void Update::doButtons
 
         ////std::cout << "button.top: " << button.top << "\n";
         ////std::cout << "button.left: " << button.left << "\n";
-        Component::Origin& origin = originArray->getData(entity);
-        Component::Transform& transform = transformArray->getData(entity);
-        Component::Position& position = positionArray->getData(entity);
-        Component::Sprite& sprite = spriteArray->getData(entity);
+        Component::Origin& originObj = originArray->getData(entity);
+        Component::Transform& transformObj = transformArray->getData(entity);
+        Component::Position& posObj = positionArray->getData(entity);
+        Component::Sprite& spriteObj = spriteArray->getData(entity);
 
-        if (button.clickedTimer <= 0)
+        if (buttonObj.clickedTimer <= 0)
         {
-            sprite.body->setScale
+            spriteObj.body->setScale
             (
                 sf::Vector2f
                 (
-                    DEFAULT_SCALE_X * (transform.width / sprite.body->getTexture().getSize().x),
-                    DEFAULT_SCALE_Y * (transform.height / sprite.body->getTexture().getSize().y)
+                    DEFAULT_SCALE_X * (transformObj.width / spriteObj.body->getTexture().getSize().x),
+                    DEFAULT_SCALE_Y * (transformObj.height / spriteObj.body->getTexture().getSize().y)
                 )
             );
 
@@ -346,10 +338,10 @@ void Update::doButtons
         }
         else
         {
-            button.clickedTimer -= dt;
-            if (button.clickedTimer <= 0)
+            buttonObj.clickedTimer -= dt;
+            if (buttonObj.clickedTimer <= 0)
             {
-                button.clicked = true;
+                buttonObj.clicked = true;
 
                 if (nextSceneArray->hasData(entity))
                 {
@@ -361,21 +353,18 @@ void Update::doButtons
         }
 
         // button hovering
-        if
-            (
-                mouseVector.x > position.x - origin.offsetX &&
-                mouseVector.x < position.x + transform.width - origin.offsetX &&
-                mouseVector.y > position.y - origin.offsetY &&
-                mouseVector.y < position.y + transform.height - origin.offsetY &&
-                button.clickedTimer <= 0
-                )
+		if (mouseVector.x > posObj.x - originObj.offsetX &&
+			mouseVector.x < posObj.x + transformObj.width - originObj.offsetX &&
+			mouseVector.y > posObj.y - originObj.offsetY &&
+			mouseVector.y < posObj.y + transformObj.height - originObj.offsetY &&
+			buttonObj.clickedTimer <= 0)
         {
-            sprite.body->setScale
+            spriteObj.body->setScale
             (
                 sf::Vector2f
                 (
-                    HOVER_SCALE_X * (transform.width / sprite.body->getTexture().getSize().x),
-                    HOVER_SCALE_Y * (transform.height / sprite.body->getTexture().getSize().y)
+                    HOVER_SCALE_X * (transformObj.width / spriteObj.body->getTexture().getSize().x),
+                    HOVER_SCALE_Y * (transformObj.height / spriteObj.body->getTexture().getSize().y)
                 )
             );
 
@@ -394,14 +383,14 @@ void Update::doButtons
         }
 
         // button clicking
-        if (button.clickedTimer > 0)
+        if (buttonObj.clickedTimer > 0)
         {
-            sprite.body->setScale
+            spriteObj.body->setScale
             (
                 sf::Vector2f
                 (
-                    CLICKED_SCALE_X * (transform.width / sprite.body->getTexture().getSize().x),
-                    CLICKED_SCALE_Y * (transform.height / sprite.body->getTexture().getSize().y)
+                    CLICKED_SCALE_X * (transformObj.width / spriteObj.body->getTexture().getSize().x),
+                    CLICKED_SCALE_Y * (transformObj.height / spriteObj.body->getTexture().getSize().y)
                 )
             );
 
@@ -426,19 +415,19 @@ void Update::doNextScene
     sf::Font& font
 )
 {
-    auto& nextScenes = systemsNC.getComponentArray<Component::NextScene>();
+    auto& nextSceneArray = systemsNC.getComponentArray<Component::NextScene>();
 
     bool playNext = false;
     Scene playNextScene;
 
-    for (auto& [entity, nextScene] : nextScenes->getAll())
+    for (auto& [entity, nextSceneObj] : nextSceneArray->getAll())
     {
         // buttons must have a shape, origin, and text
-        if (nextScene.active)
+        if (nextSceneObj.active)
         {
             //std::cout << "active: " << nextScene.next << "\n";
             playNext = true;
-            playNextScene = nextScene.next;
+            playNextScene = nextSceneObj.next;
             break;
         }
     }
@@ -457,40 +446,40 @@ void Update::doNextScene
 }
 void Update::move(const DeltaTime dt)
 {
-    auto& velocities = systemsNC.getComponentArray<Component::Velocity>();
-    auto& positions = systemsNC.getComponentArray<Component::Position>();
+    auto& velocityArray = systemsNC.getComponentArray<Component::Velocity>();
+    auto& positionArray = systemsNC.getComponentArray<Component::Position>();
 
-    for (auto& [entity, velocity] : velocities->getAll())
+    for (auto& [entity, velocityObj] : velocityArray->getAll())
     {
-        if (!positions->hasData(entity))
+        if (!positionArray->hasData(entity))
         {
             continue;
         }
 
-        Component::Position& pos = positions->getData(entity);
-        pos.x += (velocity.x * dt);
-        pos.y += (velocity.y * dt);
+        Component::Position& posObj = positionArray->getData(entity);
+        posObj.x += (velocityObj.x * dt);
+        posObj.y += (velocityObj.y * dt);
     }
 }
 void Update::drag(const DeltaTime dt)
 {
-    auto& velocities = systemsNC.getComponentArray<Component::Velocity>();
-    auto& drags = systemsNC.getComponentArray<Component::Drag>();
+    auto& velocityArray = systemsNC.getComponentArray<Component::Velocity>();
+    auto& dragArray = systemsNC.getComponentArray<Component::Drag>();
 
-    for (auto& [entity, velocity] : velocities->getAll())
+    for (auto& [entity, velocityObj] : velocityArray->getAll())
     {
-        if (!drags->hasData(entity))
+        if (!dragArray->hasData(entity))
         {
             continue;
         }
 
-        Component::Drag drag = drags->getData(entity);
+        Component::Drag dragObj = dragArray->getData(entity);
 
         // can't be exactly 0.0 because it will drift aimlessly
-        velocity.x = velocity.x < -0.1 ? velocity.x + (drag.x * dt) :
-            velocity.x > 0.1f ? velocity.x - (drag.x * dt) : 0.0;
-        velocity.y = velocity.y < -0.1 ? velocity.y + (drag.y * dt) :
-            velocity.y > 0.1f ? velocity.y - (drag.y * dt) : 0.0;
+        velocityObj.x = velocityObj.x < -0.1 ? velocityObj.x + (dragObj.x * dt) :
+            velocityObj.x > 0.1f ? velocityObj.x - (dragObj.x * dt) : 0.0;
+        velocityObj.y = velocityObj.y < -0.1 ? velocityObj.y + (dragObj.y * dt) :
+            velocityObj.y > 0.1f ? velocityObj.y - (dragObj.y * dt) : 0.0;
     }
 }
 
@@ -499,12 +488,12 @@ void Update::drag(const DeltaTime dt)
 // -------------------------------------------------------
 void Render::doZIndex(std::queue<Entity>& renderQueue)
 {
-    auto& zIndexes = systemsNC.getComponentArray<Component::ZIndex>();
+    auto& zIndexArray = systemsNC.getComponentArray<Component::ZIndex>();
 
     std::vector<std::pair<int, Entity>> renderVector;
-    for (auto& [entity, zIndex] : zIndexes->getAll())
+    for (auto& [entity, zIndexObj] : zIndexArray->getAll())
     {
-        if (zIndex.visible) renderVector.emplace_back(zIndex.index, entity);
+        if (zIndexObj.visible) renderVector.emplace_back(zIndexObj.index, entity);
     }
     std::sort(renderVector.begin(), renderVector.end());
 
@@ -528,45 +517,42 @@ void Render::render
         Entity& popped = renderQueue.front();
         ////std::cout << "popped: " << popped << "\n";
 
-        if
-            (
-                !positionArray->hasData(popped)
-                )
+        if (!positionArray->hasData(popped))
         {
             // this means the entity does not have a position component
             continue;
         }
 
-        Component::Position& pos = positionArray->getData(popped);
+        Component::Position& posObj = positionArray->getData(popped);
 
         if (spriteArray->hasData(popped))
         {
-            Component::Sprite& sprite = spriteArray->getData(popped);
+            Component::Sprite& spriteObj = spriteArray->getData(popped);
 
-            sprite.body->setPosition
+            spriteObj.body->setPosition
             (
                 sf::Vector2f
                 {
-                    static_cast<float>(pos.x),
-                    static_cast<float>(pos.y)
+                    static_cast<float>(posObj.x),
+                    static_cast<float>(posObj.y)
                 }
             );
-            window.draw(sprite.body.value());
+            window.draw(spriteObj.body.value());
         }
 
         if (textArray->hasData(popped))
         {
-            Component::Text& text = textArray->getData(popped);
+            Component::Text& textObj = textArray->getData(popped);
 
-            text.box->setPosition
+            textObj.box->setPosition
             (
                 sf::Vector2f
                 {
-                    static_cast<float>(pos.x),
-                    static_cast<float>(pos.y)
+                    static_cast<float>(posObj.x),
+                    static_cast<float>(posObj.y)
                 }
             );
-            window.draw(text.box.value());
+            window.draw(textObj.box.value());
         }
 
         renderQueue.pop();
