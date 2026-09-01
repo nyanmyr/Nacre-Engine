@@ -19,10 +19,10 @@ void menuScene
 	Entity playButton = makeButton
 	(
 		Enum::Texture::TEXTURE_PLACEHOLDER,
-		{
+		sf::Vector2f(
 			window.getDefaultView().getSize().x / 2.0,
 			window.getDefaultView().getSize().y / 2.0
-		},
+		),
 		{
 			200.0,
 			100.0

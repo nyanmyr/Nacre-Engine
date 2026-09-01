@@ -20,10 +20,10 @@ void playingScene
 	Entity player = makePlayer
 	(
 		Enum::Texture::TEXTURE_PLACEHOLDER,
-		{
+		sf::Vector2f(
 			window.getDefaultView().getSize().x / 2.0,
 			window.getDefaultView().getSize().y / 2.0
-		},
+		),
 		{
 			40.0,
 			40.0
