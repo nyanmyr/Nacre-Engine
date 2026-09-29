@@ -42,7 +42,7 @@ public:
 	template<typename T>
 	T& getComponent(Entity entity)
 	{
-		T& component = cm.getComponent(entity);
+		T& component = cm.getComponent<T>(entity);
 		return component;
 	}
 
@@ -53,13 +53,13 @@ public:
 		return componentArray;
 	}
 
-	Entity& createEntity()
+	Entity createEntity()
 	{
 		Entity entity = em.createEntity();
 		return entity;
 	}
 
-	bool& isAlive(Entity entity)
+	bool isAlive(Entity entity)
 	{
 		bool isAlive = em.isAlive(entity);
 		return isAlive;
