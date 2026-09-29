@@ -4,10 +4,11 @@
 
 void menuScene
 (
-	sf::RenderWindow& window, sf::Font& font
+	sf::RenderWindow& window,
+	sf::Font& font
 )
 {
-	NacreCoordinator& nc = NacreCoordinator::getInstance();
+	static NacreCoordinator& nc = NacreCoordinator::getInstance();
 
 	// game state variables
 	sf::Clock clock;

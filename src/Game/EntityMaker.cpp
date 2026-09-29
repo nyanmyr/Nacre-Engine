@@ -4,7 +4,7 @@
 #include "Headers/Components.hpp"
 #include "Headers/Enums.hpp"
 
-NacreCoordinator& entityMakerNC = NacreCoordinator::getInstance();
+static NacreCoordinator& nc = NacreCoordinator::getInstance();
 
 Entity makePlayer
 (
@@ -18,9 +18,9 @@ Entity makePlayer
 	const sf::Color col
 )
 {
-	Entity entity = entityMakerNC.createEntity();
+	Entity entity = nc.createEntity();
 
-	entityMakerNC.addComponent
+	nc.addComponent
 	(
 		entity,
 		Component::Position
@@ -29,7 +29,7 @@ Entity makePlayer
 			pos.y
 		}
 	);
-	entityMakerNC.addComponent
+	nc.addComponent
 	(
 		entity,
 		Component::ZIndex
@@ -38,7 +38,7 @@ Entity makePlayer
 			true
 		}
 	);
-	entityMakerNC.addComponent
+	nc.addComponent
 	(
 		entity,
 		Component::Origin
@@ -47,7 +47,7 @@ Entity makePlayer
 			size.y / 2.0
 		}
 	);
-	entityMakerNC.addComponent
+	nc.addComponent
 	(
 		entity,
 		Component::Velocity
@@ -58,7 +58,7 @@ Entity makePlayer
 			maxVelocity.y
 		}
 	);
-	entityMakerNC.addComponent
+	nc.addComponent
 	(
 		entity,
 		Component::Speed
@@ -67,7 +67,7 @@ Entity makePlayer
 			speed.y
 		}
 	);
-	entityMakerNC.addComponent
+	nc.addComponent
 	(
 		entity,
 		Component::Drag
@@ -76,7 +76,7 @@ Entity makePlayer
 			drag.y
 		}
 	);
-	entityMakerNC.addComponent
+	nc.addComponent
 	(
 		entity,
 		Component::PlayerController
@@ -84,7 +84,7 @@ Entity makePlayer
 			true
 		}
 	);
-	entityMakerNC.addComponent
+	nc.addComponent
 	(
 		entity,
 		Component::Transform
@@ -93,18 +93,18 @@ Entity makePlayer
 			size.y
 		}
 	);
-	entityMakerNC.addComponent
+	nc.addComponent
 	(
 		entity,
 		Component::Texture{ texture }
 	);
-	entityMakerNC.addComponent
+	nc.addComponent
 	(
 		entity,
 		Component::Sprite{}
 	);
 
-	entityMakerNC.addComponent
+	nc.addComponent
 	(
 		entity,
 		Component::Color{ col }
@@ -124,9 +124,9 @@ Entity makeButton
 	const sf::Color col
 )
 {
-	Entity entity = entityMakerNC.createEntity();
+	Entity entity = nc.createEntity();
 
-	entityMakerNC.addComponent(
+	nc.addComponent(
 		entity,
 		Component::Position
 		{
@@ -134,7 +134,7 @@ Entity makeButton
 			pos.y
 		}
 	);
-	entityMakerNC.addComponent
+	nc.addComponent
 	(
 		entity,
 		Component::Transform
@@ -143,7 +143,7 @@ Entity makeButton
 			size.y
 		}
 	);
-	entityMakerNC.addComponent
+	nc.addComponent
 	(
 		entity,
 		Component::Origin
@@ -152,7 +152,7 @@ Entity makeButton
 			size.y / 2.0
 		}
 	);
-	entityMakerNC.addComponent
+	nc.addComponent
 	(
 		entity,
 		Component::Button
@@ -163,7 +163,7 @@ Entity makeButton
 	);
 
 	sf::Text text(font);
-	entityMakerNC.addComponent
+	nc.addComponent
 	(
 		entity,
 		Component::Text
@@ -175,7 +175,7 @@ Entity makeButton
 			Enum::TextFormat::MIDDLE
 		}
 	);
-	entityMakerNC.addComponent
+	nc.addComponent
 	(
 		entity,
 		Component::NextScene
@@ -184,7 +184,7 @@ Entity makeButton
 			false
 		}
 	);
-	entityMakerNC.addComponent
+	nc.addComponent
 	(
 		entity,
 		Component::ZIndex
@@ -193,7 +193,7 @@ Entity makeButton
 			true
 		}
 	);
-	entityMakerNC.addComponent
+	nc.addComponent
 	(
 		entity,
 		Component::Transform
@@ -202,18 +202,18 @@ Entity makeButton
 			size.y
 		}
 	);
-	entityMakerNC.addComponent
+	nc.addComponent
 	(
 		entity,
 		Component::Texture{ texture }
 	);
-	entityMakerNC.addComponent
+	nc.addComponent
 	(
 		entity,
 		Component::Sprite{}
 	);
 
-	entityMakerNC.addComponent
+	nc.addComponent
 	(
 		entity,
 		Component::Color{ col }
@@ -224,9 +224,9 @@ Entity makeButton
 
 Entity makeLoadedTexturesContainer()
 {
-	Entity entity = entityMakerNC.createEntity();
+	Entity entity = nc.createEntity();
 
-	entityMakerNC.addComponent
+	nc.addComponent
 	(
 		entity,
 		Component::TexturesContainer{}

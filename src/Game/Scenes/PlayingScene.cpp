@@ -8,7 +8,7 @@ void playingScene
 	sf::Font& font
 )
 {
-	NacreCoordinator& nc = NacreCoordinator::getInstance();
+	static NacreCoordinator& nc = NacreCoordinator::getInstance();
 
 	// game state variables
 	sf::Clock clock;

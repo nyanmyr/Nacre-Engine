@@ -20,7 +20,7 @@ void main()
 	RenderWindow window(VideoMode({ SCREEN_WIDTH, SCREEN_HEIGHT }), "Nacre Engine", sf::Style::Close);
 	window.setFramerateLimit(MAX_FPS);
 
-	NacreCoordinator& nc = NacreCoordinator::getInstance();
+	static NacreCoordinator& nc = NacreCoordinator::getInstance();
 
 	// components registration
 	nc.registerComponent<Component::Position>();
