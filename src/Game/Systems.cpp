@@ -1,5 +1,15 @@
 #include "Headers/Systems.hpp"
 
+#include <SFML/Graphics.hpp>
+
+#include <algorithm>
+#include <utility>
+#include <vector>
+
+#include "../Engine/NacreCoordinator.hpp"
+#include "Headers/Components.hpp"
+#include "Headers/Enums.hpp"
+
 static NacreCoordinator& nc = NacreCoordinator::getInstance();
 
 // -------------------------------------------------------

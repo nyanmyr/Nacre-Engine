@@ -1,4 +1,8 @@
 #include <SFML/Graphics.hpp>
+
+#include <optional>
+#include <queue>
+
 #include "../src/Game/Headers/GameManager.hpp"
 #include "../src/Game/Headers/Scenes.hpp"
 

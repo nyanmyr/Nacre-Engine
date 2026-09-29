@@ -1,12 +1,10 @@
 #include <SFML/Graphics.hpp>
 
+#include <stdexcept>
+#include <string>
+
 #include "Headers/GameManager.hpp"
 #include "Headers/Scenes.hpp"
-
-#include <iostream>
-
-using sf::RenderWindow;
-using sf::VideoMode;
 
 constexpr int SCREEN_WIDTH = 800;
 constexpr int SCREEN_HEIGHT = 600;
@@ -17,7 +15,7 @@ const std::string FONT_FILEPATH = RESOURCES_PATH "arial.ttf";
 
 void main()
 {
-	RenderWindow window(VideoMode({ SCREEN_WIDTH, SCREEN_HEIGHT }), "Nacre Engine", sf::Style::Close);
+	sf::RenderWindow window(sf::VideoMode({ SCREEN_WIDTH, SCREEN_HEIGHT }), "Nacre Engine", sf::Style::Close);
 	window.setFramerateLimit(MAX_FPS);
 
 	static NacreCoordinator& nc = NacreCoordinator::getInstance();

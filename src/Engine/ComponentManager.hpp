@@ -1,13 +1,14 @@
 #ifndef COMPONENT_MANAGER_HPP
 #define COMPONENT_MANAGER_HPP
 
-#include "ComponentArray.hpp"
-
 #include <unordered_map>
 #include <memory>
 #include <typeindex>
 #include <typeinfo>
 #include <stdexcept>
+
+#include "ComponentArray.hpp"
+#include "Core.hpp"
 
 class ComponentManager
 {

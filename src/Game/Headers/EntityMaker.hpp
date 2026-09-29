@@ -2,8 +2,9 @@
 #define ENTITY_MAKER_HPP
 
 #include <SFML/Graphics.hpp>
+#include <string>
+#include "../../Engine/Core.hpp"
 #include "Scenes.hpp"
-#include "Components.hpp"
 #include "Enums.hpp"
 
 Entity makePlayer

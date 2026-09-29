@@ -1,6 +1,7 @@
+#include "Headers/EntityMaker.hpp"
+
 #include <SFML/Graphics.hpp>
 #include "../Engine/NacreCoordinator.hpp"
-#include "Headers/EntityMaker.hpp"
 #include "Headers/Components.hpp"
 #include "Headers/Enums.hpp"
 

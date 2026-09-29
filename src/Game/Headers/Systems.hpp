@@ -1,9 +1,9 @@
 #ifndef SYSTEMS_HPP
 #define SYSTEMS_HPP
 
+#include <queue>
 #include <SFML/Graphics.hpp>
-#include "../../Engine/NacreCoordinator.hpp"
-#include "Components.hpp"
+#include "../../Engine/Core.hpp"
 
 namespace Start
 {

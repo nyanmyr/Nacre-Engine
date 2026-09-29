@@ -1,7 +1,11 @@
 #ifndef NACRE_MANAGER_HPP
 #define NACRE_MANAGER_HPP
 
+#include <memory>
+
+#include "ComponentArray.hpp"
 #include "ComponentManager.hpp"
+#include "Core.hpp"
 #include "EntityManager.hpp"
 
 class NacreCoordinator

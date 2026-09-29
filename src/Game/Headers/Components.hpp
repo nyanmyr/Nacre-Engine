@@ -2,10 +2,13 @@
 #define COMPONENTS_HPP
 
 #include <SFML/Graphics.hpp>
-#include "Scenes.hpp"
-#include "Enums.hpp"
+
 #include <optional>
 #include <string>
+#include <unordered_map>
+
+#include "Scenes.hpp"
+#include "Enums.hpp"
 
 namespace Component {
 	struct Position
