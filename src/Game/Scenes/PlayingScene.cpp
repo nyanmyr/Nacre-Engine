@@ -18,10 +18,10 @@ void playingScene
 	sf::Clock clock;
 	std::queue<Entity> renderQueue;
 
-	Entity loadedTextures = makeLoadedTexturesContainer();
+	Entity loadedTextures = Maker::loadedTexturesContainer();
 
 	// entity instantiation
-	Entity player = makePlayer
+	Entity player = Maker::player
 	(
 		Enum::Texture::TEXTURE_PLACEHOLDER,
 		sf::Vector2f(

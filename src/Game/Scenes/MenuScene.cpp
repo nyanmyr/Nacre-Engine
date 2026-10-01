@@ -18,10 +18,10 @@ void menuScene
 	sf::Clock clock;
 	std::queue<Entity> renderQueue;
 
-	Entity loadedTextures = makeLoadedTexturesContainer();
+	Entity loadedTextures = Maker::loadedTexturesContainer();
 
 	// entity instantiation
-	Entity playButton = makeButton
+	Entity playButton = Maker::button
 	(
 		Enum::Texture::TEXTURE_PLACEHOLDER,
 		sf::Vector2f(
