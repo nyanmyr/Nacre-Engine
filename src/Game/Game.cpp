@@ -6,19 +6,17 @@
 #include "Headers/GameManager.hpp"
 #include "Headers/Scenes.hpp"
 
-constexpr int SCREEN_WIDTH = 800;
-constexpr int SCREEN_HEIGHT = 600;
-
-constexpr int MAX_FPS = 60;
-
-const std::string FONT_FILEPATH = RESOURCES_PATH "arial.ttf";
+static const int SCREEN_WIDTH = 800;
+static const int SCREEN_HEIGHT = 600;
+static const int MAX_FPS = 60;
+static const std::string FONT_FILEPATH = RESOURCES_PATH "arial.ttf";
+static const std::string WINDOW_NAME = "Nacre Engine";
+static NacreCoordinator& nc = NacreCoordinator::getInstance();
 
 void main()
 {
-	sf::RenderWindow window(sf::VideoMode({ SCREEN_WIDTH, SCREEN_HEIGHT }), "Nacre Engine", sf::Style::Close);
+	sf::RenderWindow window(sf::VideoMode({ SCREEN_WIDTH, SCREEN_HEIGHT }), WINDOW_NAME, sf::Style::Close);
 	window.setFramerateLimit(MAX_FPS);
-
-	static NacreCoordinator& nc = NacreCoordinator::getInstance();
 
 	// components registration
 	nc.registerComponent<Component::Position>();

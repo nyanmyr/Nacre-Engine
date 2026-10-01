@@ -164,14 +164,14 @@ void Start::setColor()
 // -------------------------------------------------------
 // control systems
 // -------------------------------------------------------
-const double DEFAULT_SCALE_X = 1.0;
-const double DEFAULT_SCALE_Y = 1.0;
+static const double DEFAULT_SCALE_X = 1.0;
+static const double DEFAULT_SCALE_Y = 1.0;
 
-const double HOVER_SCALE_X = 1.1;
-const double HOVER_SCALE_Y = 1.1;
+static const double HOVER_SCALE_X = 1.1;
+static const double HOVER_SCALE_Y = 1.1;
 
-const double CLICKED_SCALE_X = 0.9;
-const double CLICKED_SCALE_Y = 0.9;
+static const double CLICKED_SCALE_X = 0.9;
+static const double CLICKED_SCALE_Y = 0.9;
 
 void Control::buttonClicks
 (
