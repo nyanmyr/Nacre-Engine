@@ -9,6 +9,7 @@
 #include "../Engine/NacreCoordinator.hpp"
 #include "Headers/Components.hpp"
 #include "Headers/Enums.hpp"
+#include "Headers/Events.hpp"
 
 static NacreCoordinator& nc = NacreCoordinator::getInstance();
 
@@ -72,26 +73,15 @@ void Start::setTextOrigin()
 }
 void Start::setSpriteOrigin()
 {
-	auto& originArray = nc.getComponentArray<Component::Origin>();
 	auto& spriteArray = nc.getComponentArray<Component::Sprite>();
 
-	for (auto& [entity, spriteObj] : spriteArray->getAll())
+	for (auto& [entity, sprite] : spriteArray->getAll())
 	{
-		if (!originArray->hasData(entity))
-		{
-			continue;
-		}
-
-		Component::Origin& originObj = originArray->getData(entity);
-
-		spriteObj.body->setOrigin
-		(
-			sf::Vector2f
+		nc.call<Event::SetSpriteOrigin>
 			(
-				originObj.offsetX / spriteObj.body->getScale().x,
-				originObj.offsetY / spriteObj.body->getScale().y
-			)
-		);
+				Event::SetSpriteOrigin
+				{ entity }
+			);
 	}
 }
 void Start::loadTextures(Entity loadedTextures)

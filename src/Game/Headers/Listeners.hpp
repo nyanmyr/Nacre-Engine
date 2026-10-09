@@ -6,7 +6,7 @@
 
 namespace Listener
 {
-	
+	void setSpriteOrigin(Event::SetSpriteOrigin event);
 }
 
 #endif

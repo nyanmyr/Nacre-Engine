@@ -41,6 +41,15 @@ void main()
 		throw std::runtime_error("Font not found.");
 	}
 
+	// event registration
+	nc.registerEvent<Event::SetSpriteOrigin>();
+
+	// functions creation
+	std::function<void(Event::SetSpriteOrigin)> setSpriteOrigin = Listener::setSpriteOrigin;
+
+	// listener function linking
+	nc.listen<Event::SetSpriteOrigin>(setSpriteOrigin);
+
 	playScene
 	(
 		window,

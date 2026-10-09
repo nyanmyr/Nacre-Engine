@@ -6,7 +6,10 @@
 
 namespace Event
 {
-	
+	struct SetSpriteOrigin
+	{
+		Entity target = NULL_ENTITY;
+	};
 }
 
 #endif
