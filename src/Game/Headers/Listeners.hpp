@@ -7,6 +7,7 @@
 namespace Listener
 {
 	void setSpriteOrigin(Event::SetSpriteOrigin event);
+	void setColor(Event::SetColor event);
 }
 
 #endif

@@ -136,18 +136,14 @@ void Start::loadSprites(Entity loadedTextures)
 void Start::setColor()
 {
 	auto& colorArray = nc.getComponentArray<Component::Color>();
-	auto& spriteArray = nc.getComponentArray<Component::Sprite>();
 
-	for (auto& [entity, colorObj] : colorArray->getAll())
+	for (auto& [entity, color] : colorArray->getAll())
 	{
-		if (!spriteArray->hasData(entity))
-		{
-			continue;
-		}
-
-		Component::Sprite& spriteObj = spriteArray->getData(entity);
-
-		spriteObj.body->setColor(colorObj.col);
+		nc.call<Event::SetColor>
+			(
+				Event::SetColor
+				{ entity }
+			);
 	}
 }
 

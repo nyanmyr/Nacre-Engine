@@ -10,6 +10,10 @@ namespace Event
 	{
 		Entity target = NULL_ENTITY;
 	};
+	struct SetColor
+	{
+		Entity target = NULL_ENTITY;
+	};
 }
 
 #endif

@@ -102,7 +102,7 @@ namespace Component {
 
 	struct Color
 	{
-		sf::Color col = sf::Color(sf::Color::White);
+		sf::Color col = sf::Color::White;
 	};
 }
 
