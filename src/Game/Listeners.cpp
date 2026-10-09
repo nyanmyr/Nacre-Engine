@@ -1,12 +1,16 @@
 #include "Headers/Listeners.hpp"
 #include "Headers/Components.hpp"
 
+#include <stdexcept>
+
 static NacreCoordinator& nc = NacreCoordinator::getInstance();
 
 namespace Listener
 {
 	void setSpriteOrigin(Event::SetSpriteOrigin event)
 	{
+		if (event.target == NULL_ENTITY) throw std::runtime_error("Error: null entity");
+
 		auto& originArray = nc.getComponentArray<Component::Origin>();
 		auto& spriteArray = nc.getComponentArray<Component::Sprite>();
 
