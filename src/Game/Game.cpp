@@ -32,7 +32,6 @@ void main()
 	nc.registerComponent<Component::Drag>();
 	nc.registerComponent<Component::Sprite>();
 	nc.registerComponent<Component::Texture>();
-	nc.registerComponent<Component::TexturesContainer>();
 	nc.registerComponent<Component::Color>();
 
 	sf::Font font;

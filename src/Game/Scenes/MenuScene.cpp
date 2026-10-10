@@ -18,7 +18,7 @@ void menuScene
 	sf::Clock clock;
 	std::queue<Entity> renderQueue;
 
-	Entity loadedTextures = Maker::loadedTexturesContainer();
+	Component::Singleton::TexturesContainer loadedTextures{};
 
 	// entity instantiation
 	Entity playButton = Maker::button

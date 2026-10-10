@@ -224,17 +224,4 @@ namespace Maker
 
 		return entity;
 	}
-
-	Entity loadedTexturesContainer()
-	{
-		Entity entity = nc.createEntity();
-
-		nc.addComponent
-		(
-			entity,
-			Component::TexturesContainer{}
-		);
-
-		return entity;
-	}
 }

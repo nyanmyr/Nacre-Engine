@@ -30,7 +30,6 @@ namespace Maker
 		const sf::Font& font,
 		const sf::Color col
 	);
-	Entity loadedTexturesContainer();
 }
 
 #endif

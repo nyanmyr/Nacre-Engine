@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <utility>
 #include <vector>
+#include <stdexcept>
 
 #include "../Engine/NacreCoordinator.hpp"
 #include "Headers/Components.hpp"
@@ -84,32 +85,15 @@ void Start::setSpriteOrigin()
 			);
 	}
 }
-void Start::loadTextures(Entity loadedTextures)
+void Start::loadTextures(Component::Singleton::TexturesContainer& loadedTextures)
 {
-	auto& texturesContainerArray = nc.getComponentArray<Component::TexturesContainer>();
-
-	if (!texturesContainerArray->hasData(loadedTextures))
-	{
-		return;
-	}
-
-	Component::TexturesContainer& containerObj = texturesContainerArray->getData(loadedTextures);
-
-	containerObj.map.emplace(Enum::Texture::TEXTURE_PLACEHOLDER, sf::Texture(SPRITES_PATH "placeholder_texture.jpeg"));
+	loadedTextures.map.emplace(Enum::Texture::TEXTURE_PLACEHOLDER, sf::Texture(SPRITES_PATH "placeholder_texture.jpeg"));
 }
-void Start::loadSprites(Entity loadedTextures)
+void Start::loadSprites(const Component::Singleton::TexturesContainer& loadedTextures)
 {
 	auto& spriteArray = nc.getComponentArray<Component::Sprite>();
 	auto& transformArray = nc.getComponentArray<Component::Transform>();
 	auto& textureArray = nc.getComponentArray<Component::Texture>();
-	auto& texturesContainerArray = nc.getComponentArray<Component::TexturesContainer>();
-
-	if (!texturesContainerArray->hasData(loadedTextures))
-	{
-		return;
-	}
-
-	Component::TexturesContainer& containerObj = texturesContainerArray->getData(loadedTextures);
 
 	for (auto& [entity, spriteObj] : spriteArray->getAll())
 	{
@@ -122,7 +106,12 @@ void Start::loadSprites(Entity loadedTextures)
 		Component::Texture& textureObj = textureArray->getData(entity);
 		Component::Transform& transformObj = transformArray->getData(entity);
 
-		spriteObj.body.emplace(containerObj.map[textureObj.data]);
+		if (loadedTextures.map.find(textureObj.data) == loadedTextures.map.end())
+		{
+			throw std::runtime_error("Texture has not been loaded.");
+		}
+
+		spriteObj.body.emplace(loadedTextures.map.at(textureObj.data));
 		spriteObj.body->setScale
 		(
 			sf::Vector2f

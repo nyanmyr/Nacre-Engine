@@ -95,15 +95,18 @@ namespace Component {
 		Enum::Texture data;
 	};
 
-	struct TexturesContainer
-	{
-		std::unordered_map<Enum::Texture, sf::Texture> map;
-	};
-
 	struct Color
 	{
 		sf::Color col = sf::Color::White;
 	};
+
+	namespace Singleton
+	{
+		struct TexturesContainer
+		{
+			std::unordered_map<Enum::Texture, sf::Texture> map;
+		};
+	}
 }
 
 #endif
