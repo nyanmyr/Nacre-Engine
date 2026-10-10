@@ -92,34 +92,14 @@ void Start::loadTextures(Component::Singleton::TexturesContainer& loadedTextures
 void Start::loadSprites(const Component::Singleton::TexturesContainer& loadedTextures)
 {
 	auto& spriteArray = nc.getComponentArray<Component::Sprite>();
-	auto& transformArray = nc.getComponentArray<Component::Transform>();
-	auto& textureArray = nc.getComponentArray<Component::Texture>();
 
-	for (auto& [entity, spriteObj] : spriteArray->getAll())
+	for (auto& [entity, sprite] : spriteArray->getAll())
 	{
-		if (!transformArray->hasData(entity) ||
-			!textureArray->hasData(entity))
-		{
-			continue;
-		}
-
-		Component::Texture& textureObj = textureArray->getData(entity);
-		Component::Transform& transformObj = transformArray->getData(entity);
-
-		if (loadedTextures.map.find(textureObj.data) == loadedTextures.map.end())
-		{
-			throw std::runtime_error("Texture has not been loaded.");
-		}
-
-		spriteObj.body.emplace(loadedTextures.map.at(textureObj.data));
-		spriteObj.body->setScale
-		(
-			sf::Vector2f
+		nc.call<Event::LoadSprite>
 			(
-				transformObj.width / spriteObj.body->getGlobalBounds().size.x,
-				transformObj.height / spriteObj.body->getGlobalBounds().size.y
-			)
-		);
+				Event::LoadSprite
+				{ entity, sprite, loadedTextures }
+			);
 	}
 }
 void Start::setColor()

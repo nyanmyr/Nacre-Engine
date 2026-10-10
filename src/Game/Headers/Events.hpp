@@ -3,6 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 #include "../src/Engine/NacreCoordinator.hpp"
+#include "Components.hpp"
 
 namespace Event
 {
@@ -13,6 +14,12 @@ namespace Event
 	struct SetColor
 	{
 		Entity target = NULL_ENTITY;
+	};
+	struct LoadSprite
+	{
+		Entity target = NULL_ENTITY;
+		Component::Sprite& sprite;
+		const Component::Singleton::TexturesContainer& loadedTextures;
 	};
 }
 
