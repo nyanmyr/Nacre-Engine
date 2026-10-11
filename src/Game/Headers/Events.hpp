@@ -10,11 +10,12 @@ namespace Event
 	struct SetSpriteOrigin
 	{
 		Entity target = NULL_ENTITY;
+		const Component::Origin& origin;
 	};
 	struct SetColor
 	{
 		Entity target = NULL_ENTITY;
-		Component::Color& color;
+		const Component::Color& color;
 	};
 	struct LoadSprite
 	{

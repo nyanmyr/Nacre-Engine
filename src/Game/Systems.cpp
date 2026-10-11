@@ -74,14 +74,14 @@ void Start::setTextOrigin()
 }
 void Start::setSpriteOrigin()
 {
-	auto& spriteArray = nc.getComponentArray<Component::Sprite>();
+	auto& originArray = nc.getComponentArray<Component::Origin>();
 
-	for (auto& [entity, sprite] : spriteArray->getAll())
+	for (auto& [entity, origin] : originArray->getAll())
 	{
 		nc.call<Event::SetSpriteOrigin>
 			(
 				Event::SetSpriteOrigin
-				{ entity }
+				{ entity, origin }
 			);
 	}
 }
