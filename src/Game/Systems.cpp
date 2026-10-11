@@ -21,11 +21,23 @@ void Start::setText(sf::Font& font)
 {
 	auto& textArray = nc.getComponentArray<Component::Text>();
 
-	for (auto& [entity, textObj] : textArray->getAll())
+	for (auto& [entity, text] : textArray->getAll())
 	{
-		textObj.box.value().setString(textObj.string);
-		textObj.box.value().setCharacterSize(textObj.size);
-		textObj.box.value().setFillColor(textObj.color);
+		nc.call<Event::SetTextString>
+			(
+				Event::SetTextString
+				{ entity, text.string, text.box }
+			);
+		nc.call<Event::SetTextSize>
+			(
+				Event::SetTextSize
+				{ entity, text.size, text.box }
+			);
+		nc.call<Event::SetTextColor>
+			(
+				Event::SetTextColor
+				{ entity, text.color, text.box }
+			);
 	}
 }
 void Start::setTextOrigin()

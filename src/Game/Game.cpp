@@ -44,16 +44,25 @@ void main()
 	nc.registerEvent<Event::SetSpriteOrigin>();
 	nc.registerEvent<Event::SetColor>();
 	nc.registerEvent<Event::LoadSprite>();
+	nc.registerEvent<Event::SetTextString>();
+	nc.registerEvent<Event::SetTextSize>();
+	nc.registerEvent<Event::SetTextColor>();
 
 	// functions creation
 	std::function<void(Event::SetSpriteOrigin)> setSpriteOrigin = Listener::setSpriteOrigin;
 	std::function<void(Event::SetColor)> setColor = Listener::setColor;
 	std::function<void(Event::LoadSprite)> loadSprite = Listener::loadSprite;
+	std::function<void(Event::SetTextString)> setTextString = Listener::setTextString;
+	std::function<void(Event::SetTextSize)> setTextSize = Listener::setTextSize;
+	std::function<void(Event::SetTextColor)> setTextColor = Listener::setTextColor;
 
 	// listener function linking
 	nc.listen<Event::SetSpriteOrigin>(setSpriteOrigin);
 	nc.listen<Event::SetColor>(setColor);
 	nc.listen<Event::LoadSprite>(loadSprite);
+	nc.listen<Event::SetTextString>(setTextString);
+	nc.listen<Event::SetTextSize>(setTextSize);
+	nc.listen<Event::SetTextColor>(setTextColor);
 
 	playScene
 	(

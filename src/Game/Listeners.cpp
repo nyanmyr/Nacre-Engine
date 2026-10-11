@@ -75,4 +75,22 @@ namespace Listener
 			)
 		);
 	}
+	void setTextString(Event::SetTextString event)
+	{
+		if (event.target == NULL_ENTITY) throw std::runtime_error("Error: null entity");
+
+		event.text->setString(event.string);
+	}
+	void setTextSize(Event::SetTextSize event)
+	{
+		if (event.target == NULL_ENTITY) throw std::runtime_error("Error: null entity");
+
+		event.text->setCharacterSize(event.size);
+	}
+	void setTextColor(Event::SetTextColor event)
+	{
+		if (event.target == NULL_ENTITY) throw std::runtime_error("Error: null entity");
+
+		event.text->setFillColor(event.color);
+	}
 }

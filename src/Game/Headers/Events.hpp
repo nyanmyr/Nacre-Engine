@@ -3,6 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 #include "../src/Engine/NacreCoordinator.hpp"
+#include <string>
 #include "Components.hpp"
 
 namespace Event
@@ -22,6 +23,24 @@ namespace Event
 		Entity target = NULL_ENTITY;
 		Component::Sprite& sprite;
 		const Component::Singleton::TexturesContainer& loadedTextures;
+	};
+	struct SetTextString
+	{
+		Entity target = NULL_ENTITY;
+		const std::string& string;
+		std::optional<sf::Text>& text;
+	};
+	struct SetTextSize
+	{
+		Entity target = NULL_ENTITY;
+		const int size = 0;
+		std::optional<sf::Text>& text;
+	};
+	struct SetTextColor
+	{
+		Entity target = NULL_ENTITY;
+		const sf::Color& color;
+		std::optional<sf::Text>& text;
 	};
 }
 
