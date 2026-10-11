@@ -36,19 +36,16 @@ namespace Listener
 	{
 		if (event.target == NULL_ENTITY) throw std::runtime_error("Error: null entity");
 
-		auto& colorArray = nc.getComponentArray<Component::Color>();
 		auto& spriteArray = nc.getComponentArray<Component::Sprite>();
 
-		if (!colorArray->hasData(event.target) ||
-			!spriteArray->hasData(event.target))
+		if (!spriteArray->hasData(event.target))
 		{
 			return;
 		}
 
 		Component::Sprite& sprite = spriteArray->getData(event.target);
-		const Component::Color& color = colorArray->getData(event.target);
 
-		sprite.body->setColor(color.col);
+		sprite.body->setColor(event.color.data);
 	}
 	void loadSprite(Event::LoadSprite event)
 	{

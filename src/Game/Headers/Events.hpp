@@ -14,6 +14,7 @@ namespace Event
 	struct SetColor
 	{
 		Entity target = NULL_ENTITY;
+		Component::Color& color;
 	};
 	struct LoadSprite
 	{

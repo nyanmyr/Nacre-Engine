@@ -97,7 +97,7 @@ namespace Component {
 
 	struct Color
 	{
-		sf::Color col = sf::Color::White;
+		sf::Color data = sf::Color::White;
 	};
 
 	namespace Singleton

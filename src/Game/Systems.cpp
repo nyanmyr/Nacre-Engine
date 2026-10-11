@@ -111,7 +111,7 @@ void Start::setColor()
 		nc.call<Event::SetColor>
 			(
 				Event::SetColor
-				{ entity }
+				{ entity, color }
 			);
 	}
 }
