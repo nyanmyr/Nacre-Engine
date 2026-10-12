@@ -527,6 +527,8 @@ void Update::enableButtonNextScene
 				font
 			}
 		);
+
+		break;
 	}
 }
 void Update::move(const DeltaTime dt)

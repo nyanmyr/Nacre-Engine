@@ -124,8 +124,7 @@ namespace Listener
 
 		for (auto& [entity, button] : buttonArray->getAll())
 		{
-			if (button.clickedTimer > 0.0 ||
-				button.state == Enum::ButtonState::CLICKED ||
+			if (button.state == Enum::ButtonState::CLICKED ||
 				!button.enabled ||
 				!originArray->hasData(entity) ||
 				!positionArray->hasData(entity) ||
