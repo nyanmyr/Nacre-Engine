@@ -131,15 +131,6 @@ void Start::setColor()
 // -------------------------------------------------------
 // control systems
 // -------------------------------------------------------
-static const double DEFAULT_SCALE_X = 1.0;
-static const double DEFAULT_SCALE_Y = 1.0;
-
-static const double HOVER_SCALE_X = 1.1;
-static const double HOVER_SCALE_Y = 1.1;
-
-static const double CLICKED_SCALE_X = 0.9;
-static const double CLICKED_SCALE_Y = 0.9;
-
 void Control::doPlayerControl
 (
 	const Entity player,
@@ -230,6 +221,34 @@ void Update::doButtonTimer(const DeltaTime dt)
 		if (button.clickedTimer <= 0.0) button.clickedTimer = 0.0;
 	}
 }
+
+template<typename T>
+static T easeOutElastic(T current, T max, T min)
+{
+	T progress = 1.0 - [](T target, T min, T max)
+		{
+			return (target - min) / (max - min);
+		}
+	(current, min, max);
+
+	static const double c4 = (2 * std::acos(-1.0)) / 3;
+
+	if (progress <= 0) return 0.0;
+	else if (progress >= 1) return 1.0;
+
+	return std::pow(2.0, -10.0 * progress) *
+		std::sin((progress * 10.0 - 0.75) * c4) + 1.0;
+}
+
+static const double DEFAULT_SCALE_X = 1.0;
+static const double DEFAULT_SCALE_Y = 1.0;
+
+static const double HOVER_SCALE_X = 1.1;
+static const double HOVER_SCALE_Y = 1.1;
+
+static const double CLICKED_SCALE_X = 0.9;
+static const double CLICKED_SCALE_Y = 0.9;
+
 void Update::applyButtonHoverAnimation()
 {
 	auto& buttonArray = nc.getComponentArray<Component::Button>();
@@ -248,23 +267,12 @@ void Update::applyButtonHoverAnimation()
 		Component::Transform& transform = transformArray->getData(entity);
 		Component::Sprite& sprite = spriteArray->getData(entity);
 
-		double progress = [](double target, double min, double max)
-			{
-				return (target - min) / (max - min);
-			}
-		(button.clickedTimer, 0.0, button.clickedDuration);
-
-		double scalingFactor = [](double progress) -> double
-			{
-				static const double c4 = (2 * std::acos(-1.0)) / 3;
-
-				if (progress <= 0) return 0.0;
-				else if (progress >= 1) return 1.0;
-
-				return std::pow(2.0, -10.0 * progress) *
-					std::sin((progress * 10.0 - 0.75) * c4) + 1.0;
-			}
-		(1.0 - progress);
+		double scalingFactor = easeOutElastic
+		(
+			button.clickedTimer,
+			button.clickedDuration,
+			0.0
+		);
 
 		sprite.body->setScale
 		(
@@ -309,24 +317,12 @@ void Update::applyButtonIdleAnimation()
 		Component::Transform& transform = transformArray->getData(entity);
 		Component::Sprite& sprite = spriteArray->getData(entity);
 
-		// TODO: turn into function
-		double progress = [](double target, double min, double max)
-			{
-				return (target - min) / (max - min);
-			}
-		(button.clickedTimer, 0.0, button.clickedDuration);
-
-		double scalingFactor = [](double progress) -> double
-			{
-				static const double c4 = (2 * std::acos(-1.0)) / 3;
-
-				if (progress <= 0) return 0.0;
-				else if (progress >= 1) return 1.0;
-
-				return std::pow(2.0, -10.0 * progress) *
-					std::sin((progress * 10.0 - 0.75) * c4) + 1.0;
-			}
-		(1.0 - progress);
+		double scalingFactor = easeOutElastic
+		(
+			button.clickedTimer,
+			button.clickedDuration,
+			0.0
+		);
 
 		sprite.body->setScale
 		(
@@ -371,23 +367,12 @@ void Update::applyButtonClickedAnimation()
 		Component::Transform& transform = transformArray->getData(entity);
 		Component::Sprite& sprite = spriteArray->getData(entity);
 
-		double progress = [](double target, double min, double max)
-			{
-				return (target - min) / (max - min);
-			}
-		(button.clickedTimer, 0.0, button.clickedDuration);
-
-		double scalingFactor = [](double progress) -> double
-			{
-				static const double c4 = (2 * std::acos(-1.0)) / 3;
-
-				if (progress <= 0) return 0.0;
-				else if (progress >= 1) return 1.0;
-
-				return std::pow(2.0, -10.0 * progress) *
-					std::sin((progress * 10.0 - 0.75) * c4) + 1.0;
-			}
-		(1.0 - progress);
+		double scalingFactor = easeOutElastic
+		(
+			button.clickedTimer,
+			button.clickedDuration,
+			0.0
+		);
 
 		sprite.body->setScale
 		(
