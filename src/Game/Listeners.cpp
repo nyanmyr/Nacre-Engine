@@ -113,7 +113,7 @@ namespace Listener
 
 		event.text->setFillColor(event.color);
 	}
-	void setButtonClicked(Event::MouseClick event)
+	void clickedButton(Event::MouseClick event)
 	{
 		auto& buttonArray = nc.getComponentArray<Component::Button>();
 		auto& originArray = nc.getComponentArray<Component::Origin>();
@@ -122,7 +122,8 @@ namespace Listener
 
 		for (auto& [entity, button] : buttonArray->getAll())
 		{
-			if (button.clicked ||
+			if (button.clickedTimer > 0.0 ||
+				button.state == Enum::ButtonState::CLICKED ||
 				!button.enabled ||
 				!originArray->hasData(entity) ||
 				!positionArray->hasData(entity) ||
@@ -156,8 +157,8 @@ namespace Listener
 			)
 				)
 			{
-				button.clicked = true;
 				button.clickedTimer = button.clickedDuration;
+				button.state = Enum::ButtonState::CLICKED;
 			}
 		}
 	}
@@ -170,9 +171,9 @@ namespace Listener
 
 		for (auto& [entity, button] : buttonArray->getAll())
 		{
-			if (button.clicked ||
-				button.clickedTimer > 0.0 ||
+			if (button.clickedTimer > 0.0 ||
 				button.state == Enum::ButtonState::HOVERED ||
+				button.state == Enum::ButtonState::CLICKED ||
 				!button.enabled ||
 				!originArray->hasData(entity) ||
 				!positionArray->hasData(entity) ||
@@ -220,9 +221,9 @@ namespace Listener
 
 		for (auto& [entity, button] : buttonArray->getAll())
 		{
-			if (button.clicked ||
-				button.clickedTimer > 0.0 ||
+			if (button.clickedTimer > 0.0 ||
 				button.state == Enum::ButtonState::IDLE ||
+				button.state == Enum::ButtonState::CLICKED ||
 				!button.enabled ||
 				!originArray->hasData(entity) ||
 				!positionArray->hasData(entity) ||

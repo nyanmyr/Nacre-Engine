@@ -57,7 +57,7 @@ void main()
 	std::function<void(Event::SetTextString)> setTextString = Listener::setTextString;
 	std::function<void(Event::SetTextSize)> setTextSize = Listener::setTextSize;
 	std::function<void(Event::SetTextColor)> setTextColor = Listener::setTextColor;
-	std::function<void(Event::MouseClick)> setButtonClicked = Listener::setButtonClicked;
+	std::function<void(Event::MouseClick)> setButtonClicked = Listener::clickedButton;
 	std::function<void(Event::MouseMoved)> mouseHovered = Listener::hoverButton;
 	std::function<void(Event::MouseMoved)> idleButton = Listener::idleButton;
 

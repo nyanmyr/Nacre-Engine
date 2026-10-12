@@ -37,12 +37,9 @@ namespace Update
 	void applyButtonHoverAnimation();
 	void keepButtonIdle();
 	void applyButtonIdleAnimation();
-	void doButtons
-	(
-		const sf::Vector2i mouseVector,
-		const DeltaTime dt
-	);
-	void doNextScene(sf::RenderWindow& window, sf::Font& font);
+	void applyButtonClickedAnimation();
+	void enableButtonNextScene();
+	//void doNextScene(sf::RenderWindow& window, sf::Font& font);
 	void move(const DeltaTime dt);
 	void drag(const DeltaTime dt);
 }

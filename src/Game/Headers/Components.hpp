@@ -34,7 +34,6 @@ namespace Component {
 		double clickedDuration = 0.0;
 		double enabled = true;
 		double clickedTimer = 0.0;
-		bool clicked = false; // TODO: delete later
 		Enum::ButtonState state = Enum::ButtonState::IDLE;
 	};
 
