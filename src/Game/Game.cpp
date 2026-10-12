@@ -59,6 +59,7 @@ void main()
 	std::function<void(Event::SetTextColor)> setTextColor = Listener::setTextColor;
 	std::function<void(Event::MouseClick)> setButtonClicked = Listener::setButtonClicked;
 	std::function<void(Event::MouseMoved)> mouseHovered = Listener::hoverButton;
+	std::function<void(Event::MouseMoved)> idleButton = Listener::idleButton;
 
 	// listener function linking
 	nc.listen<Event::SetSpriteOrigin>(setSpriteOrigin);
@@ -69,6 +70,7 @@ void main()
 	nc.listen<Event::SetTextColor>(setTextColor);
 	nc.listen<Event::MouseClick>(setButtonClicked);
 	nc.listen<Event::MouseMoved>(mouseHovered);
+	nc.listen<Event::MouseMoved>(idleButton);
 
 	playScene
 	(

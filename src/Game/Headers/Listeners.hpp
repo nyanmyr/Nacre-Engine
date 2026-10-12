@@ -14,6 +14,7 @@ namespace Listener
 	void setTextColor(Event::SetTextColor event);
 	void setButtonClicked(Event::MouseClick event);
 	void hoverButton(Event::MouseMoved event);
+	void idleButton(Event::MouseMoved event);
 }
 
 #endif

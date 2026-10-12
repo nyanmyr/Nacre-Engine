@@ -211,4 +211,56 @@ namespace Listener
 			}
 		}
 	}
+	void idleButton(Event::MouseMoved event)
+	{
+		auto& buttonArray = nc.getComponentArray<Component::Button>();
+		auto& originArray = nc.getComponentArray<Component::Origin>();
+		auto& transformArray = nc.getComponentArray<Component::Transform>();
+		auto& positionArray = nc.getComponentArray<Component::Position>();
+
+		for (auto& [entity, button] : buttonArray->getAll())
+		{
+			if (button.clicked ||
+				button.clickedTimer > 0.0 ||
+				button.state == Enum::ButtonState::IDLE ||
+				!button.enabled ||
+				!originArray->hasData(entity) ||
+				!positionArray->hasData(entity) ||
+				!transformArray->hasData(entity))
+			{
+				continue;
+			}
+
+			const Component::Origin& origin = originArray->getData(entity);
+			const Component::Transform& transform = transformArray->getData(entity);
+			const Component::Position& pos = positionArray->getData(entity);
+
+			if (checkCollision
+			(
+				event.pos,
+				sf::Vector2f
+				{
+					static_cast<float>(pos.x),
+					static_cast<float>(pos.y)
+				},
+				sf::Vector2f
+				{
+					0.f,
+					0.f
+				},
+				sf::Vector2f
+				{
+					static_cast<float>(transform.width - origin.offsetX),
+					static_cast<float>(transform.height - origin.offsetY)
+				}
+			)
+				)
+			{
+				continue;
+			}
+
+			button.clickedTimer = button.clickedDuration;
+			button.state = Enum::ButtonState::IDLE;
+		}
+	}
 }

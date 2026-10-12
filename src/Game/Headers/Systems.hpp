@@ -35,6 +35,7 @@ namespace Update
 	void doButtonTimer(const DeltaTime dt);
 	void keepButtonHovered();
 	void applyButtonHoverAnimation();
+	void keepButtonIdle();
 	void applyButtonIdleAnimation();
 	void doButtons
 	(

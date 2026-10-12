@@ -61,7 +61,9 @@ void menuScene
 				window.close();
 			}
 
-			if (const auto& mouseMoved = event->getIf<sf::Event::MouseMoved>())
+			if (event->is<sf::Event::MouseMovedRaw>() ||
+				event->is<sf::Event::MouseLeft>() ||
+				event->is<sf::Event::MouseEntered>())
 			{
 				nc.call<Event::MouseMoved>
 					(

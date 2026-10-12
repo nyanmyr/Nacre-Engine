@@ -370,20 +370,110 @@ void Update::applyButtonHoverAnimation()
 		);
 	}
 }
+void Update::keepButtonIdle()
+{
+	auto& buttonArray = nc.getComponentArray<Component::Button>();
+	auto& spriteArray = nc.getComponentArray<Component::Sprite>();
+	auto& textArray = nc.getComponentArray<Component::Text>();
+	auto& transformArray = nc.getComponentArray<Component::Transform>();
+
+	for (auto& [entity, button] : buttonArray->getAll())
+	{
+		if (button.clickedTimer > 0.0 ||
+			button.state != Enum::ButtonState::IDLE)
+		{
+			continue;
+		}
+
+		Component::Transform& transform = transformArray->getData(entity);
+		Component::Sprite& sprite = spriteArray->getData(entity);
+
+		sprite.body->setScale
+		(
+			sf::Vector2f
+			(
+				DEFAULT_SCALE_X * (transform.width / sprite.body->getTexture().getSize().x),
+				DEFAULT_SCALE_Y * (transform.height / sprite.body->getTexture().getSize().y)
+			)
+		);
+
+		if (!textArray->hasData(entity))
+		{
+			continue;
+		}
+
+		Component::Text& text = textArray->getData(entity);
+		text.box->setScale
+		(
+			sf::Vector2f
+			(
+				DEFAULT_SCALE_X,
+				DEFAULT_SCALE_Y
+			)
+		);
+	}
+}
 void Update::applyButtonIdleAnimation()
 {
-	//auto& buttonArray = nc.getComponentArray<Component::Button>();
+	auto& buttonArray = nc.getComponentArray<Component::Button>();
+	auto& spriteArray = nc.getComponentArray<Component::Sprite>();
+	auto& textArray = nc.getComponentArray<Component::Text>();
+	auto& transformArray = nc.getComponentArray<Component::Transform>();
 
-	//for (auto& [entity, button] : buttonArray->getAll())
-	//{
-	//	if (button.clickedTimer <= 0.0 &&
-	//		button.state != Enum::ButtonState::HOVERED)
-	//	{
-	//		continue;
-	//	}
+	for (auto& [entity, button] : buttonArray->getAll())
+	{
+		if (button.clickedTimer <= 0.0 ||
+			button.state != Enum::ButtonState::IDLE)
+		{
+			continue;
+		}
 
-	//	std::cout << "Hovering" << "\n";
-	//}
+		Component::Transform& transform = transformArray->getData(entity);
+		Component::Sprite& sprite = spriteArray->getData(entity);
+
+		// TODO: turn into function
+		double progress = [](double target, double min, double max)
+			{
+				return (target - min) / (max - min);
+			}
+		(button.clickedTimer, 0.0, button.clickedDuration);
+
+		double scalingFactor = [](double progress) -> double
+			{
+				static const double c4 = (2 * std::acos(-1.0)) / 3;
+
+				if (progress <= 0) return 0.0;
+				else if (progress >= 1) return 1.0;
+
+				return std::pow(2.0, -10.0 * progress) *
+					std::sin((progress * 10.0 - 0.75) * c4) + 1.0;
+			}
+		(1.0 - progress);
+
+		sprite.body->setScale
+		(
+			sf::Vector2f
+			(
+				(DEFAULT_SCALE_X * (transform.width / sprite.body->getTexture().getSize().x)) * scalingFactor,
+				(DEFAULT_SCALE_X * (transform.height / sprite.body->getTexture().getSize().y)) * scalingFactor
+			)
+		);
+
+		if (!textArray->hasData(entity))
+		{
+			continue;
+		}
+
+		Component::Text& text = textArray->getData(entity);
+		text.box->setScale
+		(
+			sf::Vector2f
+			(
+				DEFAULT_SCALE_X * scalingFactor,
+				DEFAULT_SCALE_X * scalingFactor
+			)
+		);
+	}
 }
 void Update::doButtons
 (
