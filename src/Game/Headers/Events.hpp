@@ -42,6 +42,10 @@ namespace Event
 		const sf::Color& color;
 		std::optional<sf::Text>& text;
 	};
+	struct MouseClick
+	{
+		const sf::Vector2f pos;
+	};
 }
 
 #endif

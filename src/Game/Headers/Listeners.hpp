@@ -12,6 +12,7 @@ namespace Listener
 	void setTextString(Event::SetTextString event);
 	void setTextSize(Event::SetTextSize event);
 	void setTextColor(Event::SetTextColor event);
+	void setButtonClicked(Event::MouseClick event);
 }
 
 #endif

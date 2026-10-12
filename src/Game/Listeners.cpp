@@ -5,6 +5,26 @@
 
 static NacreCoordinator& nc = NacreCoordinator::getInstance();
 
+static bool checkCollision
+(
+	sf::Vector2f a,
+	sf::Vector2f b,
+	sf::Vector2f aTrans,
+	sf::Vector2f bTrans
+)
+{
+	// AABB collision
+	if (a.x + aTrans.x > b.x - bTrans.x &&
+		a.x - aTrans.x < b.x + bTrans.x &&
+		a.y + aTrans.y > b.y - bTrans.y &&
+		a.y - aTrans.y < b.y + bTrans.y)
+	{
+		return true;
+	}
+
+	return false;
+}
+
 namespace Listener
 {
 	void setSpriteOrigin(Event::SetSpriteOrigin event)
@@ -92,5 +112,53 @@ namespace Listener
 		if (event.target == NULL_ENTITY) throw std::runtime_error("Error: null entity");
 
 		event.text->setFillColor(event.color);
+	}
+	void setButtonClicked(Event::MouseClick event)
+	{
+		auto& buttonArray = nc.getComponentArray<Component::Button>();
+		auto& originArray = nc.getComponentArray<Component::Origin>();
+		auto& transformArray = nc.getComponentArray<Component::Transform>();
+		auto& positionArray = nc.getComponentArray<Component::Position>();
+
+		for (auto& [entity, button] : buttonArray->getAll())
+		{
+			if (button.clicked ||
+				!button.enabled ||
+				!originArray->hasData(entity) ||
+				!positionArray->hasData(entity) ||
+				!transformArray->hasData(entity))
+			{
+				continue;
+			}
+
+			const Component::Origin& origin = originArray->getData(entity);
+			const Component::Transform& transform = transformArray->getData(entity);
+			const Component::Position& pos = positionArray->getData(entity);
+
+			if (checkCollision
+			(
+				event.pos,
+				sf::Vector2f
+				{
+					static_cast<float>(pos.x),
+					static_cast<float>(pos.y)
+				},
+				sf::Vector2f
+				{
+					0.f,
+					0.f
+				},
+				sf::Vector2f
+				{
+					static_cast<float>(transform.width - origin.offsetX),
+					static_cast<float>(transform.height - origin.offsetY)
+				}
+			)
+				)
+			{
+				button.clicked = true;
+				button.clickedTimer = button.clickedDuration;
+			}
+		}
 	}
 }

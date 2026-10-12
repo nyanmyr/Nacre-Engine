@@ -47,6 +47,7 @@ void main()
 	nc.registerEvent<Event::SetTextString>();
 	nc.registerEvent<Event::SetTextSize>();
 	nc.registerEvent<Event::SetTextColor>();
+	nc.registerEvent<Event::MouseClick>();
 
 	// functions creation
 	std::function<void(Event::SetSpriteOrigin)> setSpriteOrigin = Listener::setSpriteOrigin;
@@ -55,6 +56,7 @@ void main()
 	std::function<void(Event::SetTextString)> setTextString = Listener::setTextString;
 	std::function<void(Event::SetTextSize)> setTextSize = Listener::setTextSize;
 	std::function<void(Event::SetTextColor)> setTextColor = Listener::setTextColor;
+	std::function<void(Event::MouseClick)> setButtonClicked = Listener::setButtonClicked;
 
 	// listener function linking
 	nc.listen<Event::SetSpriteOrigin>(setSpriteOrigin);
@@ -63,6 +65,7 @@ void main()
 	nc.listen<Event::SetTextString>(setTextString);
 	nc.listen<Event::SetTextSize>(setTextSize);
 	nc.listen<Event::SetTextColor>(setTextColor);
+	nc.listen<Event::MouseClick>(setButtonClicked);
 
 	playScene
 	(

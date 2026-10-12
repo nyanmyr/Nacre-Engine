@@ -65,14 +65,24 @@ void menuScene
 			{
 				if (mousePressed->button == sf::Mouse::Button::Left)
 				{
-					Control::buttonClicks
-					(
-						{ 
-							static_cast<int>(worldPos.x),
-							static_cast<int>(worldPos.y)
-						},
-						dt
-					);
+					nc.call<Event::MouseClick>
+						(
+							Event::MouseClick
+							{
+								{
+									worldPos.x,
+									worldPos.y
+								}
+							}
+						);
+					//Control::buttonClicks
+					//(
+					//	{ 
+					//		static_cast<int>(worldPos.x),
+					//		static_cast<int>(worldPos.y)
+					//	},
+					//	dt
+					//);
 				}
 			}
 		}
