@@ -157,7 +157,7 @@ namespace Listener
 			)
 				)
 			{
-				button.clickedTimer = button.clickedDuration;
+				button.timer = button.clickedAnimationDuration;
 				button.state = Enum::ButtonState::CLICKED;
 			}
 		}
@@ -171,7 +171,7 @@ namespace Listener
 
 		for (auto& [entity, button] : buttonArray->getAll())
 		{
-			if (button.clickedTimer > 0.0 ||
+			if (button.timer > 0.0 ||
 				button.state == Enum::ButtonState::HOVERED ||
 				button.state == Enum::ButtonState::CLICKED ||
 				!button.enabled ||
@@ -207,7 +207,7 @@ namespace Listener
 			)
 				)
 			{
-				button.clickedTimer = button.clickedDuration;
+				button.timer = button.hoverAnimationDuration;
 				button.state = Enum::ButtonState::HOVERED;
 			}
 		}
@@ -221,7 +221,7 @@ namespace Listener
 
 		for (auto& [entity, button] : buttonArray->getAll())
 		{
-			if (button.clickedTimer > 0.0 ||
+			if (button.timer > 0.0 ||
 				button.state == Enum::ButtonState::IDLE ||
 				button.state == Enum::ButtonState::CLICKED ||
 				!button.enabled ||
@@ -260,7 +260,7 @@ namespace Listener
 				continue;
 			}
 
-			button.clickedTimer = button.clickedDuration;
+			button.timer = button.idleAnimationDuration;
 			button.state = Enum::ButtonState::IDLE;
 		}
 	}

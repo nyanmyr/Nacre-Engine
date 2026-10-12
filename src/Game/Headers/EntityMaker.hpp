@@ -20,7 +20,6 @@ namespace Maker
 		const sf::Vector2f drag,
 		const sf::Color col
 	);
-	// TODO: add more customizability options
 	Entity button
 	(
 		const Enum::Texture texture,
@@ -29,7 +28,10 @@ namespace Maker
 		const Scene scene,
 		const std::string str,
 		const sf::Font& font,
-		const sf::Color col
+		const sf::Color col,
+		const double hoverAnimationDuration,
+		const double idleAnimationDuration,
+		const double clickedAnimationDuration
 	);
 }
 

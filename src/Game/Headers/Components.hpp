@@ -31,9 +31,11 @@ namespace Component {
 
 	struct Button
 	{
-		double clickedDuration = 0.0;
-		double enabled = true;
-		double clickedTimer = 0.0;
+		bool enabled = true;
+		double hoverAnimationDuration = 0.0;
+		double idleAnimationDuration = 0.0;
+		double clickedAnimationDuration = 0.0;
+		double timer = 0.0;
 		Enum::ButtonState state = Enum::ButtonState::IDLE;
 	};
 

@@ -6,6 +6,10 @@
 #include "../src/Game/Headers/GameManager.hpp"
 #include "../src/Game/Headers/Scenes.hpp"
 
+static const double DEFAULT_HOVER_ANIMATION_DURATION = 0.4;
+static const double DEFAULT_IDLE_ANIMATION_DURATION = 0.4;
+static const double DEFAULT_CLICKED_ANIMATION_DURATION = 0.15;
+
 void menuScene
 (
 	sf::RenderWindow& window,
@@ -35,7 +39,10 @@ void menuScene
 		Scene::PLAYING,
 		"Play",
 		font,
-		sf::Color::Red
+		sf::Color::Red,
+		DEFAULT_HOVER_ANIMATION_DURATION,
+		DEFAULT_IDLE_ANIMATION_DURATION,
+		DEFAULT_CLICKED_ANIMATION_DURATION
 	);
 
 	// onstart systems

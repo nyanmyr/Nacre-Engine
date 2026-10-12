@@ -124,7 +124,10 @@ namespace Maker
 		const Scene scene,
 		const std::string str,
 		const sf::Font& font,
-		const sf::Color col
+		const sf::Color col,
+		const double hoverAnimationDuration,
+		const double idleAnimationDuration,
+		const double clickedAnimationDuration
 	)
 	{
 		Entity entity = nc.createEntity();
@@ -160,8 +163,10 @@ namespace Maker
 			entity,
 			Component::Button
 			{
-				0.5,
-				true
+				true,
+				hoverAnimationDuration,
+				idleAnimationDuration,
+				clickedAnimationDuration
 			}
 		);
 

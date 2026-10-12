@@ -211,14 +211,14 @@ void Update::doButtonTimer(const DeltaTime dt)
 
 	for (auto& [entity, button] : buttonArray->getAll())
 	{
-		if (button.clickedTimer <= 0.0)
+		if (button.timer <= 0.0)
 		{
 			continue;
 		}
 
-		button.clickedTimer -= dt;
+		button.timer -= dt;
 
-		if (button.clickedTimer <= 0.0) button.clickedTimer = 0.0;
+		if (button.timer <= 0.0) button.timer = 0.0;
 	}
 }
 
@@ -258,7 +258,7 @@ void Update::applyButtonHoverAnimation()
 
 	for (auto& [entity, button] : buttonArray->getAll())
 	{
-		if (button.clickedTimer <= 0.0 ||
+		if (button.timer <= 0.0 ||
 			button.state != Enum::ButtonState::HOVERED)
 		{
 			continue;
@@ -269,8 +269,8 @@ void Update::applyButtonHoverAnimation()
 
 		double scalingFactor = easeOutElastic
 		(
-			button.clickedTimer,
-			button.clickedDuration,
+			button.timer,
+			button.hoverAnimationDuration,
 			0.0
 		);
 
@@ -308,7 +308,7 @@ void Update::applyButtonIdleAnimation()
 
 	for (auto& [entity, button] : buttonArray->getAll())
 	{
-		if (button.clickedTimer <= 0.0 ||
+		if (button.timer <= 0.0 ||
 			button.state != Enum::ButtonState::IDLE)
 		{
 			continue;
@@ -319,8 +319,8 @@ void Update::applyButtonIdleAnimation()
 
 		double scalingFactor = easeOutElastic
 		(
-			button.clickedTimer,
-			button.clickedDuration,
+			button.timer,
+			button.idleAnimationDuration,
 			0.0
 		);
 
@@ -358,7 +358,7 @@ void Update::applyButtonClickedAnimation()
 
 	for (auto& [entity, button] : buttonArray->getAll())
 	{
-		if (button.clickedTimer <= 0.0 ||
+		if (button.timer <= 0.0 ||
 			button.state != Enum::ButtonState::CLICKED)
 		{
 			continue;
@@ -369,8 +369,8 @@ void Update::applyButtonClickedAnimation()
 
 		double scalingFactor = easeOutElastic
 		(
-			button.clickedTimer,
-			button.clickedDuration,
+			button.timer,
+			button.clickedAnimationDuration,
 			0.0
 		);
 
@@ -410,7 +410,7 @@ void Update::enableButtonNextScene
 
 	for (auto& [entity, button] : buttonArray->getAll())
 	{
-		if (button.clickedTimer > 0.0 ||
+		if (button.timer > 0.0 ||
 			button.state != Enum::ButtonState::CLICKED ||
 			!nextSceneArray->hasData(entity))
 		{
