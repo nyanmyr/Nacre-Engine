@@ -61,20 +61,34 @@ void menuScene
 				window.close();
 			}
 
+			if (const auto& mouseMoved = event->getIf<sf::Event::MouseMoved>())
+			{
+				nc.call<Event::MouseMoved>
+					(
+						Event::MouseMoved
+						{
+							{
+								worldPos.x,
+								worldPos.y
+							}
+						}
+					);
+			}
+
 			if (const auto& mousePressed = event->getIf<sf::Event::MouseButtonPressed>())
 			{
 				if (mousePressed->button == sf::Mouse::Button::Left)
 				{
-					nc.call<Event::MouseClick>
-						(
-							Event::MouseClick
-							{
-								{
-									worldPos.x,
-									worldPos.y
-								}
-							}
-						);
+					//nc.call<Event::MouseClick>
+					//	(
+					//		Event::MouseClick
+					//		{
+					//			{
+					//				worldPos.x,
+					//				worldPos.y
+					//			}
+					//		}
+					//	);
 					//Control::buttonClicks
 					//(
 					//	{ 
@@ -88,14 +102,17 @@ void menuScene
 		}
 
 		// update systems
-		Update::doButtons
-		(
-			{
-				static_cast<int>(worldPos.x),
-				static_cast<int>(worldPos.y)
-			},
-			dt
-		);
+		Update::doButtonTimer(dt);
+		Update::applyButtonHoverAnimation();
+		Update::applyButtonIdleAnimation();
+		//Update::doButtons
+		//(
+		//	{
+		//		static_cast<int>(worldPos.x),
+		//		static_cast<int>(worldPos.y)
+		//	},
+		//	dt
+		//);
 		Update::doNextScene
 		(
 			window,

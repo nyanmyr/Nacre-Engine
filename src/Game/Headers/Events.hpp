@@ -46,6 +46,10 @@ namespace Event
 	{
 		const sf::Vector2f pos;
 	};
+	struct MouseMoved
+	{
+		const sf::Vector2f pos;
+	};
 }
 
 #endif

@@ -32,6 +32,9 @@ namespace Control
 
 namespace Update
 {
+	void doButtonTimer(const DeltaTime dt);
+	void applyButtonHoverAnimation();
+	void applyButtonIdleAnimation();
 	void doButtons
 	(
 		const sf::Vector2i mouseVector,

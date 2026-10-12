@@ -252,6 +252,94 @@ void Control::doPlayerControl
 // -------------------------------------------------------
 // update systems
 // -------------------------------------------------------
+void Update::doButtonTimer(const DeltaTime dt)
+{
+	auto& buttonArray = nc.getComponentArray<Component::Button>();
+
+	for (auto& [entity, button] : buttonArray->getAll())
+	{
+		if (button.clickedTimer <= 0.0)
+		{
+			continue;
+		}
+
+		button.clickedTimer -= dt;
+	}
+}
+void Update::applyButtonHoverAnimation()
+{
+	auto& buttonArray = nc.getComponentArray<Component::Button>();
+	auto& spriteArray = nc.getComponentArray<Component::Sprite>();
+	auto& textArray = nc.getComponentArray<Component::Text>();
+	auto& transformArray = nc.getComponentArray<Component::Transform>();
+
+	for (auto& [entity, button] : buttonArray->getAll())
+	{
+		if (button.clickedTimer <= 0.0 ||
+			button.state != Enum::ButtonState::HOVERED)
+		{
+			continue;
+		}
+
+		Component::Transform& transform = transformArray->getData(entity);
+		Component::Sprite& sprite = spriteArray->getData(entity);
+
+		double progress = [](double target, double min, double max)
+			{
+				return (target - min) / (max - min);
+			}
+		(button.clickedTimer, 0.0, button.clickedDuration);
+
+		double scalingFactor = [](double progress) -> double
+			{
+				static const double c4 = (2 * std::acos(-1.0)) / 3;
+
+				if (progress <= 0) return 0.0;
+				else if (progress >= 1) return 1.0;
+
+				return std::pow(2.0, -10.0 * progress) *
+					std::sin((progress * 10.0 - 0.75) * c4) + 1.0;
+			}
+		(1.0 - progress);
+
+		sprite.body->setScale
+		(
+			sf::Vector2f
+			(
+				(HOVER_SCALE_X * (transform.width / sprite.body->getTexture().getSize().x)) * scalingFactor,
+				(HOVER_SCALE_Y * (transform.height / sprite.body->getTexture().getSize().y)) * scalingFactor
+			)
+		);
+
+		if (textArray->hasData(entity))
+		{
+			Component::Text& text = textArray->getData(entity);
+			text.box->setScale
+			(
+				sf::Vector2f
+				(
+					HOVER_SCALE_X * scalingFactor,
+					HOVER_SCALE_Y * scalingFactor
+				)
+			);
+		}
+	}
+}
+void Update::applyButtonIdleAnimation()
+{
+	//auto& buttonArray = nc.getComponentArray<Component::Button>();
+
+	//for (auto& [entity, button] : buttonArray->getAll())
+	//{
+	//	if (button.clickedTimer <= 0.0 &&
+	//		button.state != Enum::ButtonState::HOVERED)
+	//	{
+	//		continue;
+	//	}
+
+	//	std::cout << "Hovering" << "\n";
+	//}
+}
 void Update::doButtons
 (
 	const sf::Vector2i mouseVector,

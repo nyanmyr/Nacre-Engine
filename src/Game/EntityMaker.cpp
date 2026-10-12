@@ -160,7 +160,7 @@ namespace Maker
 			entity,
 			Component::Button
 			{
-				0.125f,
+				0.5,
 				true
 			}
 		);
