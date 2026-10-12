@@ -15,6 +15,7 @@ namespace Listener
 	void clickedButton(Event::MouseClick event);
 	void hoverButton(Event::MouseMoved event);
 	void idleButton(Event::MouseMoved event);
+	void playNextScene(Event::PlayScene event);
 }
 
 #endif

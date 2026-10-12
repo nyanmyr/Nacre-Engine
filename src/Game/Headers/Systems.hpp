@@ -38,8 +38,11 @@ namespace Update
 	void keepButtonIdle();
 	void applyButtonIdleAnimation();
 	void applyButtonClickedAnimation();
-	void enableButtonNextScene();
-	//void doNextScene(sf::RenderWindow& window, sf::Font& font);
+	void enableButtonNextScene
+	(
+		sf::RenderWindow& window,
+		sf::Font& font
+	);
 	void move(const DeltaTime dt);
 	void drag(const DeltaTime dt);
 }

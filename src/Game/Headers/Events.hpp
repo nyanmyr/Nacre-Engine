@@ -50,6 +50,12 @@ namespace Event
 	{
 		const sf::Vector2f pos;
 	};
+	struct PlayScene
+	{
+		const Scene next;
+		sf::RenderWindow& window;
+		sf::Font& font;
+	};
 }
 
 #endif

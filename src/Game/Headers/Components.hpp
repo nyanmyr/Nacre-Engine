@@ -49,7 +49,6 @@ namespace Component {
 	struct NextScene
 	{
 		Scene next = Scene::MENU;
-		bool active = false;
 	};
 
 	struct ZIndex

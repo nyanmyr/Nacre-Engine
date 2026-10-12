@@ -499,7 +499,11 @@ void Update::applyButtonClickedAnimation()
 		);
 	}
 }
-void Update::enableButtonNextScene()
+void Update::enableButtonNextScene
+(
+	sf::RenderWindow& window,
+	sf::Font& font
+)
 {
 	auto& buttonArray = nc.getComponentArray<Component::Button>();
 	auto& nextSceneArray = nc.getComponentArray<Component::NextScene>();
@@ -515,47 +519,16 @@ void Update::enableButtonNextScene()
 
 		const Component::NextScene& nextScene = nextSceneArray->getData(entity);
 
-		if (nextScene.active) break;
-
-		std::cout << "test" << "\n";
-		//nextScene.active = true;
+		nc.call<Event::PlayScene>(
+			Event::PlayScene
+			{
+				nextScene.next,
+				window,
+				font
+			}
+		);
 	}
 }
-//void Update::doNextScene
-//(
-//	sf::RenderWindow& window,
-//	sf::Font& font
-//)
-//{
-//	auto& nextSceneArray = nc.getComponentArray<Component::NextScene>();
-//
-//	bool playNext = false;
-//	Scene playNextScene;
-//
-//	for (auto& [entity, nextSceneObj] : nextSceneArray->getAll())
-//	{
-//		// buttons must have a shape, origin, and text
-//		if (nextSceneObj.active)
-//		{
-//			//std::cout << "active: " << nextScene.next << "\n";
-//			playNext = true;
-//			playNextScene = nextSceneObj.next;
-//			break;
-//		}
-//	}
-//
-//	if (playNext)
-//	{
-//		nc.destroyAll();
-//		playScene
-//		(
-//			window,
-//			playNextScene,
-//			font
-//		);
-//		window.close();
-//	}
-//}
 void Update::move(const DeltaTime dt)
 {
 	auto& velocityArray = nc.getComponentArray<Component::Velocity>();

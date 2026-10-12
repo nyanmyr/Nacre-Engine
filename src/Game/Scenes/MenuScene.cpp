@@ -99,13 +99,7 @@ void menuScene
 		Update::applyButtonHoverAnimation();
 		Update::applyButtonIdleAnimation();
 		Update::applyButtonClickedAnimation();
-		Update::enableButtonNextScene();
-
-		//Update::doNextScene
-		//(
-		//	window,
-		//	font
-		//);
+		Update::enableButtonNextScene(window, font);
 
 		window.clear();
 		// render systems

@@ -183,8 +183,7 @@ namespace Maker
 			entity,
 			Component::NextScene
 			{
-				scene,
-				false
+				scene
 			}
 		);
 		nc.addComponent

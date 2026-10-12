@@ -1,5 +1,6 @@
 #include "Headers/Listeners.hpp"
 #include "Headers/Components.hpp"
+#include "Headers/Scenes.hpp"
 
 #include <stdexcept>
 
@@ -113,6 +114,7 @@ namespace Listener
 
 		event.text->setFillColor(event.color);
 	}
+	// TODO: cleanup repetitive code
 	void clickedButton(Event::MouseClick event)
 	{
 		auto& buttonArray = nc.getComponentArray<Component::Button>();
@@ -263,5 +265,16 @@ namespace Listener
 			button.clickedTimer = button.clickedDuration;
 			button.state = Enum::ButtonState::IDLE;
 		}
+	}
+	void playNextScene(Event::PlayScene event)
+	{
+		nc.destroyAll();
+		playScene
+		(
+			event.window,
+			event.next,
+			event.font
+		);
+		event.window.close();
 	}
 }
