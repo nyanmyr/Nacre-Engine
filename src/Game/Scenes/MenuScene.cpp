@@ -95,7 +95,6 @@ void menuScene
 
 		// update systems
 		Update::doButtonTimer(dt);
-		Update::keepButtonHovered();
 		Update::applyButtonHoverAnimation();
 		Update::applyButtonIdleAnimation();
 		Update::applyButtonClickedAnimation();

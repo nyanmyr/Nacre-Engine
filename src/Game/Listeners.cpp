@@ -114,7 +114,6 @@ namespace Listener
 
 		event.text->setFillColor(event.color);
 	}
-	// TODO: cleanup repetitive code
 	void clickedButton(Event::MouseClick event)
 	{
 		auto& buttonArray = nc.getComponentArray<Component::Button>();
