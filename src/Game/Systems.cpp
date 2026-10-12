@@ -266,6 +266,49 @@ void Update::doButtonTimer(const DeltaTime dt)
 		button.clickedTimer -= dt;
 	}
 }
+void Update::keepButtonHovered()
+{
+	auto& buttonArray = nc.getComponentArray<Component::Button>();
+	auto& spriteArray = nc.getComponentArray<Component::Sprite>();
+	auto& textArray = nc.getComponentArray<Component::Text>();
+	auto& transformArray = nc.getComponentArray<Component::Transform>();
+
+	for (auto& [entity, button] : buttonArray->getAll())
+	{
+		if (button.clickedTimer > 0.0 ||
+			button.state != Enum::ButtonState::HOVERED)
+		{
+			continue;
+		}
+
+		Component::Transform& transform = transformArray->getData(entity);
+		Component::Sprite& sprite = spriteArray->getData(entity);
+
+		sprite.body->setScale
+		(
+			sf::Vector2f
+			(
+				HOVER_SCALE_X * (transform.width / sprite.body->getTexture().getSize().x),
+				HOVER_SCALE_Y * (transform.height / sprite.body->getTexture().getSize().y)
+			)
+		);
+
+		if (!textArray->hasData(entity))
+		{
+			continue;
+		}
+
+		Component::Text& text = textArray->getData(entity);
+		text.box->setScale
+		(
+			sf::Vector2f
+			(
+				HOVER_SCALE_X,
+				HOVER_SCALE_Y
+			)
+		);
+	}
+}
 void Update::applyButtonHoverAnimation()
 {
 	auto& buttonArray = nc.getComponentArray<Component::Button>();
@@ -311,18 +354,20 @@ void Update::applyButtonHoverAnimation()
 			)
 		);
 
-		if (textArray->hasData(entity))
+		if (!textArray->hasData(entity))
 		{
-			Component::Text& text = textArray->getData(entity);
-			text.box->setScale
-			(
-				sf::Vector2f
-				(
-					HOVER_SCALE_X * scalingFactor,
-					HOVER_SCALE_Y * scalingFactor
-				)
-			);
+			continue;
 		}
+
+		Component::Text& text = textArray->getData(entity);
+		text.box->setScale
+		(
+			sf::Vector2f
+			(
+				HOVER_SCALE_X * scalingFactor,
+				HOVER_SCALE_Y * scalingFactor
+			)
+		);
 	}
 }
 void Update::applyButtonIdleAnimation()
