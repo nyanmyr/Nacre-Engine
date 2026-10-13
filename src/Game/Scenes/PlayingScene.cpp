@@ -24,29 +24,35 @@ void playingScene
 	Entity player = Maker::player
 	(
 		Enum::Texture::TEXTURE_PLACEHOLDER,
-		sf::Vector2f(
-			window.getDefaultView().getSize().x / 2.0,
-			window.getDefaultView().getSize().y / 2.0
-		),
-		{
-			40.0,
-			40.0
+		sf::Vector2f
+		{	
+			0.f,
+			0.f
 		},
+		sf::Vector2f
 		{
-			-300.0,
-			-300.0
+			40.f,
+			40.f
 		},
-		{
-			300.0,
-			300.0
+		sf::Vector2f
+{
+			-300.f,
+			-300.f
 		},
+		sf::Vector2f
 		{
-			500.0,
-			500.0
+			300.f,
+			300.f
 		},
-		{
-			50.0,
-			50.0
+		sf::Vector2f
+{
+			500.f,
+			500.f
+		},
+		sf::Vector2f
+{
+			50.f,
+			50.f
 		},
 		sf::Color::Green
 	);

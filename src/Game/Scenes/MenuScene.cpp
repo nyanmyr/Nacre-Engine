@@ -28,13 +28,15 @@ void menuScene
 	Entity playButton = Maker::button
 	(
 		Enum::Texture::TEXTURE_PLACEHOLDER,
-		sf::Vector2f(
-			window.getDefaultView().getSize().x / 2.0,
-			window.getDefaultView().getSize().y / 2.0
-		),
+		sf::Vector2f
 		{
-			200.0,
-			100.0
+			0.f,
+			0.f
+		},
+		sf::Vector2f
+		{
+			200.f,
+			100.f
 		},
 		Scene::PLAYING,
 		"Play",
@@ -76,6 +78,7 @@ void menuScene
 						(
 							Event::MouseClick
 							{
+								sf::Vector2f
 								{
 									worldPos.x,
 									worldPos.y
@@ -91,6 +94,7 @@ void menuScene
 					(
 						Event::MouseMoved
 						{
+							sf::Vector2f
 							{
 								worldPos.x,
 								worldPos.y
