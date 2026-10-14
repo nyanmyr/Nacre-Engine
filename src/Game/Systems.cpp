@@ -48,7 +48,7 @@ void Start::setTextOrigin()
 	double offsetX;
 	double offsetY;
 
-	for (auto& [entity, textObj] : textArray->getAll())
+	for (auto& [entity, text] : textArray->getAll())
 	{
 		if (!transformArray->hasData(entity))
 		{
@@ -57,24 +57,24 @@ void Start::setTextOrigin()
 
 		Component::Transform& transform = transformArray->getData(entity);
 
-		switch (textObj.format)
+		switch (text.format)
 		{
 		case Enum::TextFormat::TOP:
-			offsetX = textObj.box.value().getLocalBounds().size.x / 2;
-			offsetY = textObj.box.value().getLocalBounds().size.y;
+			offsetX = text.box.value().getLocalBounds().size.x / 2;
+			offsetY = text.box.value().getLocalBounds().size.y;
 			break;
 		case Enum::TextFormat::BOTTOM:
-			offsetX = textObj.box.value().getLocalBounds().size.x / 2;
-			offsetY = textObj.box.value().getLocalBounds().size.y / 2;
+			offsetX = text.box.value().getLocalBounds().size.x / 2;
+			offsetY = text.box.value().getLocalBounds().size.y / 2;
 			break;
 		case Enum::TextFormat::MIDDLE:
 		default:
-			offsetX = textObj.box.value().getLocalBounds().size.x / 2;
-			offsetY = (textObj.box.value().getLocalBounds().size.y / 2) + (textObj.box.value().getLocalBounds().size.y / 4);
+			offsetX = text.box.value().getLocalBounds().size.x / 2;
+			offsetY = (text.box.value().getLocalBounds().size.y / 2) + (text.box.value().getLocalBounds().size.y / 4);
 			break;
 		}
 
-		textObj.box.value().setOrigin
+		text.box.value().setOrigin
 		(
 			sf::Vector2f
 			(
@@ -148,11 +148,11 @@ void Control::doPlayerControl
 		return;
 	}
 
-	const Component::PlayerController playerControllerObj = playerControllerArray->getData(player);
-	const Component::Speed speedObj = speedArray->getData(player);
-	Component::Velocity& velocityObj = velocityArray->getData(player);
+	const Component::PlayerController playerController = playerControllerArray->getData(player);
+	const Component::Speed speed = speedArray->getData(player);
+	Component::Velocity& velocity = velocityArray->getData(player);
 
-	if (!playerControllerObj.enabled)
+	if (!playerController.enabled)
 	{
 		return;
 	}
@@ -162,42 +162,42 @@ void Control::doPlayerControl
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W))
 	{
-		newSpeedY = -speedObj.y;
+		newSpeedY = -speed.y;
 	}
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S))
 	{
-		newSpeedY = speedObj.y;
+		newSpeedY = speed.y;
 	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A))
 	{
-		newSpeedX = -speedObj.x;
+		newSpeedX = -speed.x;
 	}
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D))
 	{
-		newSpeedX = speedObj.x;
+		newSpeedX = speed.x;
 	}
 
 	// applies the speed (even if there aren't any changes)
-	velocityObj.x += (newSpeedX * dt);
-	velocityObj.y += (newSpeedY * dt);
+	velocity.x += (newSpeedX * dt);
+	velocity.y += (newSpeedY * dt);
 
-	if (velocityObj.x > velocityObj.maxX)
+	if (velocity.x > velocity.maxX)
 	{
-		velocityObj.x = velocityObj.maxX;
+		velocity.x = velocity.maxX;
 	}
-	else if (velocityObj.x < velocityObj.minX)
+	else if (velocity.x < velocity.minX)
 	{
-		velocityObj.x = velocityObj.minX;
+		velocity.x = velocity.minX;
 	}
 
-	if (velocityObj.y > velocityObj.maxY)
+	if (velocity.y > velocity.maxY)
 	{
-		velocityObj.y = velocityObj.maxY;
+		velocity.y = velocity.maxY;
 	}
-	else if (velocityObj.y < velocityObj.minY)
+	else if (velocity.y < velocity.minY)
 	{
-		velocityObj.y = velocityObj.minY;
+		velocity.y = velocity.minY;
 	}
 
 }
@@ -484,16 +484,16 @@ void Update::move(const DeltaTime dt)
 	auto& velocityArray = nc.getComponentArray<Component::Velocity>();
 	auto& positionArray = nc.getComponentArray<Component::Position>();
 
-	for (auto& [entity, velocityObj] : velocityArray->getAll())
+	for (auto& [entity, velocity] : velocityArray->getAll())
 	{
 		if (!positionArray->hasData(entity))
 		{
 			continue;
 		}
 
-		Component::Position& posObj = positionArray->getData(entity);
-		posObj.x += (velocityObj.x * dt);
-		posObj.y += (velocityObj.y * dt);
+		Component::Position& pos = positionArray->getData(entity);
+		pos.x += (velocity.x * dt);
+		pos.y += (velocity.y * dt);
 	}
 }
 void Update::drag(const DeltaTime dt)
@@ -501,20 +501,20 @@ void Update::drag(const DeltaTime dt)
 	auto& velocityArray = nc.getComponentArray<Component::Velocity>();
 	auto& dragArray = nc.getComponentArray<Component::Drag>();
 
-	for (auto& [entity, velocityObj] : velocityArray->getAll())
+	for (auto& [entity, velocity] : velocityArray->getAll())
 	{
 		if (!dragArray->hasData(entity))
 		{
 			continue;
 		}
 
-		Component::Drag dragObj = dragArray->getData(entity);
+		Component::Drag drag = dragArray->getData(entity);
 
 		// can't be exactly 0.0 because it will drift aimlessly
-		velocityObj.x = velocityObj.x < -0.1 ? velocityObj.x + (dragObj.x * dt) :
-			velocityObj.x > 0.1f ? velocityObj.x - (dragObj.x * dt) : 0.0;
-		velocityObj.y = velocityObj.y < -0.1 ? velocityObj.y + (dragObj.y * dt) :
-			velocityObj.y > 0.1f ? velocityObj.y - (dragObj.y * dt) : 0.0;
+		velocity.x = velocity.x < -0.1 ? velocity.x + (drag.x * dt) :
+			velocity.x > 0.1f ? velocity.x - (drag.x * dt) : 0.0;
+		velocity.y = velocity.y < -0.1 ? velocity.y + (drag.y * dt) :
+			velocity.y > 0.1f ? velocity.y - (drag.y * dt) : 0.0;
 	}
 }
 
@@ -526,9 +526,9 @@ void Render::doZIndex(std::queue<Entity>& renderQueue)
 	auto& zIndexArray = nc.getComponentArray<Component::ZIndex>();
 
 	std::vector<std::pair<int, Entity>> renderVector;
-	for (auto& [entity, zIndexObj] : zIndexArray->getAll())
+	for (auto& [entity, zIndex] : zIndexArray->getAll())
 	{
-		if (zIndexObj.visible) renderVector.emplace_back(zIndexObj.index, entity);
+		if (zIndex.visible) renderVector.emplace_back(zIndex.index, entity);
 	}
 	std::sort(renderVector.begin(), renderVector.end());
 
@@ -558,36 +558,36 @@ void Render::render
 			continue;
 		}
 
-		Component::Position& posObj = positionArray->getData(popped);
+		Component::Position& pos = positionArray->getData(popped);
 
 		if (spriteArray->hasData(popped))
 		{
-			Component::Sprite& spriteObj = spriteArray->getData(popped);
+			Component::Sprite& sprite = spriteArray->getData(popped);
 
-			spriteObj.body->setPosition
+			sprite.body->setPosition
 			(
 				sf::Vector2f
 				(
-					posObj.x,
-					posObj.y
+					pos.x,
+					pos.y
 				)
 			);
-			window.draw(spriteObj.body.value());
+			window.draw(sprite.body.value());
 		}
 
 		if (textArray->hasData(popped))
 		{
-			Component::Text& textObj = textArray->getData(popped);
+			Component::Text& text = textArray->getData(popped);
 
-			textObj.box->setPosition
+			text.box->setPosition
 			(
 				sf::Vector2f
 				(
-					posObj.x,
-					posObj.y
+					pos.x,
+					pos.y
 				)
 			);
-			window.draw(textObj.box.value());
+			window.draw(text.box.value());
 		}
 
 		renderQueue.pop();
