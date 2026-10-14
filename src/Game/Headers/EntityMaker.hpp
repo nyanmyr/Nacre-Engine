@@ -28,9 +28,11 @@ namespace Maker
 		const Scene scene,
 		const std::string str,
 		const sf::Font& font,
-		const sf::Color col
+		const sf::Color col,
+		const double hoverAnimationDuration,
+		const double idleAnimationDuration,
+		const double clickedAnimationDuration
 	);
-	Entity loadedTexturesContainer();
 }
 
 #endif

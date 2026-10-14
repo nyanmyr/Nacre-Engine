@@ -6,6 +6,10 @@
 #include "../src/Game/Headers/GameManager.hpp"
 #include "../src/Game/Headers/Scenes.hpp"
 
+static const double DEFAULT_HOVER_ANIMATION_DURATION = 0.4;
+static const double DEFAULT_IDLE_ANIMATION_DURATION = 0.4;
+static const double DEFAULT_CLICKED_ANIMATION_DURATION = 0.15;
+
 void menuScene
 (
 	sf::RenderWindow& window,
@@ -18,7 +22,7 @@ void menuScene
 	sf::Clock clock;
 	std::queue<Entity> renderQueue;
 
-	Entity loadedTextures = Maker::loadedTexturesContainer();
+	Component::Singleton::TexturesContainer loadedTextures{};
 
 	// entity instantiation
 	Entity playButton = Maker::button
@@ -35,7 +39,10 @@ void menuScene
 		Scene::PLAYING,
 		"Play",
 		font,
-		sf::Color::Red
+		sf::Color::Red,
+		DEFAULT_HOVER_ANIMATION_DURATION,
+		DEFAULT_IDLE_ANIMATION_DURATION,
+		DEFAULT_CLICKED_ANIMATION_DURATION
 	);
 
 	// onstart systems
@@ -65,32 +72,40 @@ void menuScene
 			{
 				if (mousePressed->button == sf::Mouse::Button::Left)
 				{
-					Control::buttonClicks
-					(
-						{ 
-							static_cast<int>(worldPos.x),
-							static_cast<int>(worldPos.y)
-						},
-						dt
-					);
+					nc.call<Event::MouseClick>
+						(
+							Event::MouseClick
+							{
+								{
+									worldPos.x,
+									worldPos.y
+								}
+							}
+						);
 				}
+			} else if (event->is<sf::Event::MouseMovedRaw>() ||
+				event->is<sf::Event::MouseLeft>() ||
+				event->is<sf::Event::MouseEntered>())
+			{
+				nc.call<Event::MouseMoved>
+					(
+						Event::MouseMoved
+						{
+							{
+								worldPos.x,
+								worldPos.y
+							}
+						}
+					);
 			}
 		}
 
 		// update systems
-		Update::doButtons
-		(
-			{
-				static_cast<int>(worldPos.x),
-				static_cast<int>(worldPos.y)
-			},
-			dt
-		);
-		Update::doNextScene
-		(
-			window,
-			font
-		);
+		Update::doButtonTimer(dt);
+		Update::applyButtonHoverAnimation();
+		Update::applyButtonIdleAnimation();
+		Update::applyButtonClickedAnimation();
+		Update::enableButtonNextScene(window, font);
 
 		window.clear();
 		// render systems

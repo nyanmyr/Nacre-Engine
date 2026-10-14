@@ -1,17 +1,18 @@
 #ifndef SYSTEMS_HPP
 #define SYSTEMS_HPP
 
-#include <queue>
 #include <SFML/Graphics.hpp>
 #include "../../Engine/Core.hpp"
+#include "Components.hpp"
+#include <queue>
 
 namespace Start
 {
 	void setText(sf::Font& font);
 	void setTextOrigin();
 	void setSpriteOrigin();
-	void loadTextures(Entity loadedTextures);
-	void loadSprites(Entity loadedTextures);
+	void loadTextures(Component::Singleton::TexturesContainer& loadedTextures);
+	void loadSprites(const Component::Singleton::TexturesContainer& loadedTextures);
 	void setColor();
 }
 
@@ -31,12 +32,15 @@ namespace Control
 
 namespace Update
 {
-	void doButtons
+	void doButtonTimer(const DeltaTime dt);
+	void applyButtonHoverAnimation();
+	void applyButtonIdleAnimation();
+	void applyButtonClickedAnimation();
+	void enableButtonNextScene
 	(
-		const sf::Vector2i mouseVector,
-		const DeltaTime dt
+		sf::RenderWindow& window,
+		sf::Font& font
 	);
-	void doNextScene(sf::RenderWindow& window, sf::Font& font);
 	void move(const DeltaTime dt);
 	void drag(const DeltaTime dt);
 }

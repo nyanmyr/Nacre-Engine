@@ -5,10 +5,12 @@
 #include <algorithm>
 #include <utility>
 #include <vector>
+#include <stdexcept>
 
 #include "../Engine/NacreCoordinator.hpp"
 #include "Headers/Components.hpp"
 #include "Headers/Enums.hpp"
+#include "Headers/Events.hpp"
 
 static NacreCoordinator& nc = NacreCoordinator::getInstance();
 
@@ -19,11 +21,23 @@ void Start::setText(sf::Font& font)
 {
 	auto& textArray = nc.getComponentArray<Component::Text>();
 
-	for (auto& [entity, textObj] : textArray->getAll())
+	for (auto& [entity, text] : textArray->getAll())
 	{
-		textObj.box.value().setString(textObj.string);
-		textObj.box.value().setCharacterSize(textObj.size);
-		textObj.box.value().setFillColor(textObj.color);
+		nc.call<Event::SetTextString>
+			(
+				Event::SetTextString
+				{ entity, text.string, text.box }
+			);
+		nc.call<Event::SetTextSize>
+			(
+				Event::SetTextSize
+				{ entity, text.size, text.box }
+			);
+		nc.call<Event::SetTextColor>
+			(
+				Event::SetTextColor
+				{ entity, text.color, text.box }
+			);
 	}
 }
 void Start::setTextOrigin()
@@ -73,144 +87,50 @@ void Start::setTextOrigin()
 void Start::setSpriteOrigin()
 {
 	auto& originArray = nc.getComponentArray<Component::Origin>();
-	auto& spriteArray = nc.getComponentArray<Component::Sprite>();
 
-	for (auto& [entity, spriteObj] : spriteArray->getAll())
+	for (auto& [entity, origin] : originArray->getAll())
 	{
-		if (!originArray->hasData(entity))
-		{
-			continue;
-		}
-
-		Component::Origin& originObj = originArray->getData(entity);
-
-		spriteObj.body->setOrigin
-		(
-			sf::Vector2f
+		nc.call<Event::SetSpriteOrigin>
 			(
-				originObj.offsetX / spriteObj.body->getScale().x,
-				originObj.offsetY / spriteObj.body->getScale().y
-			)
-		);
+				Event::SetSpriteOrigin
+				{ entity, origin }
+			);
 	}
 }
-void Start::loadTextures(Entity loadedTextures)
+void Start::loadTextures(Component::Singleton::TexturesContainer& loadedTextures)
 {
-	auto& texturesContainerArray = nc.getComponentArray<Component::TexturesContainer>();
-
-	if (!texturesContainerArray->hasData(loadedTextures))
-	{
-		return;
-	}
-
-	Component::TexturesContainer& containerObj = texturesContainerArray->getData(loadedTextures);
-
-	containerObj.map.emplace(Enum::Texture::TEXTURE_PLACEHOLDER, sf::Texture(SPRITES_PATH "placeholder_texture.jpeg"));
+	loadedTextures.map.emplace(Enum::Texture::TEXTURE_PLACEHOLDER, sf::Texture(SPRITES_PATH "placeholder_texture.jpeg"));
 }
-void Start::loadSprites(Entity loadedTextures)
+void Start::loadSprites(const Component::Singleton::TexturesContainer& loadedTextures)
 {
 	auto& spriteArray = nc.getComponentArray<Component::Sprite>();
-	auto& transformArray = nc.getComponentArray<Component::Transform>();
-	auto& textureArray = nc.getComponentArray<Component::Texture>();
-	auto& texturesContainerArray = nc.getComponentArray<Component::TexturesContainer>();
 
-	if (!texturesContainerArray->hasData(loadedTextures))
+	for (auto& [entity, sprite] : spriteArray->getAll())
 	{
-		return;
-	}
-
-	Component::TexturesContainer& containerObj = texturesContainerArray->getData(loadedTextures);
-
-	for (auto& [entity, spriteObj] : spriteArray->getAll())
-	{
-		if (!transformArray->hasData(entity) ||
-			!textureArray->hasData(entity))
-		{
-			continue;
-		}
-
-		Component::Texture& textureObj = textureArray->getData(entity);
-		Component::Transform& transformObj = transformArray->getData(entity);
-
-		spriteObj.body.emplace(containerObj.map[textureObj.data]);
-		spriteObj.body->setScale
-		(
-			sf::Vector2f
+		nc.call<Event::LoadSprite>
 			(
-				transformObj.width / spriteObj.body->getGlobalBounds().size.x,
-				transformObj.height / spriteObj.body->getGlobalBounds().size.y
-			)
-		);
+				Event::LoadSprite
+				{ entity, sprite, loadedTextures }
+			);
 	}
 }
 void Start::setColor()
 {
 	auto& colorArray = nc.getComponentArray<Component::Color>();
-	auto& spriteArray = nc.getComponentArray<Component::Sprite>();
 
-	for (auto& [entity, colorObj] : colorArray->getAll())
+	for (auto& [entity, color] : colorArray->getAll())
 	{
-		if (!spriteArray->hasData(entity))
-		{
-			continue;
-		}
-
-		Component::Sprite& spriteObj = spriteArray->getData(entity);
-
-		spriteObj.body->setColor(colorObj.col);
+		nc.call<Event::SetColor>
+			(
+				Event::SetColor
+				{ entity, color }
+			);
 	}
 }
 
 // -------------------------------------------------------
 // control systems
 // -------------------------------------------------------
-static const double DEFAULT_SCALE_X = 1.0;
-static const double DEFAULT_SCALE_Y = 1.0;
-
-static const double HOVER_SCALE_X = 1.1;
-static const double HOVER_SCALE_Y = 1.1;
-
-static const double CLICKED_SCALE_X = 0.9;
-static const double CLICKED_SCALE_Y = 0.9;
-
-void Control::buttonClicks
-(
-	const sf::Vector2i mouseVector,
-	const DeltaTime dt
-)
-{
-	auto& buttonArray = nc.getComponentArray<Component::Button>();
-	auto& originArray = nc.getComponentArray<Component::Origin>();
-	auto& transformArray = nc.getComponentArray<Component::Transform>();
-	auto& positionArray = nc.getComponentArray<Component::Position>();
-
-	for (auto& [entity, buttonObj] : buttonArray->getAll())
-	{
-		if (!buttonObj.enabled ||
-			!originArray->hasData(entity) ||
-			!positionArray->hasData(entity) ||
-			!transformArray->hasData(entity))
-		{
-			continue;
-		}
-
-		// buttonArray must have a shape, origin, and text
-		////std::cout << "button.top: " << button.top << "\n";
-		////std::cout << "button.left: " << button.left << "\n";
-		const Component::Origin& originObj = originArray->getData(entity);
-		const Component::Transform& transformObj = transformArray->getData(entity);
-		const Component::Position& posObj = positionArray->getData(entity);
-
-		if (mouseVector.x > posObj.x - originObj.offsetX &&
-			mouseVector.x < posObj.x + transformObj.width - originObj.offsetX &&
-			mouseVector.y > posObj.y - originObj.offsetY &&
-			mouseVector.y < posObj.y + transformObj.height - originObj.offsetY)
-		{
-			buttonObj.clicked = true;
-			buttonObj.clickedTimer = buttonObj.clickedDuration;
-		}
-	}
-}
 void Control::doPlayerControl
 (
 	const Entity player,
@@ -285,171 +205,230 @@ void Control::doPlayerControl
 // -------------------------------------------------------
 // update systems
 // -------------------------------------------------------
-void Update::doButtons
-(
-	const sf::Vector2i mouseVector,
-	const DeltaTime dt
-) {
-	auto& spriteArray = nc.getComponentArray<Component::Sprite>();
+void Update::doButtonTimer(const DeltaTime dt)
+{
 	auto& buttonArray = nc.getComponentArray<Component::Button>();
-	auto& originArray = nc.getComponentArray<Component::Origin>();
-	auto& textArray = nc.getComponentArray<Component::Text>();
-	auto& nextSceneArray = nc.getComponentArray<Component::NextScene>();
-	auto& transformArray = nc.getComponentArray<Component::Transform>();
-	auto& positionArray = nc.getComponentArray<Component::Position>();
 
-	for (auto& [entity, buttonObj] : buttonArray->getAll())
+	for (auto& [entity, button] : buttonArray->getAll())
 	{
-		if (!buttonObj.enabled)
+		if (button.timer <= 0.0)
 		{
 			continue;
 		}
 
-		// buttonArray must have a shape, origin, and text
-		if (!originArray->hasData(entity) ||
-			!positionArray->hasData(entity) ||
-			!spriteArray->hasData(entity))
-		{
-			continue;
-		}
+		button.timer -= dt;
 
-		////std::cout << "button.top: " << button.top << "\n";
-		////std::cout << "button.left: " << button.left << "\n";
-		Component::Origin& originObj = originArray->getData(entity);
-		Component::Transform& transformObj = transformArray->getData(entity);
-		Component::Position& posObj = positionArray->getData(entity);
-		Component::Sprite& spriteObj = spriteArray->getData(entity);
-
-		if (buttonObj.clickedTimer <= 0)
-		{
-			spriteObj.body->setScale
-			(
-				sf::Vector2f
-				(
-					DEFAULT_SCALE_X * (transformObj.width / spriteObj.body->getTexture().getSize().x),
-					DEFAULT_SCALE_Y * (transformObj.height / spriteObj.body->getTexture().getSize().y)
-				)
-			);
-
-			if (textArray->hasData(entity))
-			{
-				Component::Text& text = textArray->getData(entity);
-				text.box->setScale
-				(
-					sf::Vector2f
-					(
-						DEFAULT_SCALE_X,
-						DEFAULT_SCALE_Y
-					)
-				);
-			}
-		}
-		else
-		{
-			buttonObj.clickedTimer -= dt;
-			if (buttonObj.clickedTimer <= 0)
-			{
-				buttonObj.clicked = true;
-
-				if (nextSceneArray->hasData(entity))
-				{
-					////std::cout << "starting next scene." << "\n";
-					Component::NextScene& nextScene = nextSceneArray->getData(entity);
-					nextScene.active = true;
-				}
-			}
-		}
-
-		// button hovering
-		if (mouseVector.x > posObj.x - originObj.offsetX &&
-			mouseVector.x < posObj.x + transformObj.width - originObj.offsetX &&
-			mouseVector.y > posObj.y - originObj.offsetY &&
-			mouseVector.y < posObj.y + transformObj.height - originObj.offsetY &&
-			buttonObj.clickedTimer <= 0)
-		{
-			spriteObj.body->setScale
-			(
-				sf::Vector2f
-				(
-					HOVER_SCALE_X * (transformObj.width / spriteObj.body->getTexture().getSize().x),
-					HOVER_SCALE_Y * (transformObj.height / spriteObj.body->getTexture().getSize().y)
-				)
-			);
-
-			if (textArray->hasData(entity))
-			{
-				Component::Text& text = textArray->getData(entity);
-				text.box->setScale
-				(
-					sf::Vector2f
-					(
-						HOVER_SCALE_X,
-						HOVER_SCALE_Y
-					)
-				);
-			}
-		}
-
-		// button clicking
-		if (buttonObj.clickedTimer > 0)
-		{
-			spriteObj.body->setScale
-			(
-				sf::Vector2f
-				(
-					CLICKED_SCALE_X * (transformObj.width / spriteObj.body->getTexture().getSize().x),
-					CLICKED_SCALE_Y * (transformObj.height / spriteObj.body->getTexture().getSize().y)
-				)
-			);
-
-			if (textArray->hasData(entity))
-			{
-				Component::Text& text = textArray->getData(entity);
-				text.box->setScale
-				(
-					sf::Vector2f
-					(
-						CLICKED_SCALE_X,
-						CLICKED_SCALE_Y
-					)
-				);
-			}
-		}
+		if (button.timer <= 0.0) button.timer = 0.0;
 	}
 }
-void Update::doNextScene
+
+template<typename T>
+static T easeOutElastic(T current, T max, T min)
+{
+	T progress = 1.0 - [](T target, T min, T max)
+		{
+			return (target - min) / (max - min);
+		}
+	(current, min, max);
+
+	static const double c4 = (2 * std::acos(-1.0)) / 3;
+
+	if (progress <= 0) return 0.0;
+	else if (progress >= 1) return 1.0;
+
+	return std::pow(2.0, -10.0 * progress) *
+		std::sin((progress * 10.0 - 0.75) * c4) + 1.0;
+}
+
+static const double DEFAULT_SCALE_X = 1.0;
+static const double DEFAULT_SCALE_Y = 1.0;
+
+static const double HOVER_SCALE_X = 1.1;
+static const double HOVER_SCALE_Y = 1.1;
+
+static const double CLICKED_SCALE_X = 0.9;
+static const double CLICKED_SCALE_Y = 0.9;
+
+void Update::applyButtonHoverAnimation()
+{
+	auto& buttonArray = nc.getComponentArray<Component::Button>();
+	auto& spriteArray = nc.getComponentArray<Component::Sprite>();
+	auto& textArray = nc.getComponentArray<Component::Text>();
+	auto& transformArray = nc.getComponentArray<Component::Transform>();
+
+	for (auto& [entity, button] : buttonArray->getAll())
+	{
+		if (button.timer <= 0.0 ||
+			button.state != Enum::ButtonState::HOVERED)
+		{
+			continue;
+		}
+
+		Component::Transform& transform = transformArray->getData(entity);
+		Component::Sprite& sprite = spriteArray->getData(entity);
+
+		double scalingFactor = easeOutElastic
+		(
+			button.timer,
+			button.hoverAnimationDuration,
+			0.0
+		);
+
+		sprite.body->setScale
+		(
+			sf::Vector2f
+			(
+				(HOVER_SCALE_X * (transform.width / sprite.body->getTexture().getSize().x)) * scalingFactor,
+				(HOVER_SCALE_Y * (transform.height / sprite.body->getTexture().getSize().y)) * scalingFactor
+			)
+		);
+
+		if (!textArray->hasData(entity))
+		{
+			continue;
+		}
+
+		Component::Text& text = textArray->getData(entity);
+		text.box->setScale
+		(
+			sf::Vector2f
+			(
+				HOVER_SCALE_X * scalingFactor,
+				HOVER_SCALE_Y * scalingFactor
+			)
+		);
+	}
+}
+void Update::applyButtonIdleAnimation()
+{
+	auto& buttonArray = nc.getComponentArray<Component::Button>();
+	auto& spriteArray = nc.getComponentArray<Component::Sprite>();
+	auto& textArray = nc.getComponentArray<Component::Text>();
+	auto& transformArray = nc.getComponentArray<Component::Transform>();
+
+	for (auto& [entity, button] : buttonArray->getAll())
+	{
+		if (button.timer <= 0.0 ||
+			button.state != Enum::ButtonState::IDLE)
+		{
+			continue;
+		}
+
+		Component::Transform& transform = transformArray->getData(entity);
+		Component::Sprite& sprite = spriteArray->getData(entity);
+
+		double scalingFactor = easeOutElastic
+		(
+			button.timer,
+			button.idleAnimationDuration,
+			0.0
+		);
+
+		sprite.body->setScale
+		(
+			sf::Vector2f
+			(
+				(DEFAULT_SCALE_X * (transform.width / sprite.body->getTexture().getSize().x)) * scalingFactor,
+				(DEFAULT_SCALE_X * (transform.height / sprite.body->getTexture().getSize().y)) * scalingFactor
+			)
+		);
+
+		if (!textArray->hasData(entity))
+		{
+			continue;
+		}
+
+		Component::Text& text = textArray->getData(entity);
+		text.box->setScale
+		(
+			sf::Vector2f
+			(
+				DEFAULT_SCALE_X * scalingFactor,
+				DEFAULT_SCALE_X * scalingFactor
+			)
+		);
+	}
+}
+void Update::applyButtonClickedAnimation()
+{
+	auto& buttonArray = nc.getComponentArray<Component::Button>();
+	auto& spriteArray = nc.getComponentArray<Component::Sprite>();
+	auto& textArray = nc.getComponentArray<Component::Text>();
+	auto& transformArray = nc.getComponentArray<Component::Transform>();
+
+	for (auto& [entity, button] : buttonArray->getAll())
+	{
+		if (button.timer <= 0.0 ||
+			button.state != Enum::ButtonState::CLICKED)
+		{
+			continue;
+		}
+
+		Component::Transform& transform = transformArray->getData(entity);
+		Component::Sprite& sprite = spriteArray->getData(entity);
+
+		double scalingFactor = easeOutElastic
+		(
+			button.timer,
+			button.clickedAnimationDuration,
+			0.0
+		);
+
+		sprite.body->setScale
+		(
+			sf::Vector2f
+			(
+				(CLICKED_SCALE_X * (transform.width / sprite.body->getTexture().getSize().x)) * scalingFactor,
+				(CLICKED_SCALE_X * (transform.height / sprite.body->getTexture().getSize().y)) * scalingFactor
+			)
+		);
+
+		if (!textArray->hasData(entity))
+		{
+			continue;
+		}
+
+		Component::Text& text = textArray->getData(entity);
+		text.box->setScale
+		(
+			sf::Vector2f
+			(
+				CLICKED_SCALE_X * scalingFactor,
+				CLICKED_SCALE_X * scalingFactor
+			)
+		);
+	}
+}
+void Update::enableButtonNextScene
 (
 	sf::RenderWindow& window,
 	sf::Font& font
 )
 {
+	auto& buttonArray = nc.getComponentArray<Component::Button>();
 	auto& nextSceneArray = nc.getComponentArray<Component::NextScene>();
 
-	bool playNext = false;
-	Scene playNextScene;
-
-	for (auto& [entity, nextSceneObj] : nextSceneArray->getAll())
+	for (auto& [entity, button] : buttonArray->getAll())
 	{
-		// buttons must have a shape, origin, and text
-		if (nextSceneObj.active)
+		if (button.timer > 0.0 ||
+			button.state != Enum::ButtonState::CLICKED ||
+			!nextSceneArray->hasData(entity))
 		{
-			//std::cout << "active: " << nextScene.next << "\n";
-			playNext = true;
-			playNextScene = nextSceneObj.next;
-			break;
+			continue;
 		}
-	}
 
-	if (playNext)
-	{
-		nc.destroyAll();
-		playScene
-		(
-			window,
-			playNextScene,
-			font
+		const Component::NextScene& nextScene = nextSceneArray->getData(entity);
+
+		nc.call<Event::PlayScene>(
+			Event::PlayScene
+			{
+				nextScene.next,
+				window,
+				font
+			}
 		);
-		window.close();
+
+		break;
 	}
 }
 void Update::move(const DeltaTime dt)

@@ -3,16 +3,23 @@
 
 namespace Enum
 {
-	enum TextFormat
+	enum class TextFormat
 	{
 		TOP,
 		MIDDLE,
 		BOTTOM
 	};
 
-	enum Texture
+	enum class Texture
 	{
 		TEXTURE_PLACEHOLDER
+	};
+
+	enum class ButtonState
+	{
+		IDLE,
+		HOVERED,
+		CLICKED
 	};
 }
 

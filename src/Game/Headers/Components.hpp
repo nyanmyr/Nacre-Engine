@@ -31,10 +31,12 @@ namespace Component {
 
 	struct Button
 	{
-		double clickedDuration = 0.0;
-		double enabled = true;
-		double clickedTimer = 0.0;
-		bool clicked = false;
+		bool enabled = true;
+		double hoverAnimationDuration = 0.0;
+		double idleAnimationDuration = 0.0;
+		double clickedAnimationDuration = 0.0;
+		double timer = 0.0;
+		Enum::ButtonState state = Enum::ButtonState::IDLE;
 	};
 
 	struct Text
@@ -49,7 +51,6 @@ namespace Component {
 	struct NextScene
 	{
 		Scene next = Scene::MENU;
-		bool active = false;
 	};
 
 	struct ZIndex
@@ -95,15 +96,18 @@ namespace Component {
 		Enum::Texture data;
 	};
 
-	struct TexturesContainer
-	{
-		std::unordered_map<Enum::Texture, sf::Texture> map;
-	};
-
 	struct Color
 	{
-		sf::Color col = sf::Color(sf::Color::White);
+		sf::Color data = sf::Color::White;
 	};
+
+	namespace Singleton
+	{
+		struct TexturesContainer
+		{
+			std::unordered_map<Enum::Texture, sf::Texture> map;
+		};
+	}
 }
 
 #endif

@@ -1,18 +1,16 @@
 #ifndef NACRE_MANAGER_HPP
 #define NACRE_MANAGER_HPP
 
-#include <memory>
-
-#include "ComponentArray.hpp"
 #include "ComponentManager.hpp"
-#include "Core.hpp"
 #include "EntityManager.hpp"
+#include "EventDispatcher.hpp"
 
 class NacreCoordinator
 {
 private:
 	ComponentManager& cm = ComponentManager::getInstance();
 	EntityManager& em = EntityManager::getInstance();
+	Dispatcher& ds = Dispatcher::getInstance();
 
 	NacreCoordinator() {}
 
@@ -79,6 +77,24 @@ public:
 	{
 		cm.allEntitiesDestroyed();
 		em.destroyAllEntities();
+	}
+
+	template<typename T>
+	void registerEvent()
+	{
+		ds.registerEvent<T>();
+	}
+
+	template<typename T>
+	void listen(std::function<void(T)> event)
+	{
+		ds.listen<T>(event);
+	}
+
+	template<typename T>
+	void call(T event)
+	{
+		ds.call<T>(event);
 	}
 };
 

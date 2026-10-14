@@ -124,7 +124,10 @@ namespace Maker
 		const Scene scene,
 		const std::string str,
 		const sf::Font& font,
-		const sf::Color col
+		const sf::Color col,
+		const double hoverAnimationDuration,
+		const double idleAnimationDuration,
+		const double clickedAnimationDuration
 	)
 	{
 		Entity entity = nc.createEntity();
@@ -160,8 +163,10 @@ namespace Maker
 			entity,
 			Component::Button
 			{
-				0.125f,
-				true
+				true,
+				hoverAnimationDuration,
+				idleAnimationDuration,
+				clickedAnimationDuration
 			}
 		);
 
@@ -183,8 +188,7 @@ namespace Maker
 			entity,
 			Component::NextScene
 			{
-				scene,
-				false
+				scene
 			}
 		);
 		nc.addComponent
@@ -220,19 +224,6 @@ namespace Maker
 		(
 			entity,
 			Component::Color{ col }
-		);
-
-		return entity;
-	}
-
-	Entity loadedTexturesContainer()
-	{
-		Entity entity = nc.createEntity();
-
-		nc.addComponent
-		(
-			entity,
-			Component::TexturesContainer{}
 		);
 
 		return entity;

@@ -32,7 +32,6 @@ void main()
 	nc.registerComponent<Component::Drag>();
 	nc.registerComponent<Component::Sprite>();
 	nc.registerComponent<Component::Texture>();
-	nc.registerComponent<Component::TexturesContainer>();
 	nc.registerComponent<Component::Color>();
 
 	sf::Font font;
@@ -40,6 +39,41 @@ void main()
 	{
 		throw std::runtime_error("Font not found.");
 	}
+
+	// event registration
+	nc.registerEvent<Event::SetSpriteOrigin>();
+	nc.registerEvent<Event::SetColor>();
+	nc.registerEvent<Event::LoadSprite>();
+	nc.registerEvent<Event::SetTextString>();
+	nc.registerEvent<Event::SetTextSize>();
+	nc.registerEvent<Event::SetTextColor>();
+	nc.registerEvent<Event::MouseClick>();
+	nc.registerEvent<Event::MouseMoved>();
+	nc.registerEvent<Event::PlayScene>();
+
+	// functions creation
+	std::function<void(Event::SetSpriteOrigin)> setSpriteOrigin = Listener::setSpriteOrigin;
+	std::function<void(Event::SetColor)> setColor = Listener::setColor;
+	std::function<void(Event::LoadSprite)> loadSprite = Listener::loadSprite;
+	std::function<void(Event::SetTextString)> setTextString = Listener::setTextString;
+	std::function<void(Event::SetTextSize)> setTextSize = Listener::setTextSize;
+	std::function<void(Event::SetTextColor)> setTextColor = Listener::setTextColor;
+	std::function<void(Event::MouseClick)> setButtonClicked = Listener::clickedButton;
+	std::function<void(Event::MouseMoved)> mouseHovered = Listener::hoverButton;
+	std::function<void(Event::MouseMoved)> idleButton = Listener::idleButton;
+	std::function<void(Event::PlayScene)> playNextScene = Listener::playNextScene;
+
+	// listener function linking
+	nc.listen<Event::SetSpriteOrigin>(setSpriteOrigin);
+	nc.listen<Event::SetColor>(setColor);
+	nc.listen<Event::LoadSprite>(loadSprite);
+	nc.listen<Event::SetTextString>(setTextString);
+	nc.listen<Event::SetTextSize>(setTextSize);
+	nc.listen<Event::SetTextColor>(setTextColor);
+	nc.listen<Event::MouseClick>(setButtonClicked);
+	nc.listen<Event::MouseMoved>(mouseHovered);
+	nc.listen<Event::MouseMoved>(idleButton);
+	nc.listen<Event::PlayScene>(playNextScene);
 
 	playScene
 	(
