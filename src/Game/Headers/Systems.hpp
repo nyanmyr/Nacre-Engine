@@ -18,11 +18,6 @@ namespace Start
 
 namespace Control
 {
-	void buttonClicks
-	(
-		const sf::Vector2i mouseVector,
-		const DeltaTime dt
-	);
 	void doPlayerControl
 	(
 		const Entity player,
@@ -43,6 +38,13 @@ namespace Update
 	);
 	void move(const DeltaTime dt);
 	void drag(const DeltaTime dt);
+	void boundaryBounce
+	(
+		const double left,
+		const double right,
+		const double top,
+		const double bottom
+	);
 }
 
 namespace Render

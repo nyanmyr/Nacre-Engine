@@ -84,6 +84,13 @@ void playingScene
 			player,
 			dt
 		);
+		Update::boundaryBounce
+		(
+			-(window.getDefaultView().getSize().x / 2.0),
+			(window.getDefaultView().getSize().x / 2.0),
+			-(window.getDefaultView().getSize().y / 2.0),
+			(window.getDefaultView().getSize().y / 2.0)
+		);
 		Update::move(dt);
 		Update::drag(dt);
 
