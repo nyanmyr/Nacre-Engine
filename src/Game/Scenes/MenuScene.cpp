@@ -10,11 +10,7 @@ static const double DEFAULT_HOVER_ANIMATION_DURATION = 0.4;
 static const double DEFAULT_IDLE_ANIMATION_DURATION = 0.4;
 static const double DEFAULT_CLICKED_ANIMATION_DURATION = 0.15;
 
-void menuScene
-(
-	sf::RenderWindow& window,
-	sf::Font& font
-)
+void menuScene()
 {
 
 	// game state variables
@@ -26,7 +22,7 @@ void menuScene
 	Entity title = Maker::text
 	(
 		64,
-		font,
+		Config::font(),
 		sf::Color::White,
 		"Nacre Engine",
 		sf::Vector2f
@@ -53,7 +49,7 @@ void menuScene
 		},
 		Scene::PLAYING,
 		"Play",
-		font,
+		Config::font(),
 		sf::Color::Red,
 		DEFAULT_HOVER_ANIMATION_DURATION,
 		DEFAULT_IDLE_ANIMATION_DURATION,
@@ -61,7 +57,7 @@ void menuScene
 	);
 
 	// onstart systems
-	Start::setText(font); // font system is limited to one font
+	Start::setText(Config::font());
 	Start::setTextOrigin();
 
 	Start::loadTextures(loadedTextures);
@@ -69,18 +65,18 @@ void menuScene
 	Start::setSpriteOrigin();
 	Start::setColor();
 
-	while (window.isOpen())
+	while (Config::window().isOpen())
 	{
 		DeltaTime dt = clock.restart().asSeconds();
 
-		auto& pixelPos = sf::Mouse::getPosition(window);
-		auto& worldPos = window.mapPixelToCoords(pixelPos);
+		auto& pixelPos = sf::Mouse::getPosition(Config::window());
+		auto& worldPos = Config::window().mapPixelToCoords(pixelPos);
 
-		while (const std::optional event = window.pollEvent())
+		while (const std::optional event = Config::window().pollEvent())
 		{
 			if (event->is<sf::Event::Closed>())
 			{
-				window.close();
+				Config::window().close();
 			}
 
 			if (const auto& mousePressed = event->getIf<sf::Event::MouseButtonPressed>())
@@ -122,12 +118,16 @@ void menuScene
 		Update::applyButtonHoverAnimation();
 		Update::applyButtonIdleAnimation();
 		Update::applyButtonClickedAnimation();
-		Update::enableButtonNextScene(window, font);
+		Update::enableButtonNextScene();
 
-		window.clear();
+		Config::window().clear();
 		// render systems
 		Render::doZIndex(renderQueue);
-		Render::render(window, renderQueue);
-		window.display();
+		Render::render
+		(
+			Config::window(),
+			renderQueue
+		);
+		Config::window().display();
 	}
 }

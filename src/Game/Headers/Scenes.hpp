@@ -9,22 +9,9 @@ enum class Scene
 	PLAYING
 };
 
-void playScene
-(
-	sf::RenderWindow& window,
-	Scene scene,
-	sf::Font& font
-);
-void menuScene
-(
-	sf::RenderWindow& window,
-	sf::Font& font
-);
-void playingScene
-(
-	sf::RenderWindow& window,
-	sf::Font& font
-);
+void playScene(Scene scene);
+void menuScene();
+void playingScene();
 
 
 #endif

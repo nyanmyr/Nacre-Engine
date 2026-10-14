@@ -1,16 +1,19 @@
 #include "../Headers/Scenes.hpp"
+#include "../Headers/Config.hpp"
 #include <stdexcept>
 
-void playScene(sf::RenderWindow& window, Scene scene, sf::Font& font) {
+void playScene(Scene scene) {
     switch (scene) {
     case Scene::MENU:
-        menuScene(window, font);
+        menuScene();
         break;
     case Scene::PLAYING:
-        playingScene(window, font);
+        playingScene();
         break;
     default:
         throw std::runtime_error("Scene does not exist.");
         break;
     }
+
+    Config::window().close();
 }

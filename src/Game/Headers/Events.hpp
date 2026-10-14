@@ -53,8 +53,6 @@ namespace Event
 	struct PlayScene
 	{
 		const Scene next;
-		sf::RenderWindow& window;
-		sf::Font& font;
 	};
 }
 

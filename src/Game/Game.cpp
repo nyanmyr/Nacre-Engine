@@ -1,43 +1,10 @@
 #include <SFML/Graphics.hpp>
 
-#include <stdexcept>
-#include <string>
-
 #include "Headers/GameManager.hpp"
 #include "Headers/Scenes.hpp"
 
 void main()
 {
-	sf::RenderWindow window
-	(
-		sf::VideoMode
-		({ 
-			Config::SCREEN_WIDTH,
-			Config::SCREEN_HEIGHT 
-		}),
-		Config::WINDOW_NAME,
-		sf::Style::Close
-	);
-	window.setFramerateLimit(Config::MAX_FPS);
-
-	// resets the centerpoint of the window camera to (0,0)
-	window.setView
-	(
-		sf::View
-		(
-			sf::Vector2f
-			(
-				0.f,
-				0.f
-			),
-			sf::Vector2f
-			(
-				Config::SCREEN_WIDTH,
-				Config::SCREEN_HEIGHT
-			)
-		)
-	);
-
 	// components registration
 	nc().registerComponent<Component::Position>();
 	nc().registerComponent<Component::Transform>();
@@ -53,12 +20,6 @@ void main()
 	nc().registerComponent<Component::Sprite>();
 	nc().registerComponent<Component::Texture>();
 	nc().registerComponent<Component::Color>();
-
-	sf::Font font;
-	if (!font.openFromFile(Config::FONT_FILEPATH))
-	{
-		throw std::runtime_error("Font not found.");
-	}
 
 	// event registration
 	nc().registerEvent<Event::SetSpriteOrigin>();
@@ -83,10 +44,6 @@ void main()
 	nc().listen<Event::MouseMoved>(Listener::idleButton);
 	nc().listen<Event::PlayScene>(Listener::playNextScene);
 
-	playScene
-	(
-		window,
-		Scene::MENU,
-		font
-	);
+	// play the first scene
+	playScene(Scene::MENU);
 }

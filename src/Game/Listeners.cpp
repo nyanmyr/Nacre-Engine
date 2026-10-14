@@ -265,12 +265,6 @@ namespace Listener
 	void playNextScene(Event::PlayScene event)
 	{
 		nc().destroyAll();
-		playScene
-		(
-			event.window,
-			event.next,
-			event.font
-		);
-		event.window.close();
+		playScene(event.next);
 	}
 }

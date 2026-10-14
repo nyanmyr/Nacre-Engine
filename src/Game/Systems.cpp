@@ -397,11 +397,7 @@ void Update::applyButtonClickedAnimation()
 		);
 	}
 }
-void Update::enableButtonNextScene
-(
-	sf::RenderWindow& window,
-	sf::Font& font
-)
+void Update::enableButtonNextScene()
 {
 	auto& buttonArray = nc().getComponentArray<Component::Button>();
 	auto& nextSceneArray = nc().getComponentArray<Component::NextScene>();
@@ -417,14 +413,7 @@ void Update::enableButtonNextScene
 
 		const auto& nextScene = nextSceneArray->getData(entity);
 
-		nc().call<Event::PlayScene>(
-			Event::PlayScene
-			{
-				nextScene.next,
-				window,
-				font
-			}
-		);
+		nc().call<Event::PlayScene>(Event::PlayScene{nextScene.next});
 
 		break;
 	}

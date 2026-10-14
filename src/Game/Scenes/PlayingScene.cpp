@@ -6,11 +6,7 @@
 #include "../src/Game/Headers/GameManager.hpp"
 #include "../src/Game/Headers/Scenes.hpp"
 
-void playingScene
-(
-	sf::RenderWindow& window,
-	sf::Font& font
-)
+void playingScene()
 {
 	// game state variables
 	sf::Clock clock;
@@ -56,7 +52,7 @@ void playingScene
 	);
 
 	// onstart systems
-	Start::setText(font); // font system is limited to one font
+	Start::setText(Config::font());
 	Start::setTextOrigin();
 
 	Start::loadTextures(loadedTextures);
@@ -64,15 +60,15 @@ void playingScene
 	Start::setSpriteOrigin();
 	Start::setColor();
 
-	while (window.isOpen())
+	while (Config::window().isOpen())
 	{
 		DeltaTime dt = clock.restart().asSeconds();
 
-		while (const std::optional event = window.pollEvent())
+		while (const std::optional event = Config::window().pollEvent())
 		{
 			if (event->is<sf::Event::Closed>())
 			{
-				window.close();
+				Config::window().close();
 			}
 		}
 
@@ -92,14 +88,14 @@ void playingScene
 		Update::move(dt);
 		Update::drag(dt);
 
-		window.clear();
+		Config::window().clear();
 		// render systems
 		Render::doZIndex(renderQueue);
 		Render::render
 		(
-			window,
+			Config::window(),
 			renderQueue
 		);
-		window.display();
+		Config::window().display();
 	}
 }
