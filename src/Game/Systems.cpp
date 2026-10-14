@@ -431,6 +431,54 @@ void Update::enableButtonNextScene
 		break;
 	}
 }
+static const double BOUNCE_FACTOR = 0.5;
+
+void Update::boundaryBounce
+(
+	const double left,
+	const double right,
+	const double top,
+	const double bottom
+)
+{
+	auto& velocityArray = nc.getComponentArray<Component::Velocity>();
+	auto& positionArray = nc.getComponentArray<Component::Position>();
+	auto& transformArray = nc.getComponentArray<Component::Transform>();
+
+	for (auto& [entity, velocity] : velocityArray->getAll())
+	{
+		if (!positionArray->hasData(entity) ||
+			!transformArray->hasData(entity))
+		{
+			continue;
+		}
+
+		Component::Position& pos = positionArray->getData(entity);
+		Component::Transform& trans = transformArray->getData(entity);
+
+		if (pos.x + (trans.width / 2.0) > right)
+		{
+			pos.x = right - (trans.width / 2.0);
+			velocity.x = -velocity.x * BOUNCE_FACTOR;
+		}
+		else if (pos.x - (trans.width / 2.0) < left)
+		{
+			pos.x = left + (trans.width / 2.0);
+			velocity.x = -velocity.x * BOUNCE_FACTOR;
+		}
+
+		if (pos.y + (trans.height / 2.0) > bottom)
+		{
+			pos.y = bottom - (trans.height / 2.0);
+			velocity.y = -velocity.y * BOUNCE_FACTOR;
+		}
+		else if (pos.y - (trans.height / 2.0) < top)
+		{
+			pos.y = top + (trans.height / 2.0);
+			velocity.y = -velocity.y * BOUNCE_FACTOR;
+		}
+	}
+}
 void Update::move(const DeltaTime dt)
 {
 	auto& velocityArray = nc.getComponentArray<Component::Velocity>();

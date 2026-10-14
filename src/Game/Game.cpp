@@ -18,6 +18,23 @@ void main()
 	sf::RenderWindow window(sf::VideoMode({ SCREEN_WIDTH, SCREEN_HEIGHT }), WINDOW_NAME, sf::Style::Close);
 	window.setFramerateLimit(MAX_FPS);
 
+	window.setView
+	(
+		sf::View
+		(
+			sf::Vector2f
+			(
+				0.f,
+				0.f
+			),
+			sf::Vector2f
+			(
+				window.getDefaultView().getSize().x,
+				window.getDefaultView().getSize().y
+			)
+		)
+	);
+
 	// components registration
 	nc.registerComponent<Component::Position>();
 	nc.registerComponent<Component::Transform>();
