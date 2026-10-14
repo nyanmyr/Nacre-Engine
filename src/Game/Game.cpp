@@ -11,7 +11,7 @@ static const int SCREEN_HEIGHT = 600;
 static const int MAX_FPS = 60;
 static const std::string FONT_FILEPATH = RESOURCES_PATH "arial.ttf";
 static const std::string WINDOW_NAME = "Nacre Engine";
-static NacreCoordinator& nc = NacreCoordinator::getInstance();
+static auto& nc = NacreCoordinator::getInstance();
 
 void main()
 {
@@ -68,29 +68,17 @@ void main()
 	nc.registerEvent<Event::MouseMoved>();
 	nc.registerEvent<Event::PlayScene>();
 
-	// functions creation
-	std::function<void(Event::SetSpriteOrigin)> setSpriteOrigin = Listener::setSpriteOrigin;
-	std::function<void(Event::SetColor)> setColor = Listener::setColor;
-	std::function<void(Event::LoadSprite)> loadSprite = Listener::loadSprite;
-	std::function<void(Event::SetTextString)> setTextString = Listener::setTextString;
-	std::function<void(Event::SetTextSize)> setTextSize = Listener::setTextSize;
-	std::function<void(Event::SetTextColor)> setTextColor = Listener::setTextColor;
-	std::function<void(Event::MouseClick)> setButtonClicked = Listener::clickedButton;
-	std::function<void(Event::MouseMoved)> mouseHovered = Listener::hoverButton;
-	std::function<void(Event::MouseMoved)> idleButton = Listener::idleButton;
-	std::function<void(Event::PlayScene)> playNextScene = Listener::playNextScene;
-
-	// listener function linking
-	nc.listen<Event::SetSpriteOrigin>(setSpriteOrigin);
-	nc.listen<Event::SetColor>(setColor);
-	nc.listen<Event::LoadSprite>(loadSprite);
-	nc.listen<Event::SetTextString>(setTextString);
-	nc.listen<Event::SetTextSize>(setTextSize);
-	nc.listen<Event::SetTextColor>(setTextColor);
-	nc.listen<Event::MouseClick>(setButtonClicked);
-	nc.listen<Event::MouseMoved>(mouseHovered);
-	nc.listen<Event::MouseMoved>(idleButton);
-	nc.listen<Event::PlayScene>(playNextScene);
+	// listener to event linking
+	nc.listen<Event::SetSpriteOrigin>(Listener::setSpriteOrigin);
+	nc.listen<Event::SetColor>(Listener::setColor);
+	nc.listen<Event::LoadSprite>(Listener::loadSprite);
+	nc.listen<Event::SetTextString>(Listener::setTextString);
+	nc.listen<Event::SetTextSize>(Listener::setTextSize);
+	nc.listen<Event::SetTextColor>(Listener::setTextColor);
+	nc.listen<Event::MouseClick>(Listener::clickedButton);
+	nc.listen<Event::MouseMoved>(Listener::hoverButton);
+	nc.listen<Event::MouseMoved>(Listener::idleButton);
+	nc.listen<Event::PlayScene>(Listener::playNextScene);
 
 	playScene
 	(

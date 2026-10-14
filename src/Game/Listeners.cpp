@@ -4,7 +4,7 @@
 
 #include <stdexcept>
 
-static NacreCoordinator& nc = NacreCoordinator::getInstance();
+static auto& nc = NacreCoordinator::getInstance();
 
 static bool checkCollision
 (
@@ -39,7 +39,7 @@ namespace Listener
 			return;
 		}
 
-		Component::Sprite& sprite = spriteArray->getData(event.target);
+		auto& sprite = spriteArray->getData(event.target);
 
 		sprite.body->setOrigin
 		(
@@ -61,7 +61,7 @@ namespace Listener
 			return;
 		}
 
-		Component::Sprite& sprite = spriteArray->getData(event.target);
+		auto& sprite = spriteArray->getData(event.target);
 
 		sprite.body->setColor(event.color.data);
 	}
@@ -78,8 +78,8 @@ namespace Listener
 			return;
 		}
 
-		Component::Texture& texture = textureArray->getData(event.target);
-		Component::Transform& transform = transformArray->getData(event.target);
+		auto& texture = textureArray->getData(event.target);
+		auto& transform = transformArray->getData(event.target);
 
 		if (event.loadedTextures.map.find(texture.data) == event.loadedTextures.map.end())
 		{
@@ -132,9 +132,9 @@ namespace Listener
 				continue;
 			}
 
-			const Component::Origin& origin = originArray->getData(entity);
-			const Component::Transform& transform = transformArray->getData(entity);
-			const Component::Position& pos = positionArray->getData(entity);
+			const auto& origin = originArray->getData(entity);
+			const auto& transform = transformArray->getData(entity);
+			const auto& pos = positionArray->getData(entity);
 
 			if (checkCollision
 			(
@@ -182,9 +182,9 @@ namespace Listener
 				continue;
 			}
 
-			const Component::Origin& origin = originArray->getData(entity);
-			const Component::Transform& transform = transformArray->getData(entity);
-			const Component::Position& pos = positionArray->getData(entity);
+			const auto& origin = originArray->getData(entity);
+			const auto& transform = transformArray->getData(entity);
+			const auto& pos = positionArray->getData(entity);
 
 			if (checkCollision
 			(
@@ -232,9 +232,9 @@ namespace Listener
 				continue;
 			}
 
-			const Component::Origin& origin = originArray->getData(entity);
-			const Component::Transform& transform = transformArray->getData(entity);
-			const Component::Position& pos = positionArray->getData(entity);
+			const auto& origin = originArray->getData(entity);
+			const auto& transform = transformArray->getData(entity);
+			const auto& pos = positionArray->getData(entity);
 
 			if (checkCollision
 			(

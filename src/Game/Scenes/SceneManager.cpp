@@ -3,10 +3,10 @@
 
 void playScene(sf::RenderWindow& window, Scene scene, sf::Font& font) {
     switch (scene) {
-    case MENU:
+    case Scene::MENU:
         menuScene(window, font);
         break;
-    case PLAYING:
+    case Scene::PLAYING:
         playingScene(window, font);
         break;
     default:

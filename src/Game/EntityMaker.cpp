@@ -5,7 +5,7 @@
 #include "Headers/Components.hpp"
 #include "Headers/Enums.hpp"
 
-static NacreCoordinator& nc = NacreCoordinator::getInstance();
+static auto& nc = NacreCoordinator::getInstance();
 
 namespace Maker
 {

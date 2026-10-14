@@ -3,7 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 
-enum Scene
+enum class Scene
 {
 	MENU,
 	PLAYING

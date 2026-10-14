@@ -16,7 +16,7 @@ void menuScene
 	sf::Font& font
 )
 {
-	static NacreCoordinator& nc = NacreCoordinator::getInstance();
+	static auto& nc = NacreCoordinator::getInstance();
 
 	// game state variables
 	sf::Clock clock;

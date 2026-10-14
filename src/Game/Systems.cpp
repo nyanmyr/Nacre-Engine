@@ -12,7 +12,7 @@
 #include "Headers/Enums.hpp"
 #include "Headers/Events.hpp"
 
-static NacreCoordinator& nc = NacreCoordinator::getInstance();
+static auto& nc = NacreCoordinator::getInstance();
 
 // -------------------------------------------------------
 // start systems
@@ -148,9 +148,9 @@ void Control::doPlayerControl
 		return;
 	}
 
-	const Component::PlayerController playerController = playerControllerArray->getData(player);
-	const Component::Speed speed = speedArray->getData(player);
-	Component::Velocity& velocity = velocityArray->getData(player);
+	auto& velocity = velocityArray->getData(player);
+	const auto& playerController = playerControllerArray->getData(player);
+	const auto& speed = speedArray->getData(player);
 
 	if (!playerController.enabled)
 	{
@@ -314,8 +314,8 @@ void Update::applyButtonIdleAnimation()
 			continue;
 		}
 
-		Component::Transform& transform = transformArray->getData(entity);
-		Component::Sprite& sprite = spriteArray->getData(entity);
+		auto& transform = transformArray->getData(entity);
+		auto& sprite = spriteArray->getData(entity);
 
 		double scalingFactor = easeOutElastic
 		(
@@ -338,7 +338,7 @@ void Update::applyButtonIdleAnimation()
 			continue;
 		}
 
-		Component::Text& text = textArray->getData(entity);
+		auto& text = textArray->getData(entity);
 		text.box->setScale
 		(
 			sf::Vector2f
@@ -364,8 +364,8 @@ void Update::applyButtonClickedAnimation()
 			continue;
 		}
 
-		Component::Transform& transform = transformArray->getData(entity);
-		Component::Sprite& sprite = spriteArray->getData(entity);
+		auto& transform = transformArray->getData(entity);
+		auto& sprite = spriteArray->getData(entity);
 
 		double scalingFactor = easeOutElastic
 		(
@@ -388,7 +388,7 @@ void Update::applyButtonClickedAnimation()
 			continue;
 		}
 
-		Component::Text& text = textArray->getData(entity);
+		auto& text = textArray->getData(entity);
 		text.box->setScale
 		(
 			sf::Vector2f
@@ -417,7 +417,7 @@ void Update::enableButtonNextScene
 			continue;
 		}
 
-		const Component::NextScene& nextScene = nextSceneArray->getData(entity);
+		const auto& nextScene = nextSceneArray->getData(entity);
 
 		nc.call<Event::PlayScene>(
 			Event::PlayScene
@@ -453,8 +453,8 @@ void Update::boundaryBounce
 			continue;
 		}
 
-		Component::Position& pos = positionArray->getData(entity);
-		Component::Transform& trans = transformArray->getData(entity);
+		auto& pos = positionArray->getData(entity);
+		auto& trans = transformArray->getData(entity);
 
 		if (pos.x + (trans.width / 2.0) > right)
 		{
@@ -491,7 +491,7 @@ void Update::move(const DeltaTime dt)
 			continue;
 		}
 
-		Component::Position& pos = positionArray->getData(entity);
+		auto& pos = positionArray->getData(entity);
 		pos.x += (velocity.x * dt);
 		pos.y += (velocity.y * dt);
 	}
@@ -508,7 +508,7 @@ void Update::drag(const DeltaTime dt)
 			continue;
 		}
 
-		Component::Drag drag = dragArray->getData(entity);
+		const auto& drag = dragArray->getData(entity);
 
 		// can't be exactly 0.0 because it will drift aimlessly
 		velocity.x = velocity.x < -0.1 ? velocity.x + (drag.x * dt) :
@@ -558,11 +558,11 @@ void Render::render
 			continue;
 		}
 
-		Component::Position& pos = positionArray->getData(popped);
+		auto& pos = positionArray->getData(popped);
 
 		if (spriteArray->hasData(popped))
 		{
-			Component::Sprite& sprite = spriteArray->getData(popped);
+			auto& sprite = spriteArray->getData(popped);
 
 			sprite.body->setPosition
 			(
@@ -577,7 +577,7 @@ void Render::render
 
 		if (textArray->hasData(popped))
 		{
-			Component::Text& text = textArray->getData(popped);
+			auto& text = textArray->getData(popped);
 
 			text.box->setPosition
 			(
