@@ -33,6 +33,15 @@ namespace Maker
 		const double idleAnimationDuration,
 		const double clickedAnimationDuration
 	);
+	Entity text
+	(
+		const int size,
+		const sf::Font& font,
+		const sf::Color col,
+		const std::string str,
+		const sf::Vector2f pos,
+		const Enum::TextFormat format
+	);
 }
 
 #endif

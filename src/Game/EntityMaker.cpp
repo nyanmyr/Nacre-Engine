@@ -228,4 +228,58 @@ namespace Maker
 
 		return entity;
 	}
+
+	Entity text
+	(
+		const int size,
+		const sf::Font& font,
+		const sf::Color col,
+		const std::string str,
+		const sf::Vector2f pos,
+		const Enum::TextFormat format
+	)
+	{
+		Entity entity = nc.createEntity();
+
+		nc.addComponent(
+			entity,
+			Component::Position
+			{
+				pos.x,
+				pos.y
+			}
+		);
+
+		sf::Text text(font);
+		nc.addComponent
+		(
+			entity,
+			Component::Text
+			{
+				text,
+				str,
+				size,
+				col,
+				format
+			}
+		);
+
+		nc.addComponent
+		(
+			entity,
+			Component::ZIndex
+			{
+				4,
+				true
+			}
+		);
+
+		nc.addComponent // unused but required
+		(
+			entity,
+			Component::Transform{}
+		);
+
+		return entity;
+	}
 }

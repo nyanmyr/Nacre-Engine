@@ -24,6 +24,20 @@ void menuScene
 
 	Component::Singleton::TexturesContainer loadedTextures{};
 
+	Entity title = Maker::text
+	(
+		64,
+		font,
+		sf::Color::White,
+		"Nacre Engine",
+		sf::Vector2f
+		{
+			0.f,
+			-200.f
+		},
+		Enum::TextFormat::MIDDLE
+	);
+
 	// entity instantiation
 	Entity playButton = Maker::button
 	(
