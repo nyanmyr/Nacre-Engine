@@ -16,7 +16,6 @@ void menuScene
 	sf::Font& font
 )
 {
-	static auto& nc = NacreCoordinator::getInstance();
 
 	// game state variables
 	sf::Clock clock;
@@ -88,7 +87,7 @@ void menuScene
 			{
 				if (mousePressed->button == sf::Mouse::Button::Left)
 				{
-					nc.call<Event::MouseClick>
+					nc().call<Event::MouseClick>
 						(
 							Event::MouseClick
 							{
@@ -104,7 +103,7 @@ void menuScene
 				event->is<sf::Event::MouseLeft>() ||
 				event->is<sf::Event::MouseEntered>())
 			{
-				nc.call<Event::MouseMoved>
+				nc().call<Event::MouseMoved>
 					(
 						Event::MouseMoved
 						{

@@ -12,8 +12,6 @@ void playingScene
 	sf::Font& font
 )
 {
-	static auto& nc = NacreCoordinator::getInstance();
-
 	// game state variables
 	sf::Clock clock;
 	std::queue<Entity> renderQueue;
@@ -86,10 +84,10 @@ void playingScene
 		);
 		Update::boundaryBounce
 		(
-			-(window.getDefaultView().getSize().x / 2.0),
-			(window.getDefaultView().getSize().x / 2.0),
-			-(window.getDefaultView().getSize().y / 2.0),
-			(window.getDefaultView().getSize().y / 2.0)
+			-(Config::SCREEN_WIDTH / 2.0),
+			(Config::SCREEN_WIDTH / 2.0),
+			-(Config::SCREEN_HEIGHT / 2.0),
+			(Config::SCREEN_HEIGHT / 2.0)
 		);
 		Update::move(dt);
 		Update::drag(dt);

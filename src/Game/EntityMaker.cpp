@@ -5,8 +5,6 @@
 #include "Headers/Components.hpp"
 #include "Headers/Enums.hpp"
 
-static auto& nc = NacreCoordinator::getInstance();
-
 namespace Maker
 {
 	Entity player
@@ -21,9 +19,9 @@ namespace Maker
 		const sf::Color col
 	)
 	{
-		Entity entity = nc.createEntity();
+		Entity entity = nc().createEntity();
 
-		nc.addComponent
+		nc().addComponent
 		(
 			entity,
 			Component::Position
@@ -32,7 +30,7 @@ namespace Maker
 				pos.y
 			}
 		);
-		nc.addComponent
+		nc().addComponent
 		(
 			entity,
 			Component::ZIndex
@@ -41,7 +39,7 @@ namespace Maker
 				true
 			}
 		);
-		nc.addComponent
+		nc().addComponent
 		(
 			entity,
 			Component::Origin
@@ -50,7 +48,7 @@ namespace Maker
 				size.y / 2.0
 			}
 		);
-		nc.addComponent
+		nc().addComponent
 		(
 			entity,
 			Component::Velocity
@@ -61,7 +59,7 @@ namespace Maker
 				maxVelocity.y
 			}
 		);
-		nc.addComponent
+		nc().addComponent
 		(
 			entity,
 			Component::Speed
@@ -70,7 +68,7 @@ namespace Maker
 				speed.y
 			}
 		);
-		nc.addComponent
+		nc().addComponent
 		(
 			entity,
 			Component::Drag
@@ -79,7 +77,7 @@ namespace Maker
 				drag.y
 			}
 		);
-		nc.addComponent
+		nc().addComponent
 		(
 			entity,
 			Component::PlayerController
@@ -87,7 +85,7 @@ namespace Maker
 				true
 			}
 		);
-		nc.addComponent
+		nc().addComponent
 		(
 			entity,
 			Component::Transform
@@ -96,18 +94,18 @@ namespace Maker
 				size.y
 			}
 		);
-		nc.addComponent
+		nc().addComponent
 		(
 			entity,
 			Component::Texture{ texture }
 		);
-		nc.addComponent
+		nc().addComponent
 		(
 			entity,
 			Component::Sprite{}
 		);
 
-		nc.addComponent
+		nc().addComponent
 		(
 			entity,
 			Component::Color{ col }
@@ -130,9 +128,9 @@ namespace Maker
 		const double clickedAnimationDuration
 	)
 	{
-		Entity entity = nc.createEntity();
+		Entity entity = nc().createEntity();
 
-		nc.addComponent(
+		nc().addComponent(
 			entity,
 			Component::Position
 			{
@@ -140,7 +138,7 @@ namespace Maker
 				pos.y
 			}
 		);
-		nc.addComponent
+		nc().addComponent
 		(
 			entity,
 			Component::Transform
@@ -149,7 +147,7 @@ namespace Maker
 				size.y
 			}
 		);
-		nc.addComponent
+		nc().addComponent
 		(
 			entity,
 			Component::Origin
@@ -158,7 +156,7 @@ namespace Maker
 				size.y / 2.0
 			}
 		);
-		nc.addComponent
+		nc().addComponent
 		(
 			entity,
 			Component::Button
@@ -171,7 +169,7 @@ namespace Maker
 		);
 
 		sf::Text text(font);
-		nc.addComponent
+		nc().addComponent
 		(
 			entity,
 			Component::Text
@@ -183,7 +181,7 @@ namespace Maker
 				Enum::TextFormat::MIDDLE
 			}
 		);
-		nc.addComponent
+		nc().addComponent
 		(
 			entity,
 			Component::NextScene
@@ -191,7 +189,7 @@ namespace Maker
 				scene
 			}
 		);
-		nc.addComponent
+		nc().addComponent
 		(
 			entity,
 			Component::ZIndex
@@ -200,7 +198,7 @@ namespace Maker
 				true
 			}
 		);
-		nc.addComponent
+		nc().addComponent
 		(
 			entity,
 			Component::Transform
@@ -209,18 +207,18 @@ namespace Maker
 				size.y
 			}
 		);
-		nc.addComponent
+		nc().addComponent
 		(
 			entity,
 			Component::Texture{ texture }
 		);
-		nc.addComponent
+		nc().addComponent
 		(
 			entity,
 			Component::Sprite{}
 		);
 
-		nc.addComponent
+		nc().addComponent
 		(
 			entity,
 			Component::Color{ col }
@@ -239,9 +237,9 @@ namespace Maker
 		const Enum::TextFormat format
 	)
 	{
-		Entity entity = nc.createEntity();
+		Entity entity = nc().createEntity();
 
-		nc.addComponent(
+		nc().addComponent(
 			entity,
 			Component::Position
 			{
@@ -251,7 +249,7 @@ namespace Maker
 		);
 
 		sf::Text text(font);
-		nc.addComponent
+		nc().addComponent
 		(
 			entity,
 			Component::Text
@@ -264,7 +262,7 @@ namespace Maker
 			}
 		);
 
-		nc.addComponent
+		nc().addComponent
 		(
 			entity,
 			Component::ZIndex
@@ -274,7 +272,7 @@ namespace Maker
 			}
 		);
 
-		nc.addComponent // unused but required
+		nc().addComponent // unused but required
 		(
 			entity,
 			Component::Transform{}

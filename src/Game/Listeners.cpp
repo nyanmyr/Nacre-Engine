@@ -4,8 +4,6 @@
 
 #include <stdexcept>
 
-static auto& nc = NacreCoordinator::getInstance();
-
 static bool checkCollision
 (
 	sf::Vector2f a,
@@ -32,7 +30,7 @@ namespace Listener
 	{
 		if (event.target == NULL_ENTITY) throw std::runtime_error("Error: null entity");
 
-		auto& spriteArray = nc.getComponentArray<Component::Sprite>();
+		auto& spriteArray = nc().getComponentArray<Component::Sprite>();
 
 		if (!spriteArray->hasData(event.target))
 		{
@@ -54,7 +52,7 @@ namespace Listener
 	{
 		if (event.target == NULL_ENTITY) throw std::runtime_error("Error: null entity");
 
-		auto& spriteArray = nc.getComponentArray<Component::Sprite>();
+		auto& spriteArray = nc().getComponentArray<Component::Sprite>();
 
 		if (!spriteArray->hasData(event.target))
 		{
@@ -69,8 +67,8 @@ namespace Listener
 	{
 		if (event.target == NULL_ENTITY) throw std::runtime_error("Error: null entity");
 
-		auto& transformArray = nc.getComponentArray<Component::Transform>();
-		auto& textureArray = nc.getComponentArray<Component::Texture>();
+		auto& transformArray = nc().getComponentArray<Component::Transform>();
+		auto& textureArray = nc().getComponentArray<Component::Texture>();
 
 		if (!transformArray->hasData(event.target) ||
 			!textureArray->hasData(event.target))
@@ -116,10 +114,10 @@ namespace Listener
 	}
 	void clickedButton(Event::MouseClick event)
 	{
-		auto& buttonArray = nc.getComponentArray<Component::Button>();
-		auto& originArray = nc.getComponentArray<Component::Origin>();
-		auto& transformArray = nc.getComponentArray<Component::Transform>();
-		auto& positionArray = nc.getComponentArray<Component::Position>();
+		auto& buttonArray = nc().getComponentArray<Component::Button>();
+		auto& originArray = nc().getComponentArray<Component::Origin>();
+		auto& transformArray = nc().getComponentArray<Component::Transform>();
+		auto& positionArray = nc().getComponentArray<Component::Position>();
 
 		for (auto& [entity, button] : buttonArray->getAll())
 		{
@@ -164,10 +162,10 @@ namespace Listener
 	}
 	void hoverButton(Event::MouseMoved event)
 	{
-		auto& buttonArray = nc.getComponentArray<Component::Button>();
-		auto& originArray = nc.getComponentArray<Component::Origin>();
-		auto& transformArray = nc.getComponentArray<Component::Transform>();
-		auto& positionArray = nc.getComponentArray<Component::Position>();
+		auto& buttonArray = nc().getComponentArray<Component::Button>();
+		auto& originArray = nc().getComponentArray<Component::Origin>();
+		auto& transformArray = nc().getComponentArray<Component::Transform>();
+		auto& positionArray = nc().getComponentArray<Component::Position>();
 
 		for (auto& [entity, button] : buttonArray->getAll())
 		{
@@ -214,10 +212,10 @@ namespace Listener
 	}
 	void idleButton(Event::MouseMoved event)
 	{
-		auto& buttonArray = nc.getComponentArray<Component::Button>();
-		auto& originArray = nc.getComponentArray<Component::Origin>();
-		auto& transformArray = nc.getComponentArray<Component::Transform>();
-		auto& positionArray = nc.getComponentArray<Component::Position>();
+		auto& buttonArray = nc().getComponentArray<Component::Button>();
+		auto& originArray = nc().getComponentArray<Component::Origin>();
+		auto& transformArray = nc().getComponentArray<Component::Transform>();
+		auto& positionArray = nc().getComponentArray<Component::Position>();
 
 		for (auto& [entity, button] : buttonArray->getAll())
 		{
@@ -266,7 +264,7 @@ namespace Listener
 	}
 	void playNextScene(Event::PlayScene event)
 	{
-		nc.destroyAll();
+		nc().destroyAll();
 		playScene
 		(
 			event.window,

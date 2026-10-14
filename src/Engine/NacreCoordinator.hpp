@@ -98,4 +98,9 @@ public:
 	}
 };
 
+inline auto& nc()
+{
+	return NacreCoordinator::getInstance();
+}
+
 #endif
