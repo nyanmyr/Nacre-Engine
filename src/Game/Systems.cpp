@@ -238,14 +238,14 @@ static T easeOutElastic(T current, T max, T min)
 		std::sin((progress * 10.0 - 0.75) * c4) + 1.0;
 }
 
-static const double DEFAULT_SCALE_X = 1.0;
-static const double DEFAULT_SCALE_Y = 1.0;
+static constexpr double DEFAULT_SCALE_X = 1.0;
+static constexpr double DEFAULT_SCALE_Y = 1.0;
 
-static const double HOVER_SCALE_X = 1.1;
-static const double HOVER_SCALE_Y = 1.1;
+static constexpr double HOVER_SCALE_X = 1.1;
+static constexpr double HOVER_SCALE_Y = 1.1;
 
-static const double CLICKED_SCALE_X = 0.9;
-static const double CLICKED_SCALE_Y = 0.9;
+static constexpr double CLICKED_SCALE_X = 0.9;
+static constexpr double CLICKED_SCALE_Y = 0.9;
 
 void Update::applyButtonHoverAnimation()
 {
@@ -418,7 +418,8 @@ void Update::enableButtonNextScene()
 		break;
 	}
 }
-static const double BOUNCE_FACTOR = 0.5;
+
+static constexpr double BOUNCE_FACTOR = 0.5;
 
 void Update::boundaryBounce
 (
