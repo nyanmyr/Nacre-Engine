@@ -91,12 +91,12 @@ void Start::setSpriteOrigin()
 	{
 		if (!originPointArray->hasData(entity)) continue;
 
-		auto& center = originPointArray->getData(entity);
+		auto& originPoint = originPointArray->getData(entity);
 
 		nc().call<Event::SetSpriteOrigin>
 			(
 				Event::SetSpriteOrigin
-				{ entity, origin, center }
+				{ entity, origin, originPoint }
 			);
 	}
 }

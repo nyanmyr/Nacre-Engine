@@ -13,10 +13,10 @@ static bool checkCollision
 )
 {
 	// AABB collision
-	if (a.x + aTrans.x > b.x - bTrans.x &&
-		a.x - aTrans.x < b.x + bTrans.x &&
-		a.y + aTrans.y > b.y - bTrans.y &&
-		a.y - aTrans.y < b.y + bTrans.y)
+	if (a.x + (aTrans.x / 2.f) > b.x - (bTrans.x / 2.f) &&
+		a.x - (aTrans.x / 2.f) < b.x + (bTrans.x / 2.f) &&
+		a.y + (aTrans.y / 2.f) > b.y - (bTrans.y / 2.f) &&
+		a.y - (aTrans.y / 2.f) < b.y + (bTrans.y / 2.f))
 	{
 		return true;
 	}
@@ -40,15 +40,51 @@ namespace Listener
 		}
 
 		auto& sprite = spriteArray->getData(event.target);
-		auto& transform = transformArray->getData(event.target);
+		const auto& transform = transformArray->getData(event.target);
 
 		switch (event.originPoint.data)
 		{
+		case Enum::OriginPoint::LEFT:
+			event.originOffsets.x = 0.0;
+			event.originOffsets.y = transform.height / 2.0;
+			break;
+		case Enum::OriginPoint::RIGHT:
+			event.originOffsets.x = transform.width;
+			event.originOffsets.y = transform.height / 2.0;
+			break;
+		case Enum::OriginPoint::TOP:
+			event.originOffsets.x = transform.width / 2.0;
+			event.originOffsets.y = 0.0;
+			break;
+		case Enum::OriginPoint::BOTTOM:
+			event.originOffsets.x = transform.width / 2.0;
+			event.originOffsets.y = transform.height;
+			break;
+		case Enum::OriginPoint::TOP_LEFT:
+			event.originOffsets.x = 0.0;
+			event.originOffsets.y = 0.0;
+			break;
+		case Enum::OriginPoint::TOP_RIGHT:
+			event.originOffsets.x = transform.width;
+			event.originOffsets.y = 0.0;
+			break;
+		case Enum::OriginPoint::BOTTOM_LEFT:
+			event.originOffsets.x = 0.0;
+			event.originOffsets.y = transform.height;
+			break;
+		case Enum::OriginPoint::BOTTOM_RIGHT:
+			event.originOffsets.x = transform.width;
+			event.originOffsets.y = transform.height;
+			break;
 		case Enum::OriginPoint::CENTER:
 		default:
 			event.originOffsets.x = transform.width / 2.0;
 			event.originOffsets.y = transform.height / 2.0;
+			break;
 		}
+
+		std::cout << "x: " << (event.originOffsets.x / sprite.body->getScale().x) << "\n";
+		std::cout << "y: " << (event.originOffsets.y / sprite.body->getScale().y) << "\n";
 
 		sprite.body->setOrigin
 		(
@@ -141,7 +177,7 @@ namespace Listener
 				continue;
 			}
 
-			const auto& origin = originArray->getData(entity);
+			const auto& originOffset = originArray->getData(entity);
 			const auto& transform = transformArray->getData(entity);
 			const auto& pos = positionArray->getData(entity);
 
@@ -150,8 +186,8 @@ namespace Listener
 				event.pos,
 				sf::Vector2f
 				{
-					static_cast<float>(pos.x),
-					static_cast<float>(pos.y)
+					static_cast<float>(pos.x - originOffset.x + (transform.width / 2.f)),
+					static_cast<float>(pos.y - originOffset.y + (transform.height / 2.f))
 				},
 				sf::Vector2f
 				{
@@ -160,8 +196,8 @@ namespace Listener
 				},
 				sf::Vector2f
 				{
-					static_cast<float>(transform.width - origin.x),
-					static_cast<float>(transform.height - origin.y)
+					static_cast<float>(transform.width),
+					static_cast<float>(transform.height)
 				}
 			)
 				)
@@ -191,7 +227,7 @@ namespace Listener
 				continue;
 			}
 
-			const auto& origin = originArray->getData(entity);
+			const auto& originOffset = originArray->getData(entity);
 			const auto& transform = transformArray->getData(entity);
 			const auto& pos = positionArray->getData(entity);
 
@@ -200,8 +236,8 @@ namespace Listener
 				event.pos,
 				sf::Vector2f
 				{
-					static_cast<float>(pos.x),
-					static_cast<float>(pos.y)
+					static_cast<float>(pos.x - originOffset.x + (transform.width / 2.f)),
+					static_cast<float>(pos.y - originOffset.y + (transform.height / 2.f))
 				},
 				sf::Vector2f
 				{
@@ -210,8 +246,8 @@ namespace Listener
 				},
 				sf::Vector2f
 				{
-					static_cast<float>(transform.width - origin.x),
-					static_cast<float>(transform.height - origin.y)
+					static_cast<float>(transform.width),
+					static_cast<float>(transform.height)
 				}
 			)
 				)
@@ -241,7 +277,7 @@ namespace Listener
 				continue;
 			}
 
-			const auto& origin = originArray->getData(entity);
+			const auto& originOffset = originArray->getData(entity);
 			const auto& transform = transformArray->getData(entity);
 			const auto& pos = positionArray->getData(entity);
 
@@ -250,8 +286,8 @@ namespace Listener
 				event.pos,
 				sf::Vector2f
 				{
-					static_cast<float>(pos.x),
-					static_cast<float>(pos.y)
+					static_cast<float>(pos.x - originOffset.x + (transform.width / 2.f)),
+					static_cast<float>(pos.y - originOffset.y + (transform.height / 2.f))
 				},
 				sf::Vector2f
 				{
@@ -260,8 +296,8 @@ namespace Listener
 				},
 				sf::Vector2f
 				{
-					static_cast<float>(transform.width - origin.x),
-					static_cast<float>(transform.height - origin.y)
+					static_cast<float>(transform.width),
+					static_cast<float>(transform.height)
 				}
 			)
 				)
