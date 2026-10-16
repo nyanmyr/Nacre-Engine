@@ -52,7 +52,7 @@ public:
 	}
 
 	template<typename T>
-	T& getComponent(Entity entity)
+	T& getComponent(Entity entity) const
 	{
 		return getComponentArray<T>()->getData(entity);
 	}

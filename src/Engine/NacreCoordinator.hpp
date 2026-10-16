@@ -42,7 +42,7 @@ public:
 	}
 
 	template<typename T>
-	T& getComponent(Entity entity)
+	T& getComponent(Entity entity) const
 	{
 		T& component = cm.getComponent<T>(entity);
 		return component;

@@ -17,7 +17,7 @@ private:
     std::unordered_map<std::type_index, std::any> events;
 
     template<typename T>
-    std::type_index findEvent()
+    std::type_index findEvent() const
     {
         return std::type_index(typeid(T));
     }

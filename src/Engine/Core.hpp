@@ -3,7 +3,7 @@
 
 #include <cstdint>
 
-using Entity = uint32_t;
+using Entity = std::uint32_t;
 using DeltaTime = double;
 
 inline constexpr Entity MAX_ENTITIES = 1000;
