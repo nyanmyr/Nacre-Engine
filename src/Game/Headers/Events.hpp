@@ -3,15 +3,19 @@
 
 #include <SFML/Graphics.hpp>
 #include "../src/Engine/NacreCoordinator.hpp"
+
 #include <string>
+
 #include "Components.hpp"
+#include "Enums.hpp"
 
 namespace Event
 {
 	struct SetSpriteOrigin
 	{
 		Entity target = NULL_ENTITY;
-		const Component::Origin& origin;
+		Component::OriginOffsets& originOffsets;
+		const Component::OriginPoint& originPoint;
 	};
 	struct SetColor
 	{
@@ -24,6 +28,7 @@ namespace Event
 		Component::Sprite& sprite;
 		const Component::Singleton::TexturesContainer& loadedTextures;
 	};
+
 	struct SetTextString
 	{
 		Entity target = NULL_ENTITY;
@@ -42,6 +47,7 @@ namespace Event
 		const sf::Color& color;
 		std::optional<sf::Text>& text;
 	};
+
 	struct MouseClick
 	{
 		const sf::Vector2f pos;
@@ -50,6 +56,7 @@ namespace Event
 	{
 		const sf::Vector2f pos;
 	};
+
 	struct PlayScene
 	{
 		const Scene next;

@@ -6,7 +6,7 @@
 enum class Scene
 {
 	MENU,
-	PLAYING
+	PLAYING,
 };
 
 void playScene(Scene scene);

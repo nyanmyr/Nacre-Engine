@@ -31,20 +31,31 @@ namespace Listener
 		if (event.target == NULL_ENTITY) throw std::runtime_error("Error: null entity");
 
 		auto& spriteArray = nc().getComponentArray<Component::Sprite>();
+		auto& transformArray = nc().getComponentArray<Component::Transform>();
 
-		if (!spriteArray->hasData(event.target))
+		if (!spriteArray->hasData(event.target) ||
+			!transformArray->hasData(event.target))
 		{
 			return;
 		}
 
 		auto& sprite = spriteArray->getData(event.target);
+		auto& transform = transformArray->getData(event.target);
+
+		switch (event.originPoint.data)
+		{
+		case Enum::OriginPoint::CENTER:
+		default:
+			event.originOffsets.x = transform.width / 2.0;
+			event.originOffsets.y = transform.height / 2.0;
+		}
 
 		sprite.body->setOrigin
 		(
 			sf::Vector2f
 			(
-				event.origin.offsetX / sprite.body->getScale().x,
-				event.origin.offsetY / sprite.body->getScale().y
+				event.originOffsets.x / sprite.body->getScale().x,
+				event.originOffsets.y / sprite.body->getScale().y
 			)
 		);
 	}
@@ -115,7 +126,7 @@ namespace Listener
 	void clickedButton(Event::MouseClick event)
 	{
 		auto& buttonArray = nc().getComponentArray<Component::Button>();
-		auto& originArray = nc().getComponentArray<Component::Origin>();
+		auto& originArray = nc().getComponentArray<Component::OriginOffsets>();
 		auto& transformArray = nc().getComponentArray<Component::Transform>();
 		auto& positionArray = nc().getComponentArray<Component::Position>();
 
@@ -149,8 +160,8 @@ namespace Listener
 				},
 				sf::Vector2f
 				{
-					static_cast<float>(transform.width - origin.offsetX),
-					static_cast<float>(transform.height - origin.offsetY)
+					static_cast<float>(transform.width - origin.x),
+					static_cast<float>(transform.height - origin.y)
 				}
 			)
 				)
@@ -163,7 +174,7 @@ namespace Listener
 	void hoverButton(Event::MouseMoved event)
 	{
 		auto& buttonArray = nc().getComponentArray<Component::Button>();
-		auto& originArray = nc().getComponentArray<Component::Origin>();
+		auto& originArray = nc().getComponentArray<Component::OriginOffsets>();
 		auto& transformArray = nc().getComponentArray<Component::Transform>();
 		auto& positionArray = nc().getComponentArray<Component::Position>();
 
@@ -199,8 +210,8 @@ namespace Listener
 				},
 				sf::Vector2f
 				{
-					static_cast<float>(transform.width - origin.offsetX),
-					static_cast<float>(transform.height - origin.offsetY)
+					static_cast<float>(transform.width - origin.x),
+					static_cast<float>(transform.height - origin.y)
 				}
 			)
 				)
@@ -213,7 +224,7 @@ namespace Listener
 	void idleButton(Event::MouseMoved event)
 	{
 		auto& buttonArray = nc().getComponentArray<Component::Button>();
-		auto& originArray = nc().getComponentArray<Component::Origin>();
+		auto& originArray = nc().getComponentArray<Component::OriginOffsets>();
 		auto& transformArray = nc().getComponentArray<Component::Transform>();
 		auto& positionArray = nc().getComponentArray<Component::Position>();
 
@@ -249,8 +260,8 @@ namespace Listener
 				},
 				sf::Vector2f
 				{
-					static_cast<float>(transform.width - origin.offsetX),
-					static_cast<float>(transform.height - origin.offsetY)
+					static_cast<float>(transform.width - origin.x),
+					static_cast<float>(transform.height - origin.y)
 				}
 			)
 				)

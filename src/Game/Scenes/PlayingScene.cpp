@@ -19,7 +19,7 @@ void playingScene()
 	(
 		Enum::Texture::TEXTURE_PLACEHOLDER,
 		sf::Vector2f
-		{	
+		{
 			0.f,
 			0.f
 		},
@@ -29,7 +29,7 @@ void playingScene()
 			40.f
 		},
 		sf::Vector2f
-{
+		{
 			-300.f,
 			-300.f
 		},
@@ -39,16 +39,17 @@ void playingScene()
 			300.f
 		},
 		sf::Vector2f
-{
+		{
 			500.f,
 			500.f
 		},
 		sf::Vector2f
-{
+		{
 			50.f,
 			50.f
 		},
-		sf::Color::Green
+		sf::Color::Green,
+		Enum::OriginPoint::CENTER
 	);
 
 	// onstart systems

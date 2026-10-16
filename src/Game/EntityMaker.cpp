@@ -16,7 +16,8 @@ namespace Maker
 		const sf::Vector2f maxVelocity,
 		const sf::Vector2f speed,
 		const sf::Vector2f drag,
-		const sf::Color col
+		const sf::Color col,
+		const Enum::OriginPoint originPoint
 	)
 	{
 		Entity entity = nc().createEntity();
@@ -42,11 +43,12 @@ namespace Maker
 		nc().addComponent
 		(
 			entity,
-			Component::Origin
-			{
-				size.x / 2.0,
-				size.y / 2.0
-			}
+			Component::OriginOffsets{}
+		);
+		nc().addComponent
+		(
+			entity,
+			Component::OriginPoint{ originPoint }
 		);
 		nc().addComponent
 		(
@@ -125,7 +127,8 @@ namespace Maker
 		const sf::Color col,
 		const double hoverAnimationDuration,
 		const double idleAnimationDuration,
-		const double clickedAnimationDuration
+		const double clickedAnimationDuration,
+		const Enum::OriginPoint originPoint
 	)
 	{
 		Entity entity = nc().createEntity();
@@ -150,11 +153,12 @@ namespace Maker
 		nc().addComponent
 		(
 			entity,
-			Component::Origin
-			{
-				size.x / 2.0,
-				size.y / 2.0
-			}
+			Component::OriginOffsets{}
+		);
+		nc().addComponent
+		(
+			entity,
+			Component::OriginPoint{ originPoint }
 		);
 		nc().addComponent
 		(

@@ -84,14 +84,19 @@ void Start::setTextOrigin()
 }
 void Start::setSpriteOrigin()
 {
-	auto& originArray = nc().getComponentArray<Component::Origin>();
+	auto& originOffsetsArray = nc().getComponentArray<Component::OriginOffsets>();
+	auto& originPointArray = nc().getComponentArray<Component::OriginPoint>();
 
-	for (auto& [entity, origin] : originArray->getAll())
+	for (auto& [entity, origin] : originOffsetsArray->getAll())
 	{
+		if (!originPointArray->hasData(entity)) continue;
+
+		auto& center = originPointArray->getData(entity);
+
 		nc().call<Event::SetSpriteOrigin>
 			(
 				Event::SetSpriteOrigin
-				{ entity, origin }
+				{ entity, origin, center }
 			);
 	}
 }

@@ -7,19 +7,32 @@ namespace Enum
 	{
 		TOP,
 		MIDDLE,
-		BOTTOM
+		BOTTOM,
 	};
 
 	enum class Texture
 	{
-		TEXTURE_PLACEHOLDER
+		TEXTURE_PLACEHOLDER,
 	};
 
 	enum class ButtonState
 	{
 		IDLE,
 		HOVERED,
-		CLICKED
+		CLICKED,
+	};
+
+	enum class OriginPoint
+	{
+		CENTER,
+		//LEFT,
+		//RIGHT,
+		//TOP,
+		//BOTTOM,
+		//TOP_LEFT,
+		//TOP_RIGHT,
+		//BOTTOM_LEFT,
+		//BOTTOM_RIGHT,
 	};
 }
 

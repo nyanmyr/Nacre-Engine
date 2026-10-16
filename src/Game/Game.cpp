@@ -8,7 +8,8 @@ void main()
 	// components registration
 	nc().registerComponent<Component::Position>();
 	nc().registerComponent<Component::Transform>();
-	nc().registerComponent<Component::Origin>();
+	nc().registerComponent<Component::OriginOffsets>();
+	nc().registerComponent<Component::OriginPoint>();
 	nc().registerComponent<Component::Button>();
 	nc().registerComponent<Component::Text>();
 	nc().registerComponent<Component::NextScene>();

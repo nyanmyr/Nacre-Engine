@@ -18,7 +18,8 @@ namespace Maker
 		const sf::Vector2f maxVelocity,
 		const sf::Vector2f speed,
 		const sf::Vector2f drag,
-		const sf::Color col
+		const sf::Color col,
+		const Enum::OriginPoint originPoint
 	);
 	Entity button
 	(
@@ -31,7 +32,8 @@ namespace Maker
 		const sf::Color col,
 		const double hoverAnimationDuration,
 		const double idleAnimationDuration,
-		const double clickedAnimationDuration
+		const double clickedAnimationDuration,
+		const Enum::OriginPoint originPoint
 	);
 	Entity text
 	(

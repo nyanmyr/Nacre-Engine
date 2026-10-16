@@ -23,10 +23,15 @@ namespace Component {
 		double height = 0.0;
 	};
 
-	struct Origin
+	struct OriginOffsets
 	{
-		double offsetX = 0.0;
-		double offsetY = 0.0;
+		double x = 0.0;
+		double y = 0.0;
+	};
+
+	struct OriginPoint
+	{
+		Enum::OriginPoint data;
 	};
 
 	struct Button
