@@ -6,9 +6,9 @@
 #include "../src/Game/Headers/GameManager.hpp"
 #include "../src/Game/Headers/Scenes.hpp"
 
-static const double DEFAULT_HOVER_ANIMATION_DURATION = 0.4;
-static const double DEFAULT_IDLE_ANIMATION_DURATION = 0.4;
-static const double DEFAULT_CLICKED_ANIMATION_DURATION = 0.15;
+static constexpr double DEFAULT_HOVER_ANIMATION_DURATION = 0.4;
+static constexpr double DEFAULT_IDLE_ANIMATION_DURATION = 0.4;
+static constexpr double DEFAULT_CLICKED_ANIMATION_DURATION = 0.15;
 
 void menuScene()
 {
