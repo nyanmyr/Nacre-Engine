@@ -15,7 +15,7 @@
 // -------------------------------------------------------
 // start systems
 // -------------------------------------------------------
-void Start::setText(sf::Font& font)
+void Start::setText()
 {
 	auto& textArray = nc().getComponentArray<Component::Text>();
 

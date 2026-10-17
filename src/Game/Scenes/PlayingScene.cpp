@@ -53,23 +53,20 @@ void playingScene()
 	);
 
 	// onstart systems
-	Start::setText(Config::font());
-	Start::setTextOrigin();
-
 	Start::loadTextures(loadedTextures);
 	Start::loadSprites(loadedTextures);
 	Start::setSpriteOrigin();
 	Start::setColor();
 
-	while (Config::window().isOpen())
+	while (Asset::window().isOpen())
 	{
 		DeltaTime dt = clock.restart().asSeconds();
 
-		while (const std::optional event = Config::window().pollEvent())
+		while (const std::optional event = Asset::window().pollEvent())
 		{
 			if (event->is<sf::Event::Closed>())
 			{
-				Config::window().close();
+				Asset::window().close();
 			}
 		}
 
@@ -89,14 +86,14 @@ void playingScene()
 		Update::move(dt);
 		Update::drag(dt);
 
-		Config::window().clear();
+		Asset::window().clear();
 		// render systems
 		Render::doZIndex(renderQueue);
 		Render::render
 		(
-			Config::window(),
+			Asset::window(),
 			renderQueue
 		);
-		Config::window().display();
+		Asset::window().display();
 	}
 }

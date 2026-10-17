@@ -83,8 +83,8 @@ namespace Listener
 			break;
 		}
 
-		std::cout << "x: " << (event.originOffsets.x / sprite.body->getScale().x) << "\n";
-		std::cout << "y: " << (event.originOffsets.y / sprite.body->getScale().y) << "\n";
+		//std::cout << "x: " << (event.originOffsets.x / sprite.body->getScale().x) << "\n";
+		//std::cout << "y: " << (event.originOffsets.y / sprite.body->getScale().y) << "\n";
 
 		sprite.body->setOrigin
 		(

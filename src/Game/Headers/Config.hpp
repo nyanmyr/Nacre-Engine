@@ -5,28 +5,46 @@
 
 #include <stdexcept>
 #include <string>
+#include <unordered_map>
+#include <utility>
+#include <memory>
 
 namespace Config
 {
 	inline constexpr int SCREEN_WIDTH = 800;
 	inline constexpr int SCREEN_HEIGHT = 600;
 	inline constexpr int MAX_FPS = 60;
-	inline const std::string FONT_FILEPATH = RESOURCES_PATH "arial.ttf";
 	inline const std::string WINDOW_NAME = "Nacre Engine";
+}
 
-	inline sf::Font& font()
+namespace Asset
+{
+	enum class Font
 	{
-		static sf::Font font =
-			[] {
-			sf::Font f;
-			if (!f.openFromFile(Config::FONT_FILEPATH))
-			{
-				throw std::runtime_error("Font not found: " + std::string(Config::FONT_FILEPATH));
-			}
-			return f;
-			}();
+		MAIN
+	};
 
-		return font;
+	inline sf::Font& font(Asset::Font font)
+	{
+		switch (font)
+		{
+		case Asset::Font::MAIN:
+		{
+			static sf::Font font =
+				[] {
+				sf::Font f;
+				if (!f.openFromFile(RESOURCES_PATH "arial.ttf"))
+				{
+					throw std::runtime_error("Font not found: " + std::string(RESOURCES_PATH "arial.ttf"));
+				}
+				return f;
+				}();
+
+			return font;
+		}
+		default:
+			throw std::out_of_range("Error: unhandled font case requested!");
+		}
 	}
 
 	inline sf::RenderWindow& window()

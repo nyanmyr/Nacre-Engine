@@ -8,7 +8,7 @@
 
 namespace Start
 {
-	void setText(sf::Font& font);
+	void setText();
 	void setTextOrigin();
 	void setSpriteOrigin();
 	void loadTextures(Component::Singleton::TexturesContainer& loadedTextures);

@@ -15,5 +15,5 @@ void playScene(Scene scene) {
         break;
     }
 
-    Config::window().close();
+    Asset::window().close();
 }

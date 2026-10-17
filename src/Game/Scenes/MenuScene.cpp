@@ -22,7 +22,7 @@ void menuScene()
 	Entity title = Maker::text
 	(
 		64,
-		Config::font(),
+		Asset::font(Asset::Font::MAIN),
 		sf::Color::White,
 		"Nacre Engine",
 		sf::Vector2f
@@ -49,7 +49,7 @@ void menuScene()
 		},
 		Scene::PLAYING,
 		"Play",
-		Config::font(),
+		Asset::font(Asset::Font::MAIN),
 		sf::Color::Red,
 		DEFAULT_HOVER_ANIMATION_DURATION,
 		DEFAULT_IDLE_ANIMATION_DURATION,
@@ -58,7 +58,7 @@ void menuScene()
 	);
 
 	// onstart systems
-	Start::setText(Config::font());
+	Start::setText();
 	Start::setTextOrigin();
 
 	Start::loadTextures(loadedTextures);
@@ -66,18 +66,18 @@ void menuScene()
 	Start::setSpriteOrigin();
 	Start::setColor();
 
-	while (Config::window().isOpen())
+	while (Asset::window().isOpen())
 	{
 		DeltaTime dt = clock.restart().asSeconds();
 
-		auto& pixelPos = sf::Mouse::getPosition(Config::window());
-		auto& worldPos = Config::window().mapPixelToCoords(pixelPos);
+		auto& pixelPos = sf::Mouse::getPosition(Asset::window());
+		auto& worldPos = Asset::window().mapPixelToCoords(pixelPos);
 
-		while (const std::optional event = Config::window().pollEvent())
+		while (const std::optional event = Asset::window().pollEvent())
 		{
 			if (event->is<sf::Event::Closed>())
 			{
-				Config::window().close();
+				Asset::window().close();
 			}
 
 			if (const auto& mousePressed = event->getIf<sf::Event::MouseButtonPressed>())
@@ -121,14 +121,14 @@ void menuScene()
 		Update::applyButtonClickedAnimation();
 		Update::enableButtonNextScene();
 
-		Config::window().clear();
+		Asset::window().clear();
 		// render systems
 		Render::doZIndex(renderQueue);
 		Render::render
 		(
-			Config::window(),
+			Asset::window(),
 			renderQueue
 		);
-		Config::window().display();
+		Asset::window().display();
 	}
 }
