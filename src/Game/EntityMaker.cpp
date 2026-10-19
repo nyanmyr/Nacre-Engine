@@ -9,14 +9,15 @@ namespace Maker
 {
 	Entity player
 	(
-		const Enum::Texture texture,
+		const sf::Color col,
+		const Enum::Layer layer,
 		const sf::Vector2f pos,
 		const sf::Vector2f size,
 		const sf::Vector2f minVelocity,
 		const sf::Vector2f maxVelocity,
 		const sf::Vector2f speed,
 		const sf::Vector2f drag,
-		const sf::Color col,
+		const Enum::Texture texture,
 		const Enum::OriginPoint originPoint
 	)
 	{
@@ -34,11 +35,7 @@ namespace Maker
 		nc().addComponent
 		(
 			entity,
-			Component::ZIndex
-			{
-				1,
-				true
-			}
+			Component::ZIndex{ static_cast<int>(layer) }
 		);
 		nc().addComponent
 		(
@@ -118,20 +115,21 @@ namespace Maker
 
 	Entity button
 	(
-		const Enum::Texture texture,
-		const sf::Vector2f pos,
-		const sf::Vector2f size,
-		const Scene scene,
-		const std::string str,
-		const sf::Font& font,
-		const sf::Color col,
-		const Enum::TextFormat format,
 		const int textSize,
-		const sf::Color textColor,
+		const Scene scene,
 		const double hoverAnimationDuration,
 		const double idleAnimationDuration,
 		const double clickedAnimationDuration,
-		const Enum::OriginPoint originPoint
+		const sf::Color col,
+		const sf::Color textColor,
+		const sf::Font& font,
+		const Enum::Layer layer,
+		const std::string str,
+		const sf::Vector2f pos,
+		const sf::Vector2f size,
+		const Enum::TextFormat format,
+		const Enum::OriginPoint originPoint,
+		const Enum::Texture texture
 	)
 	{
 		Entity entity = nc().createEntity();
@@ -198,11 +196,7 @@ namespace Maker
 		nc().addComponent
 		(
 			entity,
-			Component::ZIndex
-			{
-				1,
-				true
-			}
+			Component::ZIndex{ static_cast<int>(layer) }
 		);
 		nc().addComponent
 		(
@@ -238,6 +232,7 @@ namespace Maker
 		const int size,
 		const sf::Font& font,
 		const sf::Color col,
+		const Enum::Layer layer,
 		const std::string str,
 		const sf::Vector2f pos,
 		const Enum::TextFormat format
@@ -270,11 +265,7 @@ namespace Maker
 		nc().addComponent
 		(
 			entity,
-			Component::ZIndex
-			{
-				4,
-				true
-			}
+			Component::ZIndex{ static_cast<int>(layer) }
 		);
 
 		nc().addComponent // unused but required

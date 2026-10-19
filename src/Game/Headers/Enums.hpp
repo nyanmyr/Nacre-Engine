@@ -3,6 +3,13 @@
 
 namespace Enum
 {
+	enum class Layer
+	{
+		MAIN = 0,
+		UI = 1,
+		TEXT = 0
+	};
+
 	enum class TextFormat
 	{
 		LEFT,

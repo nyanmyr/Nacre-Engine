@@ -17,7 +17,8 @@ void playingScene()
 	// entity instantiation
 	Entity player = Maker::player
 	(
-		Enum::Texture::TEXTURE_PLACEHOLDER,
+		sf::Color::Green,
+		Enum::Layer::MAIN,
 		sf::Vector2f
 		{
 			0.f,
@@ -48,7 +49,7 @@ void playingScene()
 			50.f,
 			50.f
 		},
-		sf::Color::Green,
+		Enum::Texture::TEXTURE_PLACEHOLDER,
 		Enum::OriginPoint::CENTER
 	);
 

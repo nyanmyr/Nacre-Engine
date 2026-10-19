@@ -24,6 +24,7 @@ void menuScene()
 		64,
 		Asset::font(Asset::Font::MAIN),
 		sf::Color::White,
+		Enum::Layer::TEXT,
 		"Nacre Engine",
 		sf::Vector2f
 		{
@@ -36,7 +37,16 @@ void menuScene()
 	// entity instantiation
 	Entity playButton = Maker::button
 	(
-		Enum::Texture::TEXTURE_PLACEHOLDER,
+		64,
+		Scene::PLAYING,
+		DEFAULT_HOVER_ANIMATION_DURATION,
+		DEFAULT_IDLE_ANIMATION_DURATION,
+		DEFAULT_CLICKED_ANIMATION_DURATION,
+		sf::Color::Red,
+		sf::Color::White,
+		Asset::font(Asset::Font::MAIN),
+		Enum::Layer::UI,
+		"Play",
 		sf::Vector2f
 		{
 			0.f,
@@ -47,17 +57,9 @@ void menuScene()
 			200.f,
 			100.f
 		},
-		Scene::PLAYING,
-		"Play",
-		Asset::font(Asset::Font::MAIN),
-		sf::Color::Red,
 		Enum::TextFormat::CENTER,
-		64,
-		sf::Color::White,
-		DEFAULT_HOVER_ANIMATION_DURATION,
-		DEFAULT_IDLE_ANIMATION_DURATION,
-		DEFAULT_CLICKED_ANIMATION_DURATION,
-		Enum::OriginPoint::CENTER
+		Enum::OriginPoint::CENTER,
+		Enum::Texture::TEXTURE_PLACEHOLDER
 	);
 
 	// onstart systems
