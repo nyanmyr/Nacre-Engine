@@ -50,7 +50,7 @@ namespace Component {
 		std::string string = "";
 		int size = 12;
 		sf::Color color = sf::Color::White;
-		Enum::TextFormat format = Enum::TextFormat::MIDDLE;
+		Enum::TextFormat format = Enum::TextFormat::CENTER;
 	};
 
 	struct NextScene

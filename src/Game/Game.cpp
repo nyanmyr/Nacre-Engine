@@ -29,6 +29,7 @@ void main()
 	nc().registerEvent<Event::SetTextString>();
 	nc().registerEvent<Event::SetTextSize>();
 	nc().registerEvent<Event::SetTextColor>();
+	nc().registerEvent<Event::SetTextOrigin>();
 	nc().registerEvent<Event::MouseClick>();
 	nc().registerEvent<Event::MouseMoved>();
 	nc().registerEvent<Event::PlayScene>();
@@ -40,6 +41,7 @@ void main()
 	nc().listen<Event::SetTextString>(Listener::setTextString);
 	nc().listen<Event::SetTextSize>(Listener::setTextSize);
 	nc().listen<Event::SetTextColor>(Listener::setTextColor);
+	nc().listen<Event::SetTextOrigin>(Listener::setTextOrigin);
 	nc().listen<Event::MouseClick>(Listener::clickedButton);
 	nc().listen<Event::MouseMoved>(Listener::hoverButton);
 	nc().listen<Event::MouseMoved>(Listener::idleButton);

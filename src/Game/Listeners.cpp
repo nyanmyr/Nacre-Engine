@@ -141,6 +141,7 @@ namespace Listener
 			)
 		);
 	}
+
 	void setTextString(Event::SetTextString event)
 	{
 		if (event.target == NULL_ENTITY) throw std::runtime_error("Error: null entity");
@@ -159,6 +160,74 @@ namespace Listener
 
 		event.text->setFillColor(event.color);
 	}
+	void setTextOrigin(Event::SetTextOrigin event)
+	{
+		if (event.target == NULL_ENTITY) throw std::runtime_error("Error: null entity");
+
+		const auto bounds = event.text.box.value().getLocalBounds();
+
+		const float left = bounds.position.x;
+		const float right = left + bounds.size.x;
+		const float top = bounds.position.y;
+		const float bottom = top + bounds.size.y;
+
+		const float centerX = left + bounds.size.x / 2.f;
+		const float centerY = top + bounds.size.y / 2.f;
+
+		float offsetX;
+		float offsetY;
+
+		switch (event.text.format)
+		{
+		case Enum::TextFormat::LEFT:
+			offsetX = left;
+			offsetY = centerY;
+			break;
+		case Enum::TextFormat::RIGHT:
+			offsetX = right;
+			offsetY = centerY;
+			break;
+		case Enum::TextFormat::TOP:
+			offsetX = centerX;
+			offsetY = top;
+			break;
+		case Enum::TextFormat::BOTTOM:
+			offsetX = centerX;
+			offsetY = bottom;
+			break;
+		case Enum::TextFormat::TOP_LEFT:
+			offsetX = left;
+			offsetY = top;
+			break;
+		case Enum::TextFormat::TOP_RIGHT:
+			offsetX = right;
+			offsetY = top;
+			break;
+		case Enum::TextFormat::BOTTOM_LEFT:
+			offsetX = left;
+			offsetY = bottom;
+			break;
+		case Enum::TextFormat::BOTTOM_RIGHT:
+			offsetX = right;
+			offsetY = bottom;
+			break;
+		case Enum::TextFormat::CENTER:
+		default:
+			offsetX = bounds.position.x + bounds.size.x / 2.f;
+			offsetY = bounds.position.y + bounds.size.y / 2.f;
+			break;
+		}
+
+		event.text.box->setOrigin
+		(
+			sf::Vector2f
+			(
+				offsetX,
+				offsetY
+			)
+		);
+	}
+
 	void clickedButton(Event::MouseClick event)
 	{
 		auto& buttonArray = nc().getComponentArray<Component::Button>();
@@ -309,6 +378,7 @@ namespace Listener
 			button.state = Enum::ButtonState::IDLE;
 		}
 	}
+
 	void playNextScene(Event::PlayScene event)
 	{
 		nc().destroyAll();

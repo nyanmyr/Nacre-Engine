@@ -125,6 +125,9 @@ namespace Maker
 		const std::string str,
 		const sf::Font& font,
 		const sf::Color col,
+		const Enum::TextFormat format,
+		const int textSize,
+		const sf::Color textColor,
 		const double hoverAnimationDuration,
 		const double idleAnimationDuration,
 		const double clickedAnimationDuration,
@@ -172,17 +175,16 @@ namespace Maker
 			}
 		);
 
-		sf::Text text(font);
 		nc().addComponent
 		(
 			entity,
 			Component::Text
 			{
-				text,
+				sf::Text(font),
 				str,
-				64,
-				sf::Color::Black,
-				Enum::TextFormat::MIDDLE
+				textSize,
+				textColor,
+				format
 			}
 		);
 		nc().addComponent
@@ -252,13 +254,12 @@ namespace Maker
 			}
 		);
 
-		sf::Text text(font);
 		nc().addComponent
 		(
 			entity,
 			Component::Text
 			{
-				text,
+				sf::Text(font),
 				str,
 				size,
 				col,

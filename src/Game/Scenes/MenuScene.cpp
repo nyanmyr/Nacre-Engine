@@ -30,7 +30,7 @@ void menuScene()
 			0.f,
 			-200.f
 		},
-		Enum::TextFormat::MIDDLE
+		Enum::TextFormat::CENTER
 	);
 
 	// entity instantiation
@@ -51,6 +51,9 @@ void menuScene()
 		"Play",
 		Asset::font(Asset::Font::MAIN),
 		sf::Color::Red,
+		Enum::TextFormat::CENTER,
+		64,
+		sf::Color::White,
 		DEFAULT_HOVER_ANIMATION_DURATION,
 		DEFAULT_IDLE_ANIMATION_DURATION,
 		DEFAULT_CLICKED_ANIMATION_DURATION,

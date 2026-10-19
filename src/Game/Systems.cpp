@@ -41,45 +41,14 @@ void Start::setText()
 void Start::setTextOrigin()
 {
 	auto& textArray = nc().getComponentArray<Component::Text>();
-	auto& transformArray = nc().getComponentArray<Component::Transform>();
-
-	double offsetX;
-	double offsetY;
 
 	for (auto& [entity, text] : textArray->getAll())
 	{
-		if (!transformArray->hasData(entity))
-		{
-			continue;
-		}
-
-		Component::Transform& transform = transformArray->getData(entity);
-
-		switch (text.format)
-		{
-		case Enum::TextFormat::TOP:
-			offsetX = text.box.value().getLocalBounds().size.x / 2;
-			offsetY = text.box.value().getLocalBounds().size.y;
-			break;
-		case Enum::TextFormat::BOTTOM:
-			offsetX = text.box.value().getLocalBounds().size.x / 2;
-			offsetY = text.box.value().getLocalBounds().size.y / 2;
-			break;
-		case Enum::TextFormat::MIDDLE:
-		default:
-			offsetX = text.box.value().getLocalBounds().size.x / 2;
-			offsetY = (text.box.value().getLocalBounds().size.y / 2) + (text.box.value().getLocalBounds().size.y / 4);
-			break;
-		}
-
-		text.box.value().setOrigin
-		(
-			sf::Vector2f
+		nc().call<Event::SetTextOrigin>
 			(
-				offsetX,
-				offsetY
-			)
-		);
+				Event::SetTextOrigin
+				{ entity, text }
+			);
 	}
 }
 void Start::setSpriteOrigin()

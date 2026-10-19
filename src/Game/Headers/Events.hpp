@@ -47,6 +47,11 @@ namespace Event
 		const sf::Color& color;
 		std::optional<sf::Text>& text;
 	};
+	struct SetTextOrigin
+	{
+		Entity target = NULL_ENTITY;
+		Component::Text& text;
+	};
 
 	struct MouseClick
 	{

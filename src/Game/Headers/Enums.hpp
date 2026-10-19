@@ -5,9 +5,15 @@ namespace Enum
 {
 	enum class TextFormat
 	{
+		LEFT,
+		RIGHT,
 		TOP,
-		MIDDLE,
 		BOTTOM,
+		TOP_LEFT,
+		TOP_RIGHT,
+		BOTTOM_LEFT,
+		BOTTOM_RIGHT,
+		CENTER,
 	};
 
 	enum class Texture
