@@ -17,7 +17,7 @@ private:
     std::unordered_map<std::type_index, std::any> events;
 
     template<typename T>
-    std::type_index findEvent() const
+    auto findEvent() const
     {
         return std::type_index(typeid(T));
     }
@@ -29,7 +29,7 @@ private:
     }
 
     template<typename T>
-    std::vector<std::function<void(T)>>* getEventArray()
+    auto* getEventArray()
     {
         if (getEventIterator<T>() == events.end())
         {
@@ -45,7 +45,7 @@ private:
     Dispatcher& operator=(const Dispatcher&) = delete;
 
 public:
-    static Dispatcher& getInstance()
+    static auto& getInstance()
     {
         static Dispatcher instance;
         return instance;

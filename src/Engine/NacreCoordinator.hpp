@@ -17,7 +17,7 @@ private:
 	NacreCoordinator(const NacreCoordinator&) = delete;
 	NacreCoordinator& operator=(const NacreCoordinator&) = delete;
 public:
-	static NacreCoordinator& getInstance()
+	static auto& getInstance()
 	{
 		static NacreCoordinator instance;
 		return instance;

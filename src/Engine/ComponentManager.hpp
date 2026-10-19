@@ -20,7 +20,7 @@ private:
 	ComponentManager(const ComponentManager&) = delete;
 	ComponentManager& operator=(const ComponentManager&) = delete;
 public:
-	static ComponentManager& getInstance()
+	static auto& getInstance()
 	{
 		static ComponentManager instance;
 		return instance;
@@ -66,7 +66,7 @@ public:
 	}
 
 	template<typename T>
-	std::shared_ptr<ComponentArray<T>> getComponentArray()
+	auto getComponentArray()
 	{
 		std::type_index typeName = std::type_index(typeid(T));
 

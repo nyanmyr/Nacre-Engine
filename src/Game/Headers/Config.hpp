@@ -24,7 +24,7 @@ namespace Asset
 		MAIN
 	};
 
-	inline sf::Font& font(Asset::Font font)
+	inline auto& font(Asset::Font font)
 	{
 		switch (font)
 		{
@@ -47,7 +47,7 @@ namespace Asset
 		}
 	}
 
-	inline sf::RenderWindow& window()
+	inline auto& window()
 	{
 		static sf::RenderWindow window =
 			[] {

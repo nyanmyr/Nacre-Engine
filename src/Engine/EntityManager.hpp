@@ -27,13 +27,13 @@ private:
 	EntityManager(const EntityManager&) = delete;
 	EntityManager& operator=(const EntityManager&) = delete;
 public:
-	static EntityManager& getInstance()
+	static auto& getInstance()
 	{
 		static EntityManager instance;
 		return instance;
 	}
 
-	Entity createEntity()
+	auto createEntity()
 	{
 		if (livingCount >= MAX_ENTITIES)
 		{
