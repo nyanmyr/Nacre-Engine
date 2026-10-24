@@ -411,7 +411,8 @@ void Update::boundaryBounce
 	for (auto& [entity, velocity] : velocityArray->getAll())
 	{
 		if (!positionArray->hasData(entity) ||
-			!transformArray->hasData(entity))
+			!transformArray->hasData(entity) ||
+			!originOffsetsArray->hasData(entity))
 		{
 			continue;
 		}
@@ -436,7 +437,7 @@ void Update::boundaryBounce
 			pos.y = bottom - (trans.height - originOffsets.y);
 			velocity.y = -velocity.y * BOUNCE_FACTOR;
 		}
-		else if (pos.y - (trans.height / 2.0) < top)
+		else if (pos.y - (trans.height - originOffsets.y) < top)
 		{
 			pos.y = top + (trans.height - originOffsets.y);
 			velocity.y = -velocity.y * BOUNCE_FACTOR;
