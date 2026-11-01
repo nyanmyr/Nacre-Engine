@@ -114,20 +114,9 @@ namespace Control
 		const DeltaTime dt
 	)
 	{
-		auto& velocityArray = nc().getComponentArray<Component::Velocity>();
-		auto& accelerationArray = nc().getComponentArray<Component::Acceleration>();
-		auto& playerControllerArray = nc().getComponentArray<Component::PlayerController>();
-
-		if (!velocityArray->hasData(player) ||
-			!accelerationArray->hasData(player) ||
-			!playerControllerArray->hasData(player))
-		{
-			return;
-		}
-
-		auto& velocity = velocityArray->getData(player);
-		const auto& playerController = playerControllerArray->getData(player);
-		const auto& acceleration = accelerationArray->getData(player);
+		auto& velocity = nc().getComponent<Component::Velocity>(player);
+		const auto& playerController = nc().getComponent<Component::PlayerController>(player);
+		const auto& acceleration = nc().getComponent<Component::Acceleration>(player);
 
 		if (!playerController.enabled)
 		{
@@ -232,9 +221,6 @@ namespace Update
 	void applyButtonHoverAnimation()
 	{
 		auto& buttonArray = nc().getComponentArray<Component::Button>();
-		auto& spriteArray = nc().getComponentArray<Component::Sprite>();
-		auto& textArray = nc().getComponentArray<Component::Text>();
-		auto& transformArray = nc().getComponentArray<Component::Transform>();
 
 		for (auto& [entity, button] : buttonArray->getAll())
 		{
@@ -244,8 +230,8 @@ namespace Update
 				continue;
 			}
 
-			Component::Transform& transform = transformArray->getData(entity);
-			Component::Sprite& sprite = spriteArray->getData(entity);
+			auto& transform = nc().getComponent<Component::Transform>(entity);
+			auto& sprite = nc().getComponent<Component::Sprite>(entity);
 
 			double scalingFactor = easeOutElastic
 			(
@@ -263,12 +249,7 @@ namespace Update
 				)
 			);
 
-			if (!textArray->hasData(entity))
-			{
-				continue;
-			}
-
-			Component::Text& text = textArray->getData(entity);
+			auto& text = nc().getComponent<Component::Text>(entity);
 			text.box->setScale
 			(
 				sf::Vector2f
@@ -282,9 +263,6 @@ namespace Update
 	void applyButtonIdleAnimation()
 	{
 		auto& buttonArray = nc().getComponentArray<Component::Button>();
-		auto& spriteArray = nc().getComponentArray<Component::Sprite>();
-		auto& textArray = nc().getComponentArray<Component::Text>();
-		auto& transformArray = nc().getComponentArray<Component::Transform>();
 
 		for (auto& [entity, button] : buttonArray->getAll())
 		{
@@ -294,8 +272,8 @@ namespace Update
 				continue;
 			}
 
-			auto& transform = transformArray->getData(entity);
-			auto& sprite = spriteArray->getData(entity);
+			auto& transform = nc().getComponent<Component::Transform>(entity);
+			auto& sprite = nc().getComponent<Component::Sprite>(entity);
 
 			double scalingFactor = easeOutElastic
 			(
@@ -313,12 +291,7 @@ namespace Update
 				)
 			);
 
-			if (!textArray->hasData(entity))
-			{
-				continue;
-			}
-
-			auto& text = textArray->getData(entity);
+			auto& text = nc().getComponent<Component::Text>(entity);
 			text.box->setScale
 			(
 				sf::Vector2f
@@ -332,9 +305,6 @@ namespace Update
 	void applyButtonClickedAnimation()
 	{
 		auto& buttonArray = nc().getComponentArray<Component::Button>();
-		auto& spriteArray = nc().getComponentArray<Component::Sprite>();
-		auto& textArray = nc().getComponentArray<Component::Text>();
-		auto& transformArray = nc().getComponentArray<Component::Transform>();
 
 		for (auto& [entity, button] : buttonArray->getAll())
 		{
@@ -344,8 +314,8 @@ namespace Update
 				continue;
 			}
 
-			auto& transform = transformArray->getData(entity);
-			auto& sprite = spriteArray->getData(entity);
+			auto& transform = nc().getComponent<Component::Transform>(entity);
+			auto& sprite = nc().getComponent<Component::Sprite>(entity);
 
 			double scalingFactor = easeOutElastic
 			(
@@ -363,12 +333,7 @@ namespace Update
 				)
 			);
 
-			if (!textArray->hasData(entity))
-			{
-				continue;
-			}
-
-			auto& text = textArray->getData(entity);
+			auto& text = nc().getComponent<Component::Text>(entity);
 			text.box->setScale
 			(
 				sf::Vector2f
@@ -382,18 +347,16 @@ namespace Update
 	void enableButtonNextScene()
 	{
 		auto& buttonArray = nc().getComponentArray<Component::Button>();
-		auto& nextSceneArray = nc().getComponentArray<Component::NextScene>();
 
 		for (auto& [entity, button] : buttonArray->getAll())
 		{
 			if (button.timer > 0.0 ||
-				button.state != Enum::ButtonState::CLICKED ||
-				!nextSceneArray->hasData(entity))
+				button.state != Enum::ButtonState::CLICKED)
 			{
 				continue;
 			}
 
-			const auto& nextScene = nextSceneArray->getData(entity);
+			const auto& nextScene = nc().getComponent<Component::NextScene>(entity);
 
 			nc().call<Event::PlayScene>(Event::PlayScene{ nextScene.next });
 
@@ -412,22 +375,12 @@ namespace Update
 	)
 	{
 		auto& velocityArray = nc().getComponentArray<Component::Velocity>();
-		auto& positionArray = nc().getComponentArray<Component::Position>();
-		auto& transformArray = nc().getComponentArray<Component::Transform>();
-		auto& originOffsetsArray = nc().getComponentArray<Component::OriginOffsets>();
 
 		for (auto& [entity, velocity] : velocityArray->getAll())
 		{
-			if (!positionArray->hasData(entity) ||
-				!transformArray->hasData(entity) ||
-				!originOffsetsArray->hasData(entity))
-			{
-				continue;
-			}
-
-			auto& pos = positionArray->getData(entity);
-			auto& trans = transformArray->getData(entity);
-			auto& originOffsets = originOffsetsArray->getData(entity);
+			auto& pos = nc().getComponent<Component::Position>(entity);
+			auto& trans = nc().getComponent<Component::Transform>(entity);
+			auto& originOffsets = nc().getComponent<Component::OriginOffsets>(entity);
 
 			if (pos.x + (trans.width - originOffsets.x) > right)
 			{
@@ -455,16 +408,10 @@ namespace Update
 	void move(const DeltaTime dt)
 	{
 		auto& velocityArray = nc().getComponentArray<Component::Velocity>();
-		auto& positionArray = nc().getComponentArray<Component::Position>();
 
 		for (auto& [entity, velocity] : velocityArray->getAll())
 		{
-			if (!positionArray->hasData(entity))
-			{
-				continue;
-			}
-
-			auto& pos = positionArray->getData(entity);
+			auto& pos = nc().getComponent<Component::Position>(entity);
 			pos.x += (velocity.x * dt);
 			pos.y += (velocity.y * dt);
 		}
@@ -472,16 +419,10 @@ namespace Update
 	void drag(const DeltaTime dt)
 	{
 		auto& velocityArray = nc().getComponentArray<Component::Velocity>();
-		auto& dragArray = nc().getComponentArray<Component::Drag>();
-
+		
 		for (auto& [entity, velocity] : velocityArray->getAll())
 		{
-			if (!dragArray->hasData(entity))
-			{
-				continue;
-			}
-
-			const auto& drag = dragArray->getData(entity);
+			const auto& drag = nc().getComponent<Component::Drag>(entity);
 
 			// can't be exactly 0.0 because it will drift aimlessly
 			velocity.x = velocity.x < -0.1 ? velocity.x + (drag.x * dt) :
@@ -502,7 +443,7 @@ namespace Render
 		auto& zIndexArray = nc().getComponentArray<Component::ZIndex>();
 
 		std::vector<std::pair<int, Entity>> renderVector;
-		for (auto& [entity, zIndex] : zIndexArray->getAll())
+		for (auto& [entity, zIndex] : nc().getComponentArray<Component::ZIndex>()->getAll())
 		{
 			if (zIndex.visible) renderVector.emplace_back(zIndex.index, entity);
 		}
