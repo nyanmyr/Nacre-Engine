@@ -99,7 +99,7 @@ Every system belongs to one of four groups, and each group is a namespace. A gro
 | `Button` | Enabled flag, current state, animation durations, and timer |
 | `NextScene` | The scene to play after a button is clicked |
 | `Velocity` | Current velocity with min/max limits |
-| `Speed` | Acceleration applied from input |
+| `Acceleration` | Acceleration applied from input |
 | `Drag` | How quickly velocity slows toward zero |
 | `PlayerController` | Enables keyboard control for an entity |
 

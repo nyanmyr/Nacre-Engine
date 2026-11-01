@@ -15,7 +15,7 @@ namespace Maker
 		const sf::Vector2f size,
 		const sf::Vector2f minVelocity,
 		const sf::Vector2f maxVelocity,
-		const sf::Vector2f speed,
+		const sf::Vector2f acceleration,
 		const sf::Vector2f drag,
 		const Enum::Texture texture,
 		const Enum::OriginPoint originPoint
@@ -61,10 +61,10 @@ namespace Maker
 		nc().addComponent
 		(
 			entity,
-			Component::Speed
+			Component::Acceleration
 			{
-				speed.x,
-				speed.y
+				acceleration.x,
+				acceleration.y
 			}
 		);
 		nc().addComponent

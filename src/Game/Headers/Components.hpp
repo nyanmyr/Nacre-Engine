@@ -74,7 +74,7 @@ namespace Component {
 		double y = 0.0;
 	};
 
-	struct Speed
+	struct Acceleration
 	{
 		double x = 0.0;
 		double y = 0.0;

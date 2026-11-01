@@ -15,7 +15,7 @@ void main()
 	nc().registerComponent<Component::NextScene>();
 	nc().registerComponent<Component::ZIndex>();
 	nc().registerComponent<Component::Velocity>();
-	nc().registerComponent<Component::Speed>();
+	nc().registerComponent<Component::Acceleration>();
 	nc().registerComponent<Component::PlayerController>();
 	nc().registerComponent<Component::Drag>();
 	nc().registerComponent<Component::Sprite>();

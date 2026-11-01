@@ -115,11 +115,11 @@ namespace Control
 	)
 	{
 		auto& velocityArray = nc().getComponentArray<Component::Velocity>();
-		auto& speedArray = nc().getComponentArray<Component::Speed>();
+		auto& accelerationArray = nc().getComponentArray<Component::Acceleration>();
 		auto& playerControllerArray = nc().getComponentArray<Component::PlayerController>();
 
 		if (!velocityArray->hasData(player) ||
-			!speedArray->hasData(player) ||
+			!accelerationArray->hasData(player) ||
 			!playerControllerArray->hasData(player))
 		{
 			return;
@@ -127,37 +127,37 @@ namespace Control
 
 		auto& velocity = velocityArray->getData(player);
 		const auto& playerController = playerControllerArray->getData(player);
-		const auto& speed = speedArray->getData(player);
+		const auto& acceleration = accelerationArray->getData(player);
 
 		if (!playerController.enabled)
 		{
 			return;
 		}
 
-		double newSpeedX = 0.0;
-		double newSpeedY = 0.0;
+		double newAccelerationX = 0.0;
+		double newAccelerationY = 0.0;
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W))
 		{
-			newSpeedY = -speed.y;
+			newAccelerationY = -acceleration.y;
 		}
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S))
 		{
-			newSpeedY = speed.y;
+			newAccelerationY = acceleration.y;
 		}
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A))
 		{
-			newSpeedX = -speed.x;
+			newAccelerationX = -acceleration.x;
 		}
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D))
 		{
-			newSpeedX = speed.x;
+			newAccelerationX = acceleration.x;
 		}
 
-		// applies the speed (even if there aren't any changes)
-		velocity.x += (newSpeedX * dt);
-		velocity.y += (newSpeedY * dt);
+		// applies the acceleration (even if there aren't any changes)
+		velocity.x += (newAccelerationX * dt);
+		velocity.y += (newAccelerationY * dt);
 
 		if (velocity.x > velocity.maxX)
 		{
