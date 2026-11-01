@@ -5,7 +5,7 @@
 #include "Headers/Components.hpp"
 #include "Headers/Enums.hpp"
 
-namespace Maker
+namespace EntityMaker
 {
 	Entity player
 	(

@@ -62,7 +62,7 @@ Built with SFML (3.1.0).
 - **Text** - text entities with a string, size, color, and one of 9 alignment formats (center, corners, edges).
 - **Origin Points** - choose which point of an entity (center, a corner, or an edge midpoint) its position refers to.
 - **Buttons** - clickable entities with idle, hovered, and clicked states. Each state plays a timed elastic scale animation, and a button can optionally send the player to another scene once its click animation finishes.
-- **Z-Index Rendering and Layers** - entities are sorted by their `ZIndex` every frame and drawn lowest to highest, with entities at the same index drawn in entity ID order. Setting `visible` to false skips drawing. Makers take a named `Enum::Layer` (`MAIN` for gameplay entities such as the player, `UI` for interface elements such as buttons, `TEXT` for text such as titles) instead of a raw index number.
+- **Z-Index Rendering and Layers** - entities are sorted by their `ZIndex` every frame and drawn lowest to highest, with entities at the same index drawn in entity ID order. Setting `visible` to false skips drawing. Entity Makers take a named `Enum::Layer` (`MAIN` for gameplay entities such as the player, `UI` for interface elements such as buttons, `TEXT` for text such as titles) instead of a raw index number.
 - **Movement** - velocity with min/max limits, acceleration, drag, and bounce-off-boundaries, all scaled by delta time. Includes WASD player control.
 - **Mouse Input** - mouse positions are converted into world coordinates and dispatched as `Event::MouseClick` and `Event::MouseMoved`. Button hit-testing uses an axis-aligned bounding box (AABB) check.
 - **Configuration** - window size, FPS cap, and title live in `Config.hpp`, along with the `Asset::window()` and `Asset::font()` accessors inline functions.
@@ -167,7 +167,7 @@ Step-by-step guides that use code already in the project are in [docs/TUTORIALS.
 | Files | `PascalCase`. `.hpp` for headers, `.cpp` for source. | `EntityMaker.cpp`, `NacreCoordinator.hpp` |
 | Header guards | `FILE_NAME_HPP` | `ENTITY_MAKER_HPP` |
 | Classes, structs, enums | `PascalCase` | `EntityManager`, `Component::Position`, `Enum::TextFormat` |
-| Namespaces | `PascalCase`, named for the role of what they group | `Component`, `Event`, `Listener`, `Maker`, `Update` |
+| Namespaces | `PascalCase`, named for the role of what they group | `Component`, `Event`, `Listener`, `EntityMaker`, `Update` |
 | Functions and methods | `camelCase`, starting with a verb | `createEntity`, `setSpriteOrigin`, `applyButtonHoverAnimation` |
 | Variables and parameters | `camelCase` | `renderQueue`, `loadedTextures`, `hoverAnimationDuration` |
 | Constants | `SCREAMING_SNAKE_CASE` | `MAX_ENTITIES`, `BOUNCE_FACTOR` |
@@ -292,11 +292,11 @@ These abbreviations are used throughout the code. Anything not listed here is sp
 
 | Short | Stands for | Where it's used |
 | --- | --- | --- |
-| `pos` | position (`Component::Position`) | local variables and `Maker` parameters |
+| `pos` | position (`Component::Position`) | local variables and `EntityMaker` parameters |
 | `trans` | transform (`Component::Transform`) | local variables and `checkCollision` parameters |
 | `dt` | delta time (`DeltaTime`), the seconds since the last frame | systems and scene loops |
-| `col` | color | `Maker` parameters |
-| `str` | string | `Maker` parameters for text content |
+| `col` | color | `EntityMaker` parameters |
+| `str` | string | `EntityMaker` parameters for text content |
 | `nc` | `NacreCoordinator` | the `nc()` accessor |
 | `cm`, `em`, `ds` | `ComponentManager`, `EntityManager`, `Dispatcher` | the coordinator's internal references |
 | `i` | loop index | `for` loops |

@@ -7,7 +7,7 @@
 #include "Scenes.hpp"
 #include "Enums.hpp"
 
-namespace Maker
+namespace EntityMaker
 {
 	Entity player
 	(

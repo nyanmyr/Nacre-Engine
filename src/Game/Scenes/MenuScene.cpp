@@ -19,7 +19,7 @@ void menuScene()
 
 	Component::Singleton::TexturesContainer loadedTextures{};
 
-	Entity title = Maker::text
+	Entity title = EntityMaker::text
 	(
 		64,
 		Asset::font(Asset::Font::MAIN),
@@ -35,7 +35,7 @@ void menuScene()
 	);
 
 	// entity instantiation
-	Entity playButton = Maker::button
+	Entity playButton = EntityMaker::button
 	(
 		64,
 		Scene::PLAYING,

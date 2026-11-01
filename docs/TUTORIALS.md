@@ -80,7 +80,7 @@ void playingScene()
     Component::Singleton::TexturesContainer loadedTextures{};
 
     // entity instantiation (see "Instantiating an Entity")
-    Entity player = Maker::player(/* ... */);
+    Entity player = EntityMaker::player(/* ... */);
 
     // onstart systems
     Start::loadTextures(loadedTextures);
@@ -163,7 +163,7 @@ Update::enableButtonNextScene();
 
 ### 6. Switch to the scene
 
-- **From a button:** pass the scene as the `scene` argument of `Maker::button`. The Menu's play button uses `Scene::PLAYING`. When the button's click animation finishes, `Update::enableButtonNextScene()` fires the `PlayScene` event, and `Listener::playNextScene` clears every entity and plays the next scene:
+- **From a button:** pass the scene as the `scene` argument of `EntityMaker::button`. The Menu's play button uses `Scene::PLAYING`. When the button's click animation finishes, `Update::enableButtonNextScene()` fires the `PlayScene` event, and `Listener::playNextScene` clears every entity and plays the next scene:
 
   ```cpp
   void playNextScene(Event::PlayScene event)
@@ -179,14 +179,14 @@ Update::enableButtonNextScene();
 
 ## Instantiating an Entity
 
-Entities are created through the coordinator. The Entity Maker functions (`Maker::player`, `Maker::button`, `Maker::text`) wrap that up so an entity of a common type is created with every component it needs in a single call.
+Entities are created through the coordinator. The Entity Maker functions (`EntityMaker::player`, `EntityMaker::button`, `EntityMaker::text`) wrap that up so an entity of a common type is created with every component it needs in a single call.
 
 ### Using an existing Maker
 
 This creates the title text in `menuScene()`. The parameters are, in order: text size, font, color, layer, string, position, and alignment format.
 
 ```cpp
-Entity title = Maker::text
+Entity title = EntityMaker::text
 (
     64,
     Asset::font(Asset::Font::MAIN),
@@ -205,7 +205,7 @@ Entity title = Maker::text
 This creates the play button in the same scene. Its animation durations are constants declared at the top of `MenuScene.cpp` (`DEFAULT_HOVER_ANIMATION_DURATION = 0.4`, `DEFAULT_IDLE_ANIMATION_DURATION = 0.4`, `DEFAULT_CLICKED_ANIMATION_DURATION = 0.15`):
 
 ```cpp
-Entity playButton = Maker::button
+Entity playButton = EntityMaker::button
 (
     64,                             // text size
     Scene::PLAYING,                 // scene to play when clicked
@@ -225,12 +225,12 @@ Entity playButton = Maker::button
 );
 ```
 
-After creating entities, run the scene's `Start` systems so their SFML objects are set up (see [Implementing a Scene](#implementing-a-scene)). `Maker::text`, for example, only stores the text's settings. `Start::setText()` and `Start::setTextOrigin()` are what apply them.
+After creating entities, run the scene's `Start` systems so their SFML objects are set up (see [Implementing a Scene](#implementing-a-scene)). `EntityMaker::text`, for example, only stores the text's settings. `Start::setText()` and `Start::setTextOrigin()` are what apply them.
 
 ### Writing a new Maker
 
-1. Declare it in `src/Game/Headers/EntityMaker.hpp`, inside `namespace Maker`.
-2. Define it in `src/Game/EntityMaker.cpp`: create the entity, add each component, and return the entity. This is `Maker::text` (condensed):
+1. Declare it in `src/Game/Headers/EntityMaker.hpp`, inside `namespace EntityMaker`.
+2. Define it in `src/Game/EntityMaker.cpp`: create the entity, add each component, and return the entity. This is `EntityEntityMaker::text` (condensed):
 
 ```cpp
 Entity text
@@ -299,7 +299,7 @@ Registering a component twice throws `"Component already registered."`, and usin
 
 ### 3. Attach it to an entity
 
-Usually this happens inside a Maker. `Maker::player` attaches `Drag`:
+Usually this happens inside a Maker. `EntityMaker::player` attaches `Drag`:
 
 ```cpp
 nc().addComponent
@@ -497,7 +497,7 @@ Textures are identified by an enum value and loaded once per scene. `TEXTURE_PLA
    loadedTextures.map.emplace(Enum::Texture::TEXTURE_PLACEHOLDER, sf::Texture(SPRITES_PATH "placeholder_texture.jpeg"));
    ```
 
-4. **Use it** by passing the enum value as the `texture` argument of a Maker (`Maker::player` and `Maker::button` both take one), for example `Enum::Texture::TEXTURE_PLACEHOLDER`. `Start::loadSprites` then builds each sprite from it.
+4. **Use it** by passing the enum value as the `texture` argument of a Maker (`EntityMaker::player` and `EntityMaker::button` both take one), for example `Enum::Texture::TEXTURE_PLACEHOLDER`. `Start::loadSprites` then builds each sprite from it.
 
 If an entity uses a texture that was never loaded, `Listener::loadSprite` throws `"Texture has not been loaded."`.
 

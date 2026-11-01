@@ -15,7 +15,7 @@ void playingScene()
 	Component::Singleton::TexturesContainer loadedTextures{};
 
 	// entity instantiation
-	Entity player = Maker::player
+	Entity player = EntityMaker::player
 	(
 		sf::Color::Green,
 		Enum::Layer::MAIN,
