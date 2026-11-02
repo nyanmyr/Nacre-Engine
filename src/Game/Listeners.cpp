@@ -30,17 +30,8 @@ namespace Listener
 	{
 		if (event.target == NULL_ENTITY) throw std::runtime_error("Error: null entity");
 
-		auto& spriteArray = nc().getComponentArray<Component::Sprite>();
-		auto& transformArray = nc().getComponentArray<Component::Transform>();
-
-		if (!spriteArray->hasData(event.target) ||
-			!transformArray->hasData(event.target))
-		{
-			return;
-		}
-
-		auto& sprite = spriteArray->getData(event.target);
-		const auto& transform = transformArray->getData(event.target);
+		auto& sprite = nc().getComponent<Component::Sprite>(event.target);
+		const auto& transform = nc().getComponent<Component::Transform>(event.target);
 
 		switch (event.originPoint.data)
 		{
@@ -99,14 +90,7 @@ namespace Listener
 	{
 		if (event.target == NULL_ENTITY) throw std::runtime_error("Error: null entity");
 
-		auto& spriteArray = nc().getComponentArray<Component::Sprite>();
-
-		if (!spriteArray->hasData(event.target))
-		{
-			return;
-		}
-
-		auto& sprite = spriteArray->getData(event.target);
+		auto& sprite = nc().getComponent<Component::Sprite>(event.target);
 
 		sprite.body->setColor(event.color.data);
 	}
@@ -114,17 +98,8 @@ namespace Listener
 	{
 		if (event.target == NULL_ENTITY) throw std::runtime_error("Error: null entity");
 
-		auto& transformArray = nc().getComponentArray<Component::Transform>();
-		auto& textureArray = nc().getComponentArray<Component::Texture>();
-
-		if (!transformArray->hasData(event.target) ||
-			!textureArray->hasData(event.target))
-		{
-			return;
-		}
-
-		auto& texture = textureArray->getData(event.target);
-		auto& transform = transformArray->getData(event.target);
+		auto& texture = nc().getComponent<Component::Texture>(event.target);
+		auto& transform = nc().getComponent<Component::Transform>(event.target);
 
 		if (event.loadedTextures.map.find(texture.data) == event.loadedTextures.map.end())
 		{
@@ -230,25 +205,19 @@ namespace Listener
 
 	void clickedButton(Event::MouseClick event)
 	{
-		auto& buttonArray = nc().getComponentArray<Component::Button>();
-		auto& originArray = nc().getComponentArray<Component::OriginOffsets>();
-		auto& transformArray = nc().getComponentArray<Component::Transform>();
-		auto& positionArray = nc().getComponentArray<Component::Position>();
+		const auto& buttonArray = nc().getComponentArray<Component::Button>();
 
 		for (auto& [entity, button] : buttonArray->getAll())
 		{
 			if (button.state == Enum::ButtonState::CLICKED ||
-				!button.enabled ||
-				!originArray->hasData(entity) ||
-				!positionArray->hasData(entity) ||
-				!transformArray->hasData(entity))
+				!button.enabled)
 			{
 				continue;
 			}
 
-			const auto& originOffset = originArray->getData(entity);
-			const auto& transform = transformArray->getData(entity);
-			const auto& pos = positionArray->getData(entity);
+			const auto& originOffset = nc().getComponent<Component::OriginOffsets>(entity);
+			const auto& transform = nc().getComponent<Component::Transform>(entity);
+			const auto& pos = nc().getComponent<Component::Position>(entity);
 
 			if (checkCollision
 			(
@@ -278,27 +247,21 @@ namespace Listener
 	}
 	void hoverButton(Event::MouseMoved event)
 	{
-		auto& buttonArray = nc().getComponentArray<Component::Button>();
-		auto& originArray = nc().getComponentArray<Component::OriginOffsets>();
-		auto& transformArray = nc().getComponentArray<Component::Transform>();
-		auto& positionArray = nc().getComponentArray<Component::Position>();
+		const auto& buttonArray = nc().getComponentArray<Component::Button>();
 
 		for (auto& [entity, button] : buttonArray->getAll())
 		{
 			if (button.timer > 0.0 ||
 				button.state == Enum::ButtonState::HOVERED ||
 				button.state == Enum::ButtonState::CLICKED ||
-				!button.enabled ||
-				!originArray->hasData(entity) ||
-				!positionArray->hasData(entity) ||
-				!transformArray->hasData(entity))
+				!button.enabled)
 			{
 				continue;
 			}
 
-			const auto& originOffset = originArray->getData(entity);
-			const auto& transform = transformArray->getData(entity);
-			const auto& pos = positionArray->getData(entity);
+			const auto& originOffset = nc().getComponent<Component::OriginOffsets>(entity);
+			const auto& transform = nc().getComponent<Component::Transform>(entity);
+			const auto& pos = nc().getComponent<Component::Position>(entity);
 
 			if (checkCollision
 			(
@@ -328,27 +291,21 @@ namespace Listener
 	}
 	void idleButton(Event::MouseMoved event)
 	{
-		auto& buttonArray = nc().getComponentArray<Component::Button>();
-		auto& originArray = nc().getComponentArray<Component::OriginOffsets>();
-		auto& transformArray = nc().getComponentArray<Component::Transform>();
-		auto& positionArray = nc().getComponentArray<Component::Position>();
+		const auto& buttonArray = nc().getComponentArray<Component::Button>();
 
 		for (auto& [entity, button] : buttonArray->getAll())
 		{
 			if (button.timer > 0.0 ||
 				button.state == Enum::ButtonState::IDLE ||
 				button.state == Enum::ButtonState::CLICKED ||
-				!button.enabled ||
-				!originArray->hasData(entity) ||
-				!positionArray->hasData(entity) ||
-				!transformArray->hasData(entity))
+				!button.enabled)
 			{
 				continue;
 			}
 
-			const auto& originOffset = originArray->getData(entity);
-			const auto& transform = transformArray->getData(entity);
-			const auto& pos = positionArray->getData(entity);
+			const auto& originOffset = nc().getComponent<Component::OriginOffsets>(entity);
+			const auto& transform = nc().getComponent<Component::Transform>(entity);
+			const auto& pos = nc().getComponent<Component::Position>(entity);
 
 			if (checkCollision
 			(

@@ -72,7 +72,7 @@ public:
 	template<typename T>
 	T& getComponent(Entity entity)
 	{
-		auto& componentArray = getComponentArray<T>();
+		const auto& componentArray = getComponentArray<T>();
 
 		if (!componentArray->hasData(entity))
 		{

@@ -75,8 +75,8 @@ void menuScene()
 	{
 		DeltaTime dt = clock.restart().asSeconds();
 
-		auto& pixelPos = sf::Mouse::getPosition(Asset::window());
-		auto& worldPos = Asset::window().mapPixelToCoords(pixelPos);
+		const auto& pixelPos = sf::Mouse::getPosition(Asset::window());
+		const auto& worldPos = Asset::window().mapPixelToCoords(pixelPos);
 
 		while (const std::optional event = Asset::window().pollEvent())
 		{

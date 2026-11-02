@@ -309,7 +309,7 @@ These abbreviations are used throughout the code. Anything not listed here is sp
 ## Building
 
 - Currently only supports building for Windows and MSVC.
-- Requires CMake 3.28+ and a C++17 compiler.
+- Requires CMake 3.28+ and a C++23 compiler.
 - SFML 3.1.0 is downloaded and statically linked automatically.
 
 ```

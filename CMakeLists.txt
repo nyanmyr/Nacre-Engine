@@ -46,8 +46,8 @@ endif()
 add_executable(${CMAKE_PROJECT_NAME} ${MY_SOURCES} ${APP_ICON_RESOURCE})
 
 # --- Target Properties & Includes ---
-# Require C++17
-target_compile_features(${CMAKE_PROJECT_NAME} PRIVATE cxx_std_17)
+# Require C++23
+target_compile_features(${CMAKE_PROJECT_NAME} PRIVATE cxx_std_23)
 
 # Add Include Directory
 target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/include/")

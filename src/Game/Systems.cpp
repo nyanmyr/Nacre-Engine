@@ -19,7 +19,7 @@ namespace Start
 {
 	void setText()
 	{
-		auto& textArray = nc().getComponentArray<Component::Text>();
+		const auto& textArray = nc().getComponentArray<Component::Text>();
 
 		for (auto& [entity, text] : textArray->getAll())
 		{
@@ -42,7 +42,7 @@ namespace Start
 	}
 	void setTextOrigin()
 	{
-		auto& textArray = nc().getComponentArray<Component::Text>();
+		const auto& textArray = nc().getComponentArray<Component::Text>();
 
 		for (auto& [entity, text] : textArray->getAll())
 		{
@@ -55,8 +55,8 @@ namespace Start
 	}
 	void setSpriteOrigin()
 	{
-		auto& originOffsetsArray = nc().getComponentArray<Component::OriginOffsets>();
-		auto& originPointArray = nc().getComponentArray<Component::OriginPoint>();
+		const auto& originOffsetsArray = nc().getComponentArray<Component::OriginOffsets>();
+		const auto& originPointArray = nc().getComponentArray<Component::OriginPoint>();
 
 		for (auto& [entity, origin] : originOffsetsArray->getAll())
 		{
@@ -77,7 +77,7 @@ namespace Start
 	}
 	void loadSprites(const Component::Singleton::TexturesContainer& loadedTextures)
 	{
-		auto& spriteArray = nc().getComponentArray<Component::Sprite>();
+		const auto& spriteArray = nc().getComponentArray<Component::Sprite>();
 
 		for (auto& [entity, sprite] : spriteArray->getAll())
 		{
@@ -90,7 +90,7 @@ namespace Start
 	}
 	void setColor()
 	{
-		auto& colorArray = nc().getComponentArray<Component::Color>();
+		const auto& colorArray = nc().getComponentArray<Component::Color>();
 
 		for (auto& [entity, color] : colorArray->getAll())
 		{
@@ -176,7 +176,7 @@ namespace Update
 {
 	void doButtonTimer(const DeltaTime dt)
 	{
-		auto& buttonArray = nc().getComponentArray<Component::Button>();
+		const auto& buttonArray = nc().getComponentArray<Component::Button>();
 
 		for (auto& [entity, button] : buttonArray->getAll())
 		{
@@ -220,7 +220,7 @@ namespace Update
 
 	void applyButtonHoverAnimation()
 	{
-		auto& buttonArray = nc().getComponentArray<Component::Button>();
+		const auto& buttonArray = nc().getComponentArray<Component::Button>();
 
 		for (auto& [entity, button] : buttonArray->getAll())
 		{
@@ -262,7 +262,7 @@ namespace Update
 	}
 	void applyButtonIdleAnimation()
 	{
-		auto& buttonArray = nc().getComponentArray<Component::Button>();
+		const auto& buttonArray = nc().getComponentArray<Component::Button>();
 
 		for (auto& [entity, button] : buttonArray->getAll())
 		{
@@ -304,7 +304,7 @@ namespace Update
 	}
 	void applyButtonClickedAnimation()
 	{
-		auto& buttonArray = nc().getComponentArray<Component::Button>();
+		const auto& buttonArray = nc().getComponentArray<Component::Button>();
 
 		for (auto& [entity, button] : buttonArray->getAll())
 		{
@@ -346,7 +346,7 @@ namespace Update
 	}
 	void enableButtonNextScene()
 	{
-		auto& buttonArray = nc().getComponentArray<Component::Button>();
+		const auto& buttonArray = nc().getComponentArray<Component::Button>();
 
 		for (auto& [entity, button] : buttonArray->getAll())
 		{
@@ -374,7 +374,7 @@ namespace Update
 		const double bottom
 	)
 	{
-		auto& velocityArray = nc().getComponentArray<Component::Velocity>();
+		const auto& velocityArray = nc().getComponentArray<Component::Velocity>();
 
 		for (auto& [entity, velocity] : velocityArray->getAll())
 		{
@@ -407,7 +407,7 @@ namespace Update
 	}
 	void move(const DeltaTime dt)
 	{
-		auto& velocityArray = nc().getComponentArray<Component::Velocity>();
+		const auto& velocityArray = nc().getComponentArray<Component::Velocity>();
 
 		for (auto& [entity, velocity] : velocityArray->getAll())
 		{
@@ -418,8 +418,8 @@ namespace Update
 	}
 	void drag(const DeltaTime dt)
 	{
-		auto& velocityArray = nc().getComponentArray<Component::Velocity>();
-		
+		const auto& velocityArray = nc().getComponentArray<Component::Velocity>();
+
 		for (auto& [entity, velocity] : velocityArray->getAll())
 		{
 			const auto& drag = nc().getComponent<Component::Drag>(entity);
@@ -440,7 +440,7 @@ namespace Render
 {
 	void doZIndex(std::queue<Entity>& renderQueue)
 	{
-		auto& zIndexArray = nc().getComponentArray<Component::ZIndex>();
+		const auto& zIndexArray = nc().getComponentArray<Component::ZIndex>();
 
 		std::vector<std::pair<int, Entity>> renderVector;
 		for (auto& [entity, zIndex] : nc().getComponentArray<Component::ZIndex>()->getAll())
@@ -460,9 +460,9 @@ namespace Render
 		std::queue<Entity>& renderQueue
 	)
 	{
-		auto& spriteArray = nc().getComponentArray<Component::Sprite>();
-		auto& positionArray = nc().getComponentArray<Component::Position>();
-		auto& textArray = nc().getComponentArray<Component::Text>();
+		const auto& spriteArray = nc().getComponentArray<Component::Sprite>();
+		const auto& positionArray = nc().getComponentArray<Component::Position>();
+		const auto& textArray = nc().getComponentArray<Component::Text>();
 
 		while (!renderQueue.empty())
 		{

@@ -3,7 +3,7 @@
 #include "Headers/GameManager.hpp"
 #include "Headers/Scenes.hpp"
 
-void main()
+int main()
 {
 	// components registration
 	nc().registerComponent<Component::Position>();
