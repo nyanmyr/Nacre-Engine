@@ -17,40 +17,37 @@ void playingScene()
 	// entity instantiation
 	Entity player = EntityMaker::player
 	(
-		sf::Color::Green,
-		Enum::Layer::MAIN,
-		sf::Vector2f
+		Component::Drag
 		{
-			0.f,
-			0.f
+			.x = 50.0,
+			.y = 50.0,
 		},
-		sf::Vector2f
+		Component::Color{ .data = sf::Color::Green },
+		Component::ZIndex{ .index = static_cast<int>(Enum::Layer::MAIN) },
+		Component::Texture{ .data = Enum::Texture::TEXTURE_PLACEHOLDER },
+		Component::Position
 		{
-			40.f,
-			40.f
+			.x = 0.0,
+			.y = 0.0,
 		},
-		sf::Vector2f
+		Component::Velocity
 		{
-			-300.f,
-			-300.f
+			.minX = -300.0,
+			.minY = -300.0,
+			.maxX = 300.0,
+			.maxY = 300.0,
 		},
-		sf::Vector2f
+		Component::Transform
 		{
-			300.f,
-			300.f
+			.width = 40.0,
+			.height = 40.0,
 		},
-		sf::Vector2f
+		Component::OriginPoint{ .data = Enum::OriginPoint::CENTER },
+		Component::Acceleration
 		{
-			500.f,
-			500.f
-		},
-		sf::Vector2f
-		{
-			50.f,
-			50.f
-		},
-		Enum::Texture::TEXTURE_PLACEHOLDER,
-		Enum::OriginPoint::CENTER
+			.x = 500.0,
+			.y = 500.0,
+		}
 	);
 
 	// onstart systems

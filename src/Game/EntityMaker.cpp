@@ -2,23 +2,21 @@
 
 #include <SFML/Graphics.hpp>
 #include "../Engine/NacreCoordinator.hpp"
-#include "Headers/Components.hpp"
 #include "Headers/Enums.hpp"
 
 namespace EntityMaker
 {
 	Entity player
 	(
-		const sf::Color col,
-		const Enum::Layer layer,
-		const sf::Vector2f pos,
-		const sf::Vector2f size,
-		const sf::Vector2f minVelocity,
-		const sf::Vector2f maxVelocity,
-		const sf::Vector2f acceleration,
-		const sf::Vector2f drag,
-		const Enum::Texture texture,
-		const Enum::OriginPoint originPoint
+		const Component::Drag& drag,
+		const Component::Color& color,
+		const Component::ZIndex& zIndex,
+		const Component::Texture& texture,
+		const Component::Position& position,
+		const Component::Velocity& velocity,
+		const Component::Transform& transform,
+		const Component::OriginPoint& originPoint,
+		const Component::Acceleration& acceleration
 	)
 	{
 		Entity entity = nc().createEntity();
@@ -26,78 +24,21 @@ namespace EntityMaker
 		nc().addComponent
 		(
 			entity,
-			Component::Position
-			{
-				pos.x,
-				pos.y
-			}
+			drag
 		);
+
 		nc().addComponent
 		(
 			entity,
-			Component::ZIndex{ static_cast<int>(layer) }
+			color
 		);
+
 		nc().addComponent
 		(
 			entity,
-			Component::OriginOffsets{}
+			zIndex
 		);
-		nc().addComponent
-		(
-			entity,
-			Component::OriginPoint{ originPoint }
-		);
-		nc().addComponent
-		(
-			entity,
-			Component::Velocity
-			{
-				minVelocity.x,
-				minVelocity.y,
-				maxVelocity.x,
-				maxVelocity.y
-			}
-		);
-		nc().addComponent
-		(
-			entity,
-			Component::Acceleration
-			{
-				acceleration.x,
-				acceleration.y
-			}
-		);
-		nc().addComponent
-		(
-			entity,
-			Component::Drag
-			{
-				drag.x,
-				drag.y
-			}
-		);
-		nc().addComponent
-		(
-			entity,
-			Component::PlayerController
-			{
-				true
-			}
-		);
-		nc().addComponent
-		(
-			entity,
-			Component::Transform
-			{
-				size.x,
-				size.y
-			}
-		);
-		nc().addComponent
-		(
-			entity,
-			Component::Texture{ texture }
-		);
+
 		nc().addComponent
 		(
 			entity,
@@ -107,7 +48,49 @@ namespace EntityMaker
 		nc().addComponent
 		(
 			entity,
-			Component::Color{ col }
+			texture
+		);
+
+		nc().addComponent
+		(
+			entity,
+			position
+		);
+		
+		nc().addComponent
+		(
+			entity,
+			velocity
+		);
+
+		nc().addComponent
+		(
+			entity,
+			transform
+		);
+
+		nc().addComponent
+		(
+			entity,
+			Component::OriginOffsets{}
+		);
+
+		nc().addComponent
+		(
+			entity,
+			originPoint
+		);
+
+		nc().addComponent
+		(
+			entity,
+			acceleration
+		);
+		
+		nc().addComponent
+		(
+			entity,
+			Component::PlayerController{}
 		);
 
 		return entity;
@@ -115,103 +98,43 @@ namespace EntityMaker
 
 	Entity button
 	(
-		const int textSize,
-		const Scene scene,
-		const double hoverAnimationDuration,
-		const double idleAnimationDuration,
-		const double clickedAnimationDuration,
-		const sf::Color col,
-		const sf::Color textColor,
-		const sf::Font& font,
-		const Enum::Layer layer,
-		const std::string str,
-		const sf::Vector2f pos,
-		const sf::Vector2f size,
-		const Enum::TextFormat format,
-		const Enum::OriginPoint originPoint,
-		const Enum::Texture texture
+		const Component::Text& text,
+		const Component::Color& color,
+		const Component::Button& button,
+		const Component::ZIndex& zIndex,
+		const Component::Texture& texture,
+		const Component::Position& position,
+		const Component::NextScene& nextScene,
+		const Component::Transform& transform,
+		const Component::OriginPoint& originPoint
 	)
 	{
 		Entity entity = nc().createEntity();
 
-		nc().addComponent(
-			entity,
-			Component::Position
-			{
-				pos.x,
-				pos.y
-			}
-		);
 		nc().addComponent
 		(
 			entity,
-			Component::Transform
-			{
-				size.x,
-				size.y
-			}
-		);
-		nc().addComponent
-		(
-			entity,
-			Component::OriginOffsets{}
-		);
-		nc().addComponent
-		(
-			entity,
-			Component::OriginPoint{ originPoint }
-		);
-		nc().addComponent
-		(
-			entity,
-			Component::Button
-			{
-				true,
-				hoverAnimationDuration,
-				idleAnimationDuration,
-				clickedAnimationDuration
-			}
+			text
 		);
 
 		nc().addComponent
 		(
 			entity,
-			Component::Text
-			{
-				sf::Text(font),
-				str,
-				textSize,
-				textColor,
-				format
-			}
+			color
 		);
+
 		nc().addComponent
 		(
 			entity,
-			Component::NextScene
-			{
-				scene
-			}
+			button
 		);
+
 		nc().addComponent
 		(
 			entity,
-			Component::ZIndex{ static_cast<int>(layer) }
+			zIndex
 		);
-		nc().addComponent
-		(
-			entity,
-			Component::Transform
-			{
-				size.x,
-				size.y
-			}
-		);
-		nc().addComponent
-		(
-			entity,
-			Component::Texture{ texture }
-		);
+
 		nc().addComponent
 		(
 			entity,
@@ -221,7 +144,36 @@ namespace EntityMaker
 		nc().addComponent
 		(
 			entity,
-			Component::Color{ col }
+			texture
+		);
+
+		nc().addComponent(
+			entity,
+			position
+		);
+
+		nc().addComponent
+		(
+			entity,
+			nextScene
+		);
+
+		nc().addComponent
+		(
+			entity,
+			transform
+		);
+
+		nc().addComponent
+		(
+			entity,
+			Component::OriginOffsets{}
+		);
+
+		nc().addComponent
+		(
+			entity,
+			originPoint
 		);
 
 		return entity;
@@ -229,43 +181,28 @@ namespace EntityMaker
 
 	Entity text
 	(
-		const int size,
-		const sf::Font& font,
-		const sf::Color col,
-		const Enum::Layer layer,
-		const std::string str,
-		const sf::Vector2f pos,
-		const Enum::TextFormat format
+		const Component::Text& text,
+		const Component::ZIndex& zIndex,
+		const Component::Position& position
 	)
 	{
 		Entity entity = nc().createEntity();
 
+		nc().addComponent
+		(
+			entity,
+			text
+		);
+
+		nc().addComponent
+		(
+			entity,
+			zIndex
+		);
+
 		nc().addComponent(
 			entity,
-			Component::Position
-			{
-				pos.x,
-				pos.y
-			}
-		);
-
-		nc().addComponent
-		(
-			entity,
-			Component::Text
-			{
-				sf::Text(font),
-				str,
-				size,
-				col,
-				format
-			}
-		);
-
-		nc().addComponent
-		(
-			entity,
-			Component::ZIndex{ static_cast<int>(layer) }
+			position
 		);
 
 		nc().addComponent // unused but required

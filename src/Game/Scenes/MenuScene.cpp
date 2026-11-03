@@ -21,45 +21,55 @@ void menuScene()
 
 	Entity title = EntityMaker::text
 	(
-		64,
-		Asset::font(Asset::Font::MAIN),
-		sf::Color::White,
-		Enum::Layer::TEXT,
-		"Nacre Engine",
-		sf::Vector2f
+		Component::Text
 		{
-			0.f,
-			-200.f
+			.box = Asset::font(Asset::Font::MAIN),
+			.string = "Nacre Engine",
+			.size = 64,
+			.color = sf::Color::White,
+			.format = Enum::TextFormat::CENTER,
 		},
-		Enum::TextFormat::CENTER
+		Component::ZIndex{ .index = static_cast<int>(Enum::Layer::TEXT) },
+		Component::Position
+		{
+			.x = 0.0,
+			.y = -200.0,
+		}
 	);
 
 	// entity instantiation
 	Entity playButton = EntityMaker::button
 	(
-		64,
-		Scene::PLAYING,
-		DEFAULT_HOVER_ANIMATION_DURATION,
-		DEFAULT_IDLE_ANIMATION_DURATION,
-		DEFAULT_CLICKED_ANIMATION_DURATION,
-		sf::Color::Red,
-		sf::Color::White,
-		Asset::font(Asset::Font::MAIN),
-		Enum::Layer::UI,
-		"Play",
-		sf::Vector2f
+		Component::Text
 		{
-			0.f,
-			0.f
+			.box = Asset::font(Asset::Font::MAIN),
+			.string = "Play",
+			.size = 64,
+			.color = sf::Color::White,
+			.format = Enum::TextFormat::CENTER,
 		},
-		sf::Vector2f
+		Component::Color{ .data = sf::Color::Red },
+		Component::Button
 		{
-			200.f,
-			100.f
+			.hoverAnimationDuration = DEFAULT_HOVER_ANIMATION_DURATION,
+			.idleAnimationDuration = DEFAULT_IDLE_ANIMATION_DURATION,
+			.clickedAnimationDuration = DEFAULT_CLICKED_ANIMATION_DURATION,
+			
 		},
-		Enum::TextFormat::CENTER,
-		Enum::OriginPoint::CENTER,
-		Enum::Texture::TEXTURE_PLACEHOLDER
+		Component::ZIndex{ .index = static_cast<int>(Enum::Layer::UI) },
+		Component::Texture{ .data = Enum::Texture::TEXTURE_PLACEHOLDER },
+		Component::Position
+		{
+			.x = 0.0,
+			.y = 0.0,
+		},
+		Component::NextScene{ .next = Scene::PLAYING },
+		Component::Transform
+		{
+			.width = 200.0,
+			.height = 100.0,
+		},
+		Component::OriginPoint{ .data = Enum::OriginPoint::CENTER }
 	);
 
 	// onstart systems

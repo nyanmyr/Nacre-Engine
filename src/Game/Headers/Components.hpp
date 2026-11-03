@@ -82,7 +82,7 @@ namespace Component {
 
 	struct PlayerController
 	{
-		bool enabled = false;
+		bool enabled = true;
 	};
 
 	struct Drag
