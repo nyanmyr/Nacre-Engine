@@ -183,22 +183,25 @@ Entities are created through the coordinator. The Entity Maker functions (`Entit
 
 ### Using an existing Maker
 
-This creates the title text in `menuScene()`. The parameters are, in order: text size, font, color, layer, string, position, and alignment format.
+This creates the title text in `menuScene()`. The parameters are ordered by type length (including const and &). Ever since beta 39.0, EntityMakers use designated initializers for component parameters.
 
 ```cpp
 Entity title = EntityMaker::text
 (
-    64,
-    Asset::font(Asset::Font::MAIN),
-    sf::Color::White,
-    Enum::Layer::TEXT,
-    "Nacre Engine",
-    sf::Vector2f
-    {
-        0.f,
-        -200.f
-    },
-    Enum::TextFormat::CENTER
+    Component::Text
+	{
+		.box = Asset::font(Asset::Font::MAIN),
+		.string = "Nacre Engine",
+		.size = 64,
+		.color = sf::Color::White,
+		.format = Enum::TextFormat::CENTER,
+	},
+	Component::ZIndex{ .index = static_cast<int>(Enum::Layer::TEXT) },
+	Component::Position
+	{
+		.x = 0.0,
+		.y = -200.0,
+	}
 );
 ```
 
@@ -207,21 +210,36 @@ This creates the play button in the same scene. Its animation durations are cons
 ```cpp
 Entity playButton = EntityMaker::button
 (
-    64,                             // text size
-    Scene::PLAYING,                 // scene to play when clicked
-    DEFAULT_HOVER_ANIMATION_DURATION,
-    DEFAULT_IDLE_ANIMATION_DURATION,
-    DEFAULT_CLICKED_ANIMATION_DURATION,
-    sf::Color::Red,                 // button color
-    sf::Color::White,               // text color
-    Asset::font(Asset::Font::MAIN),
-    Enum::Layer::UI,
-    "Play",                         // button text
-    sf::Vector2f{ 0.f, 0.f },       // position
-    sf::Vector2f{ 200.f, 100.f },   // size
-    Enum::TextFormat::CENTER,
-    Enum::OriginPoint::CENTER,
-    Enum::Texture::TEXTURE_PLACEHOLDER
+    Component::Text
+    {
+	    .box = Asset::font(Asset::Font::MAIN),
+	    .string = "Play",
+	    .size = 64,
+	    .color = sf::Color::White,
+	    .format = Enum::TextFormat::CENTER,
+    },
+    Component::Color{ .data = sf::Color::Red },
+    Component::Button
+    {
+	    .hoverAnimationDuration = DEFAULT_HOVER_ANIMATION_DURATION,
+	    .idleAnimationDuration = DEFAULT_IDLE_ANIMATION_DURATION,
+	    .clickedAnimationDuration = DEFAULT_CLICKED_ANIMATION_DURATION,
+			
+    },
+    Component::ZIndex{ .index = static_cast<int>(Enum::Layer::UI) },
+    Component::Texture{ .data = Enum::Texture::TEXTURE_PLACEHOLDER },
+    Component::Position
+    {
+	    .x = 0.0,
+	    .y = 0.0,
+    },
+    Component::NextScene{ .next = Scene::PLAYING },
+    Component::Transform
+    {
+	    .width = 200.0,
+	    .height = 100.0,
+    },
+    Component::OriginPoint{ .data = Enum::OriginPoint::CENTER }
 );
 ```
 
@@ -230,26 +248,40 @@ After creating entities, run the scene's `Start` systems so their SFML objects a
 ### Writing a new Maker
 
 1. Declare it in `src/Game/Headers/EntityMaker.hpp`, inside `namespace EntityMaker`.
-2. Define it in `src/Game/EntityMaker.cpp`: create the entity, add each component, and return the entity. This is `EntityEntityMaker::text` (condensed):
+2. Define it in `src/Game/EntityMaker.cpp`: create the entity, add each component, and return the entity. This is `EntityEntityMaker::text`:
 
 ```cpp
 Entity text
 (
-    const int size,
-    const sf::Font& font,
-    const sf::Color col,
-    const Enum::Layer layer,
-    const std::string str,
-    const sf::Vector2f pos,
-    const Enum::TextFormat format
+    const Component::Text& text,
+	const Component::ZIndex& zIndex,
+	const Component::Position& position
 )
 {
     Entity entity = nc().createEntity();
 
-    nc().addComponent(entity, Component::Position{ pos.x, pos.y });
-    nc().addComponent(entity, Component::Text{ sf::Text(font), str, size, col, format });
-    nc().addComponent(entity, Component::ZIndex{ static_cast<int>(layer), true });
-    nc().addComponent(entity, Component::Transform{}); // unused but required
+    nc().addComponent
+	(
+		entity,
+		text
+	);
+
+	nc().addComponent
+	(
+		entity,
+		zIndex
+	);
+
+	nc().addComponent(
+		entity,
+		position
+	);
+
+	nc().addComponent // unused but required
+	(
+		entity,
+		Component::Transform{}
+	);
 
     return entity;
 }
@@ -497,7 +529,7 @@ Textures are identified by an enum value and loaded once per scene. `TEXTURE_PLA
    loadedTextures.map.emplace(Enum::Texture::TEXTURE_PLACEHOLDER, sf::Texture(SPRITES_PATH "placeholder_texture.jpeg"));
    ```
 
-4. **Use it** by passing the enum value as the `texture` argument of a Maker (`EntityMaker::player` and `EntityMaker::button` both take one), for example `Enum::Texture::TEXTURE_PLACEHOLDER`. `Start::loadSprites` then builds each sprite from it.
+4. **Use it** by passing the enum value as the `texture` argument of an EntityMaker (`EntityMaker::player` and `EntityMaker::button` both take one), for example `Enum::Texture::TEXTURE_PLACEHOLDER`. `Start::loadSprites` then builds each sprite from it.
 
 If an entity uses a texture that was never loaded, `Listener::loadSprite` throws `"Texture has not been loaded."`.
 

@@ -292,11 +292,11 @@ These abbreviations are used throughout the code. Anything not listed here is sp
 
 | Short | Stands for | Where it's used |
 | --- | --- | --- |
-| `pos` | position (`Component::Position`) | local variables and `EntityMaker` parameters |
+| `pos` | position (`Component::Position`) | local variables |
 | `trans` | transform (`Component::Transform`) | local variables and `checkCollision` parameters |
 | `dt` | delta time (`DeltaTime`), the seconds since the last frame | systems and scene loops |
-| `col` | color | `EntityMaker` parameters |
-| `str` | string | `EntityMaker` parameters for text content |
+| `col` | color | `Events` and `Listeners` |
+| `str` | string | parameters for text content |
 | `nc` | `NacreCoordinator` | the `nc()` accessor |
 | `cm`, `em`, `ds` | `ComponentManager`, `EntityManager`, `Dispatcher` | the coordinator's internal references |
 | `i` | loop index | `for` loops |
